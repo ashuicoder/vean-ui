@@ -137,16 +137,6 @@ registerLocale('custom', customMessages);
 **@vean/aria** ships fine-grained sub-paths:
 
 ```ts
-<<<<<<< HEAD
-import { AccordionRoot } from '@soybeanjs/headless'; // all components
-import type { AccordionUiSlot } from '@soybeanjs/headless/accordion'; // per-component
-import { useControllableState } from '@soybeanjs/headless/composables'; // 28 composables
-import { createMonth } from '@soybeanjs/headless/date'; // shared date helpers
-import { registerLocale } from '@soybeanjs/headless/locale'; // locale registry
-import * as Headless from '@soybeanjs/headless/namespaced'; // namespace object
-import { transformPropsToContext } from '@soybeanjs/headless/shared'; // pure TS utils
-import type { UiClass } from '@soybeanjs/headless/types'; // shared type surface
-=======
 import { AccordionRoot } from '@vean/aria'; // all components
 import type { AccordionUiSlot } from '@vean/aria/accordion'; // per-component
 import { useControllableState } from '@vean/aria/composables'; // 28 composables
@@ -155,7 +145,6 @@ import { registerLocale } from '@vean/aria/locale'; // locale registry
 import * as Aria from '@vean/aria/namespaced'; // namespace object
 import { transformPropsToContext } from '@vean/aria/shared'; // pure TS utils
 import type { UiClass } from '@vean/aria/types'; // shared type surface
->>>>>>> f77bb70ed (refactor(projects)!: rename SoybeanUI to Vean)
 ```
 
 Framework integrations are also available from

@@ -134,16 +134,6 @@ aria/src/
 ### 子路径导出
 
 ```ts
-<<<<<<< HEAD:packages/headless/README.zh-CN.md
-import { AccordionRoot } from '@soybeanjs/headless'; // 组件 + 类型
-import type { AccordionUiSlot } from '@soybeanjs/headless/accordion'; // 单组件类型
-import { useControllableState } from '@soybeanjs/headless/composables'; // 28 个 composable
-import { createMonth } from '@soybeanjs/headless/date'; // 日期工具
-import { registerLocale } from '@soybeanjs/headless/locale'; // locale 注册表
-import * as H from '@soybeanjs/headless/namespaced'; // 命名空间导入
-import { transformPropsToContext } from '@soybeanjs/headless/shared'; // 纯 TS 工具
-import type { UiClass } from '@soybeanjs/headless/types'; // 共享类型导出
-=======
 import { AccordionRoot } from '@vean/aria'; // 组件 + 类型
 import type { AccordionUiSlot } from '@vean/aria/accordion'; // 单组件类型
 import { useControllableState } from '@vean/aria/composables'; // 28 个 composable
@@ -152,7 +142,6 @@ import { registerLocale } from '@vean/aria/locale'; // locale 注册表
 import * as H from '@vean/aria/namespaced'; // 命名空间导入
 import { transformPropsToContext } from '@vean/aria/shared'; // 纯 TS 工具
 import type { UiClass } from '@vean/aria/types'; // 共享类型导出
->>>>>>> f77bb70ed (refactor(projects)!: rename SoybeanUI to Vean):packages/aria/README.zh-CN.md
 ```
 
 ## 🧩 Composables

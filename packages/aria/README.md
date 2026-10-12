@@ -134,16 +134,6 @@ aria/src/
 ### Sub-path Exports
 
 ```ts
-<<<<<<< HEAD:packages/headless/README.md
-import { AccordionRoot } from '@soybeanjs/headless'; // components + types
-import type { AccordionUiSlot } from '@soybeanjs/headless/accordion'; // per-component
-import { useControllableState } from '@soybeanjs/headless/composables'; // 28 composables
-import { createMonth } from '@soybeanjs/headless/date'; // shared date helpers
-import { registerLocale } from '@soybeanjs/headless/locale'; // locale registry
-import * as H from '@soybeanjs/headless/namespaced'; // namespace object
-import { transformPropsToContext } from '@soybeanjs/headless/shared'; // pure TS utils
-import type { UiClass } from '@soybeanjs/headless/types'; // shared type surface
-=======
 import { AccordionRoot } from '@vean/aria'; // components + types
 import type { AccordionUiSlot } from '@vean/aria/accordion'; // per-component
 import { useControllableState } from '@vean/aria/composables'; // 28 composables
@@ -152,7 +142,6 @@ import { registerLocale } from '@vean/aria/locale'; // locale registry
 import * as H from '@vean/aria/namespaced'; // namespace object
 import { transformPropsToContext } from '@vean/aria/shared'; // pure TS utils
 import type { UiClass } from '@vean/aria/types'; // shared type surface
->>>>>>> f77bb70ed (refactor(projects)!: rename SoybeanUI to Vean):packages/aria/README.md
 ```
 
 ## 🧩 Composables
