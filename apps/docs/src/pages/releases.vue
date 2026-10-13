@@ -320,8 +320,10 @@ function getDisplayedEntryTypeGroups(release: GeneratedReleaseChangelogVersion):
     .filter((group): group is ReleaseEntryTypeGroup => group !== null);
 }
 
-function getHighlightedComponents(release: GeneratedReleaseChangelogVersion) {
-  return release.components.filter(hasComponentPage).slice(0, highlightedComponentCount);
+// `latestRelease` is null until the release document finishes loading, so both
+// helpers tolerate a missing release instead of relying on template guards.
+function getHighlightedComponents(release: GeneratedReleaseChangelogVersion | null) {
+  return release ? release.components.filter(hasComponentPage).slice(0, highlightedComponentCount) : [];
 }
 
 function getRemainingEntryCount(release: GeneratedReleaseChangelogVersion) {
@@ -332,8 +334,8 @@ function hasHiddenEntries(release: GeneratedReleaseChangelogVersion) {
   return getRemainingEntryCount(release) > 0;
 }
 
-function getRemainingComponentCount(release: GeneratedReleaseChangelogVersion) {
-  return Math.max(release.components.filter(hasComponentPage).length - highlightedComponentCount, 0);
+function getRemainingComponentCount(release: GeneratedReleaseChangelogVersion | null) {
+  return release ? Math.max(release.components.filter(hasComponentPage).length - highlightedComponentCount, 0) : 0;
 }
 
 // Five internal primitives (`popper`, `listbox`, `arrow`, `portal`, `slot`) show up
