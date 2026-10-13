@@ -62,7 +62,7 @@ const onSelectLocale = async (item: MenuOptionData<string>) => {
     @select="onSelectLocale"
   >
     <template #trigger>
-      <SButtonIcon icon="lucide:languages" size="lg" />
+      <SButtonIcon icon="lucide:languages" :aria-label="t('layout.header.language')" size="lg" />
     </template>
     <template #item-indicator-icon>
       <SIcon icon="lucide:check" />

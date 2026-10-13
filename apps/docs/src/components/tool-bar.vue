@@ -28,7 +28,7 @@ const toolbarActions = [
 <template>
   <div class="flex-y-center gap-4">
     <SLink href="https://github.com/soybeanjs/vean-ui" :aria-label="t('layout.header.github')">
-      <SButtonIcon icon="mdi:github" size="lg" />
+      <SButtonIcon icon="mdi:github" size="lg" :aria-label="t('layout.header.github')" />
     </SLink>
     <component :is="action.component" v-for="action in toolbarActions" :key="action.key" />
   </div>

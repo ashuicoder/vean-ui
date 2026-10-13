@@ -24,7 +24,7 @@ watch(CmdK, pressed => {
 <template>
   <SDialog v-model:open="searchOpen" pure :show-close="false">
     <template #trigger>
-      <SButton color="accent" variant="soft" @click="dialogMounted = true">
+      <SButton color="accent" variant="soft" :aria-label="$t('layout.header.search')" @click="dialogMounted = true">
         <SIcon icon="lucide:search" class="text-base" />
         <span class="hidden sm:inline">{{ $t('layout.header.search') }}</span>
         <SKbd :value="['command', 'k']" class="ms-auto" />
