@@ -1,0 +1,26 @@
+{
+  "generatedAt": "2026-10-13T11:28:31.168Z",
+  "schemaVersion": 1,
+  "guides": [
+    {
+      "version": "v0.50.0",
+      "docPath": "ui/migration/v0.50.0",
+      "label": "v0.50.0"
+    },
+    {
+      "version": "v0.50.0",
+      "docPath": "ui/migration/v0.50.0-date",
+      "label": "v0.50.0 · date"
+    },
+    {
+      "version": "v0.50.0",
+      "docPath": "ui/migration/rebrand",
+      "label": "v0.50.0 · rebrand"
+    },
+    {
+      "version": "v0.40.0",
+      "docPath": "ui/migration/v0.40.0",
+      "label": "v0.40.0"
+    }
+  ]
+}

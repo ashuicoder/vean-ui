@@ -100,6 +100,30 @@ interface GeneratedComponentChangelogIndex {
   components: Record<string, GeneratedComponentChangelogIndexEntry>;
 }
 
+/**
+ * A migration guide reachable from a release note, flattened out of
+ * `releases.json`.
+ *
+ * `releases.json` is ~2.3 MB and only the docs sidebar and the `/releases` page
+ * need it. The sidebar needs just the handful of guides below on every page, so
+ * they get their own tiny document and `releases.json` stays off the first-load
+ * graph.
+ */
+interface GeneratedUpgradeGuide {
+  /** Release the guide documents, with any prerelease suffix stripped. */
+  version: string;
+  /** Content path relative to `src/content/{locale}/` (e.g. `ui/migration/v0.40.0`). */
+  docPath: string;
+  /** Display label: the version alone, or `v0.50.0 · date` for secondary guides. */
+  label: string;
+}
+
+interface GeneratedUpgradeGuideDocument {
+  generatedAt: string;
+  schemaVersion: 1;
+  guides: GeneratedUpgradeGuide[];
+}
+
 const rootDir = process.cwd();
 const changelogPath = path.join(rootDir, 'CHANGELOG.md');
 /**
@@ -183,6 +207,7 @@ export async function generateChangelogData(outputDir: string, contentDir: strin
   const releasesDocument = createReleaseDocument(versionBlocks, generatedAt, contentDir);
 
   const index = createIndex(documents, generatedAt);
+  const upgradeGuidesDocument = createUpgradeGuideDocument(releasesDocument, generatedAt);
 
   const writeResult = await writeGeneratedJsonDirectory({
     outputDir,
@@ -194,6 +219,10 @@ export async function generateChangelogData(outputDir: string, contentDir: strin
       {
         fileName: 'releases.json',
         value: releasesDocument
+      },
+      {
+        fileName: 'upgrade-guides.json',
+        value: upgradeGuidesDocument
       },
       ...documents.map(document => ({
         fileName: `${document.component}.json`,
@@ -502,6 +531,48 @@ function createReleaseDocument(
 
 function resolveIntroducedComponents(version: string): string[] {
   return releaseIntroducedComponents[version] ?? [];
+}
+
+/**
+ * Flatten release-note `docPath` values into the guide list the docs sidebar
+ * renders, newest release first and de-duplicated by guide.
+ */
+function createUpgradeGuideDocument(
+  releasesDocument: GeneratedReleaseChangelogDocument,
+  generatedAt: string
+): GeneratedUpgradeGuideDocument {
+  const guides = new Map<string, GeneratedUpgradeGuide>();
+
+  for (const release of releasesDocument.releases) {
+    const version = resolveReleaseLine(release.version);
+
+    for (const note of release.notes) {
+      if (!note.docPath || guides.has(note.docPath)) {
+        continue;
+      }
+
+      guides.set(note.docPath, {
+        version,
+        docPath: note.docPath,
+        label: resolveGuideLabel(version, note.docPath)
+      });
+    }
+  }
+
+  return { generatedAt, schemaVersion: 1, guides: Array.from(guides.values()) };
+}
+
+/** `ui/migration/v0.50.0-date` for release `v0.50.0` labels as `v0.50.0 · date`. */
+function resolveGuideLabel(version: string, docPath: string): string {
+  const slug = docPath.split('/').pop() ?? version;
+
+  if (slug === version) {
+    return version;
+  }
+
+  const suffix = slug.startsWith(`${version}-`) ? slug.slice(version.length + 1) : slug;
+
+  return `${version} · ${suffix}`;
 }
 
 /**
