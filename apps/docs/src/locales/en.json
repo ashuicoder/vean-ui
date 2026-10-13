@@ -548,16 +548,17 @@
     "header": {
       "search": "Search Docs",
       "search_empty": "No related documents found",
+      "menu": "Menu",
       "getting_started": "Getting Started",
       "components": "Components",
       "chart": "Chart",
       "releases": "Releases",
       "playground": "Playground",
+      "aria": "Aria",
       "github": "GitHub",
       "theme": "Theme",
       "theme_configurator": "Theme Configurator",
-      "language": "Language",
-      "aria": "Aria"
+      "language": "Language"
     }
   },
   "components": {
@@ -981,6 +982,12 @@
         "title": "Documentation in progress",
         "description": "Aria documentation is being written. Meanwhile, browse the styled API reference under Components."
       }
+    }
+  },
+  "docs": {
+    "code": {
+      "copy": "Copy code",
+      "copied": "Copied"
     }
   }
 }

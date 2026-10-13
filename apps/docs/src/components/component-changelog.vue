@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, onServerPrefetch, shallowRef, watchEffect } from 'vue';
 import { useGeneratedI18n } from '~/composables/use-generated-i18n';
-import { getComponentChangelogDocument } from '~/shared/generated-changelog';
-import type { GeneratedChangelogEntryType } from '~/shared/generated-changelog';
+import { loadComponentChangelogDocument } from '~/shared/generated-changelog';
+import type { GeneratedChangelogDocument, GeneratedChangelogEntryType } from '~/shared/generated-changelog';
 
 interface Props {
   component: string;
@@ -13,7 +13,24 @@ const props = defineProps<Props>();
 const { t } = useI18n();
 const { resolveGeneratedText } = useGeneratedI18n();
 
-const changelogDocument = computed(() => getComponentChangelogDocument(props.component));
+// The per-component changelog JSON is fetched on demand: it is only needed on
+// component pages that actually have a changelog section.
+const changelogDocument = shallowRef<GeneratedChangelogDocument>({
+  component: props.component,
+  generatedAt: '',
+  schemaVersion: 1,
+  versions: []
+});
+
+async function loadChangelog() {
+  changelogDocument.value = await loadComponentChangelogDocument(props.component);
+}
+
+onServerPrefetch(loadChangelog);
+watchEffect(() => {
+  void loadChangelog();
+});
+
 const versions = computed(() => changelogDocument.value.versions);
 
 const typeKeyMap: Record<GeneratedChangelogEntryType, string> = {

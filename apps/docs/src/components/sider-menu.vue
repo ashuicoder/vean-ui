@@ -6,7 +6,7 @@ import { extractLocaleFromPath } from 'ubean/client';
 import { kebabCase, pascalCase } from '@vean/aria/shared';
 import type { TreeMenuOptionData } from '@vean/ui';
 import { menuData, newlyComponentKeys, chartMenuData, chartNewlyComponentKeys } from '~/constants/menus';
-import { getUpgradeGuides } from '~/shared/generated-changelog';
+import { getUpgradeGuides } from '~/shared/upgrade-guides';
 
 type Emits = {
   select: [];

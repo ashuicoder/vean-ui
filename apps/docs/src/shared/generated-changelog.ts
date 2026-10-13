@@ -1,5 +1,4 @@
 import generatedChangelogIndex from '~/generated/changelog/index.json';
-import { resolveContentRoutePath } from './content-route';
 
 export type GeneratedChangelogEntryType =
   | 'breaking'
@@ -83,31 +82,43 @@ interface GeneratedChangelogIndex {
   components: Record<string, GeneratedChangelogIndexEntry>;
 }
 
-const generatedReleaseDocument = (await import('~/generated/changelog/releases.json'))
-  .default as GeneratedReleaseChangelogDocument;
-
-const generatedChangelogModules = import.meta.glob<GeneratedChangelogDocument>('../generated/changelog/*.json', {
-  eager: true,
+const componentChangelogLoaders = import.meta.glob<GeneratedChangelogDocument>('../generated/changelog/*.json', {
   import: 'default'
 });
 
-const componentChangelogDocuments = Object.fromEntries(
-  Object.entries(generatedChangelogModules)
-    .filter(([path]) => !path.endsWith('/index.json') && !path.endsWith('/releases.json'))
-    .map(([, document]) => [document.component, document])
-) as Record<string, GeneratedChangelogDocument>;
+/**
+ * `releases.json` is 2.3 MB, so it is fetched only by the pages that render it
+ * (`/releases` and the release section of the content search). The sidebar and
+ * the migration pages read the flattened `upgrade-guides.json` instead — see
+ * `~/shared/upgrade-guides`.
+ */
+const releaseChangelogLoader = () =>
+  import('~/generated/changelog/releases.json').then(module => module.default as GeneratedReleaseChangelogDocument);
+
+/** Per-component documents, keyed by component. `index.json`/`releases.json` are not per-component. */
+const componentChangelogLoaderByComponent = Object.fromEntries(
+  Object.entries(componentChangelogLoaders)
+    .filter(([filePath]) => !filePath.endsWith('/index.json') && !filePath.endsWith('/releases.json'))
+    .map(([filePath, load]) => [
+      filePath
+        .split('/')
+        .pop()
+        ?.replace(/\.json$/u, '') ?? filePath,
+      load
+    ])
+) as Record<string, () => Promise<GeneratedChangelogDocument>>;
 
 const changelogIndex = generatedChangelogIndex as GeneratedChangelogIndex;
 
-export function getComponentChangelogDocument(component: string): GeneratedChangelogDocument {
-  return (
-    componentChangelogDocuments[component] ?? {
-      component,
-      generatedAt: changelogIndex.generatedAt,
-      schemaVersion: 1,
-      versions: []
-    }
-  );
+/** Loads the changelog for one component, or an empty document when it has none. */
+export async function loadComponentChangelogDocument(component: string): Promise<GeneratedChangelogDocument> {
+  const load = componentChangelogLoaderByComponent[component];
+
+  if (load) {
+    return load();
+  }
+
+  return { component, generatedAt: changelogIndex.generatedAt, schemaVersion: 1, versions: [] };
 }
 
 export function getComponentChangelogMeta(component: string): GeneratedChangelogIndexEntry {
@@ -122,80 +133,7 @@ export function getComponentChangelogMeta(component: string): GeneratedChangelog
   );
 }
 
-export function getReleaseChangelogDocument(): GeneratedReleaseChangelogDocument {
-  return generatedReleaseDocument;
-}
-
-export interface UpgradeGuideEntry {
-  /**
-   * Release the guide documents (e.g. `v0.40.0`). A prerelease suffix is
-   * stripped, so a guide attached to a release that is still a beta is titled by
-   * the release line it upgrades to, not by the beta build number.
-   */
-  version: string;
-  /** Content path relative to `src/content/{locale}/` (e.g. `ui/migration/v0.40.0`). */
-  docPath: string;
-  /** Public route path of the guide (e.g. `/overview/migration/v0.40.0`). */
-  path: string;
-  /**
-   * Display label. The release's main guide shows the version alone; secondary
-   * guides append their slug so several guides for one release stay apart
-   * (e.g. `v0.50.0` / `v0.50.0 · date`).
-   */
-  label: string;
-}
-
-/** `v0.40.0-beta.1` → `v0.40.0`: guides are titled by release line, never by beta build. */
-function resolveGuideVersion(releaseVersion: string): string {
-  const prereleaseIndex = releaseVersion.indexOf('-');
-
-  return prereleaseIndex === -1 ? releaseVersion : releaseVersion.slice(0, prereleaseIndex);
-}
-
-/** `ui/migration/v0.50.0-date` for release `v0.50.0` labels as `v0.50.0 · date`. */
-function resolveGuideLabel(version: string, docPath: string): string {
-  const slug = docPath.split('/').pop() ?? version;
-
-  if (slug === version) {
-    return version;
-  }
-
-  const suffix = slug.startsWith(`${version}-`) ? slug.slice(version.length + 1) : slug;
-
-  return `${version} · ${suffix}`;
-}
-
-/**
- * Upgrade guides linked from release notes, newest first. Derived from
- * `docPath` on generated notes, so the sidebar and the releases page always
- * agree on which guides exist.
- */
-export function getUpgradeGuides(): UpgradeGuideEntry[] {
-  const guides = new Map<string, UpgradeGuideEntry>();
-
-  for (const release of generatedReleaseDocument.releases) {
-    const version = resolveGuideVersion(release.version);
-
-    for (const note of release.notes) {
-      if (!note.docPath || guides.has(note.docPath)) {
-        continue;
-      }
-
-      guides.set(note.docPath, {
-        version,
-        docPath: note.docPath,
-        path: resolveContentRoutePath(note.docPath),
-        label: resolveGuideLabel(version, note.docPath)
-      });
-    }
-  }
-
-  return Array.from(guides.values());
-}
-
-/** The guide whose `docPath` ends with the given version-ish slug, if any. */
-export function findUpgradeGuide(versionOrSlug: string): UpgradeGuideEntry | undefined {
-  return getUpgradeGuides().find(
-    guide => guide.docPath.endsWith(`/${versionOrSlug}`) || guide.version === versionOrSlug
-  );
+/** Loads the full release changelog. Only `/releases` and the release search need it. */
+export async function loadReleaseChangelogDocument(): Promise<GeneratedReleaseChangelogDocument> {
+  return releaseChangelogLoader();
 }

@@ -1,5 +1,5 @@
 import type { SearchSection } from '@ubean/content';
-import { getReleaseChangelogDocument } from './generated-changelog';
+import { loadReleaseChangelogDocument } from './generated-changelog';
 import type { GeneratedReleaseChangelogVersion } from './generated-changelog';
 import { readGeneratedMessagePath, resolveGeneratedLocaleFileName } from './generated-messages';
 import type { GeneratedMessages } from './generated-messages';
@@ -25,7 +25,10 @@ const RELEASE_CRUMBS: Record<string, string[]> = {
   zh: ['更新日志']
 };
 
-const changelogLocaleModules = import.meta.glob<GeneratedMessages>('../generated/changelog-locales/*.json', {
+// Only the non-default locale is bundled: the generator writes `en` by copying the source
+// `summary` verbatim, and `resolveGeneratedText` already falls back to that same source text.
+// `en.json` therefore cost ~116 KB of bundle for zero visible difference.
+const changelogLocaleModules = import.meta.glob<GeneratedMessages>('../generated/changelog-locales/zh-CN.json', {
   eager: true,
   import: 'default'
 });
@@ -66,8 +69,8 @@ function buildReleaseSections(releases: GeneratedReleaseChangelogVersion[], loca
 }
 
 /** 双语言 releases sections（en 无前缀、zh 带 `/zh`），由渲染层按 locale 过滤。 */
-export function buildReleaseSearchSections(): SearchSection[] {
-  const { releases } = getReleaseChangelogDocument();
+export async function buildReleaseSearchSections(): Promise<SearchSection[]> {
+  const { releases } = await loadReleaseChangelogDocument();
 
   return [...buildReleaseSections(releases, 'en'), ...buildReleaseSections(releases, 'zh')];
 }

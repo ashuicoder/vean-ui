@@ -1,7 +1,12 @@
 <script setup lang="ts">
-import { computed, inject } from 'vue';
-import { SHoverCard } from '@vean/ui';
-import { getCommonTypePreview, getComponentTypePreview, getExternalTypeImportSignature } from './generated-api';
+import { computed, inject, shallowRef } from 'vue';
+import { SHoverCard } from '@vean/ui/hover-card';
+import {
+  getCommonTypePreview,
+  getComponentTypePreview,
+  getExternalTypeImportSignature,
+  loadFullApiRegistry
+} from './generated-api';
 import { normalizeTypeRenderContext, typeRenderContextKey } from './type-anchor';
 import TypePreviewCard from './type-preview-card.vue';
 
@@ -16,20 +21,36 @@ const typeRenderContext = inject(
   computed(() => normalizeTypeRenderContext())
 );
 
+// Type hover previews span every component, so they need the full generated API
+// registry (~12 MB). It is fetched on first hover instead of on page load, which
+// keeps the registries empty during SSR — the fallback is the plain type name.
+const registryReady = shallowRef(false);
+
+async function ensureRegistry() {
+  if (registryReady.value) {
+    return;
+  }
+
+  await loadFullApiRegistry();
+  registryReady.value = true;
+}
+
 const localPreview = computed(() => {
   const componentName = typeRenderContext.value.component;
 
-  if (!componentName) {
+  if (!registryReady.value || !componentName) {
     return null;
   }
 
   return getComponentTypePreview(componentName, props.name);
 });
 
-const commonPreview = computed(() => getCommonTypePreview(props.name));
+const commonPreview = computed(() => (registryReady.value ? getCommonTypePreview(props.name) : null));
 
 const preview = computed(() => localPreview.value ?? commonPreview.value);
-const externalImportSignature = computed(() => getExternalTypeImportSignature(props.name));
+const externalImportSignature = computed(() =>
+  registryReady.value ? getExternalTypeImportSignature(props.name) : null
+);
 const isActivePreviewType = computed(() => typeRenderContext.value.activePreviewNames?.includes(props.name));
 const hasHoverContent = computed(
   () => !isActivePreviewType.value && Boolean(preview.value || externalImportSignature.value)
@@ -54,5 +75,5 @@ const hasHoverContent = computed(
     </div>
   </SHoverCard>
 
-  <span v-else>{{ name }}</span>
+  <span v-else @mouseenter="ensureRegistry">{{ name }}</span>
 </template>

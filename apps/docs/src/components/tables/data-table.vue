@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed, defineComponent } from 'vue';
-import { SBadge, STable } from '@vean/ui';
-import type { TableColumn } from '@vean/ui';
+import { SBadge } from '@vean/ui/badge';
+import { STable } from '@vean/ui/table';
+import type { TableColumn } from '@vean/ui/table';
 import { typeToVNode } from './type-anchor';
 import { useApiI18n } from './use-api-i18n';
 

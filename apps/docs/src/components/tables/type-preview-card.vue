@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, inject } from 'vue';
-import { SLink } from '@vean/ui';
+import { SLink } from '@vean/ui/link';
 import CallableTypeTable from './callable-type-table.vue';
 import type { GeneratedApiTypePreview } from './generated-api';
 import { normalizeTypeRenderContext, provideTypeRenderContext, typeRenderContextKey } from './type-anchor';

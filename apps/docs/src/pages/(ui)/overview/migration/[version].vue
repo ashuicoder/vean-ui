@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { getUpgradeGuides } from '~/shared/generated-changelog';
+import { getUpgradeGuides } from '~/shared/upgrade-guides';
 
 definePage({ layout: 'default' });
 

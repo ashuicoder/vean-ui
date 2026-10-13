@@ -198,7 +198,7 @@ VeanUI is built with:
 
 ## Getting started
 
-If you’re ready to start using Vean, check out the [Quick Start](./quick-start) guide to learn how to install and configure it.
+If you’re ready to start using Vean, check out the [Quick Start](/overview/quick-start) guide to learn how to install and configure it.
 
 If you want to learn more about specific components, browse the [Component docs](/components/button) for detailed APIs and examples.
 

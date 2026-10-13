@@ -125,7 +125,6 @@ export interface GeneratedApiLayerSection {
 }
 
 const generatedApiModules = import.meta.glob<GeneratedApiDocument>('../../generated/api/*/*.json', {
-  eager: true,
   import: 'default'
 });
 
@@ -147,19 +146,86 @@ function resolveApiPackageKey(filePath: string): string {
   return filePath.split('/').at(-2) ?? 'ui';
 }
 
-const componentApiEntries = Object.fromEntries(
-  Object.entries(generatedApiModules)
-    .filter(([filePath]) => !filePath.endsWith('/index.json'))
-    .map(([filePath, document]) => [document.component, { pkg: resolveApiPackageKey(filePath), document }])
-) as Record<string, { pkg: string; document: GeneratedApiDocument }>;
+// The generated API documents total ~12 MB, so they are fetched on demand:
+// a component page only needs its own `<component>.json`, and the cross-component
+// registries (used for hover previews) are filled in on first interaction.
+const componentApiEntries: Record<string, { pkg: string; document: GeneratedApiDocument }> = {};
+const componentApiDocuments: Record<string, GeneratedApiDocument> = {};
+const packageByComponent: Record<string, string> = {};
 
-const componentApiDocuments = Object.fromEntries(
-  Object.entries(componentApiEntries).map(([component, entry]) => [component, entry.document])
-) as Record<string, GeneratedApiDocument>;
+const apiDocumentLoads = new Map<string, Promise<unknown>>();
 
-const packageByComponent = Object.fromEntries(
-  Object.entries(componentApiEntries).map(([component, entry]) => [component, entry.pkg])
-) as Record<string, string>;
+function isApiDocumentPath(filePath: string) {
+  return !filePath.endsWith('/index.json');
+}
+
+function registerApiDocument(filePath: string, document: GeneratedApiDocument | undefined) {
+  if (!document?.component || componentApiDocuments[document.component]) {
+    return;
+  }
+
+  const pkg = resolveApiPackageKey(filePath);
+
+  componentApiEntries[document.component] = { pkg, document };
+  componentApiDocuments[document.component] = document;
+  packageByComponent[document.component] = pkg;
+}
+
+function loadApiDocument(filePath: string) {
+  const loader = generatedApiModules[filePath];
+
+  if (!loader) {
+    return Promise.resolve();
+  }
+
+  const pending = apiDocumentLoads.get(filePath);
+
+  if (pending) {
+    return pending;
+  }
+
+  const load = loader()
+    .then(document => {
+      registerApiDocument(filePath, document);
+    })
+    .catch(() => {
+      // 单个文档缺失不应阻断整页 API 表格渲染。
+    });
+
+  apiDocumentLoads.set(filePath, load);
+
+  return load;
+}
+
+/**
+ * 载入指定组件的 API 文档（`ui/<component>.json`，以及同名的 `aria/<component>.json`）。
+ */
+export async function loadComponentApiDocuments(component: string) {
+  const candidates = Object.keys(generatedApiModules).filter(
+    filePath => isApiDocumentPath(filePath) && filePath.endsWith(`/${component}.json`)
+  );
+
+  await Promise.all(candidates.map(filePath => loadApiDocument(filePath)));
+  rebuildApiRegistries();
+}
+
+let fullApiRegistryLoad: Promise<void> | null = null;
+
+/**
+ * 载入全部 API 文档，用于跨组件的类型 hover 预览。
+ * 仅在用户与 API 区块交互后调用，避免首屏拉取 12 MB JSON。
+ */
+export function loadFullApiRegistry(): Promise<void> {
+  fullApiRegistryLoad ??= Promise.all(
+    Object.keys(generatedApiModules)
+      .filter(isApiDocumentPath)
+      .map(filePath => loadApiDocument(filePath))
+  ).then(() => {
+    rebuildApiRegistries();
+  });
+
+  return fullApiRegistryLoad;
+}
 
 const packagePrefixMap: Record<string, string> = {
   ui: 'S',
@@ -176,10 +242,28 @@ const externalTypeImportRegistry = buildExternalTypeImportRegistry();
 const workspaceTypePathPattern = /^(aria|src)\//u;
 const componentScopedTypePathPattern = /^(aria|src)\/src\/components\//u;
 
-const commonTypeRegistry = buildCommonTypeRegistry();
-const componentLocalTypePreviewRegistry = buildComponentLocalTypePreviewRegistry();
-const commonTypePreviewRegistry = buildTypePreviewRegistry(Array.from(commonTypeRegistry.values()));
-const generatedTypePreviewRegistry = buildGeneratedTypePreviewRegistry();
+const commonTypeRegistry = new Map<string, GeneratedApiReferencedType>();
+const componentLocalTypePreviewRegistry = new Map<string, Map<string, GeneratedApiTypePreview>>();
+const commonTypePreviewRegistry = new Map<string, GeneratedApiTypePreview>();
+const generatedTypePreviewRegistry = new Map<string, GeneratedApiTypePreview>();
+
+function rebuildApiRegistries() {
+  for (const [name, type] of buildCommonTypeRegistry()) {
+    commonTypeRegistry.set(name, type);
+  }
+
+  for (const [component, registry] of buildComponentLocalTypePreviewRegistry()) {
+    componentLocalTypePreviewRegistry.set(component, registry);
+  }
+
+  for (const [name, preview] of buildTypePreviewRegistry(Array.from(commonTypeRegistry.values()))) {
+    commonTypePreviewRegistry.set(name, preview);
+  }
+
+  for (const [name, preview] of buildGeneratedTypePreviewRegistry()) {
+    generatedTypePreviewRegistry.set(name, preview);
+  }
+}
 
 function buildCommonTypeRegistry() {
   const usage = new Map<string, { type: GeneratedApiReferencedType; components: Set<string> }>();
@@ -1434,6 +1518,12 @@ export function getComponentApiSections(component: string): GeneratedApiLayerSec
       symbols: symbolSections
     }
   ];
+}
+
+export async function loadComponentApiSections(component: string): Promise<GeneratedApiLayerSection[]> {
+  await loadComponentApiDocuments(component);
+
+  return getComponentApiSections(component);
 }
 
 export function getCommonTypes() {

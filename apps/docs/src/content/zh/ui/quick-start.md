@@ -348,7 +348,7 @@ function handleClick() {
 现在你已经成功安装了 Vean，可以：
 
 1. 浏览 [组件文档](/components)，了解所有可用组件
-2. 查看 [主题配置](../theming) 文档，学习如何自定义主题
+2. 查看 [主题配置](/overview/theming) 文档，学习如何自定义主题
 3. 访问 [GitHub](https://github.com/soybeanjs/vean-ui) 查看源码和示例
 
 祝你使用愉快！如果遇到任何问题，欢迎在 GitHub Issues 中提出。

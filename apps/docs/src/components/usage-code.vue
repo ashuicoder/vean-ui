@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { allPlaygroundComponents } from '~/constants/globs';
+import { computed, onServerPrefetch, shallowRef, watchEffect } from 'vue';
+import { loadPlaygroundExampleCode } from '~/constants/globs';
 
 interface Props {
   component: string;
@@ -11,8 +11,18 @@ const props = withDefaults(defineProps<Props>(), {
   file: 'basic'
 });
 
-const code = computed(() => allPlaygroundComponents[props.component]?.[props.file]?.code);
+const code = shallowRef<string>();
 const missingTitle = computed(() => `${props.component}/${props.file} not found`);
+
+async function loadCode() {
+  code.value = await loadPlaygroundExampleCode(props.component, props.file);
+}
+
+onServerPrefetch(() => loadCode());
+
+watchEffect(() => {
+  loadCode();
+});
 </script>
 
 <template>

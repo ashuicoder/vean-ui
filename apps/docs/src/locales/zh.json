@@ -548,16 +548,17 @@
     "header": {
       "search": "搜索文档",
       "search_empty": "没有找到相关文档",
+      "menu": "菜单",
       "getting_started": "开始使用",
       "components": "组件",
       "chart": "图表",
       "releases": "更新日志",
       "playground": "演练场",
+      "aria": "Aria",
       "github": "GitHub",
       "theme": "主题",
       "theme_configurator": "主题配置",
-      "language": "语言",
-      "aria": "Aria"
+      "language": "语言"
     }
   },
   "components": {
@@ -981,6 +982,12 @@
         "title": "文档建设中",
         "description": "Aria 文档正在编写中，可先查阅组件（Components）下的样式化 API 参考。"
       }
+    }
+  },
+  "docs": {
+    "code": {
+      "copy": "复制代码",
+      "copied": "已复制"
     }
   }
 }

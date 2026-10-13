@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { kebabCase, pascalCase } from '@vean/aria/shared';
 import PlaygroundGallery from '~/components/playground-gallery.vue';
+import { usePageHead } from '~/composables/use-page-head';
 import { chartMenuData } from '~/constants/menus';
 
 definePage({ layout: 'default' });
@@ -19,6 +20,11 @@ const isValid = computed(() => chartNames.value.includes(name.value));
 
 const title = computed(() => pascalCase(name.value));
 const description = computed(() => t(`chart.kinds.${name.value}`, ''));
+
+usePageHead(() => ({
+  title: `${title.value} | ${t('layout.header.chart')}`,
+  description: description.value
+}));
 
 const relatedKinds = computed(() => chartNames.value.filter(item => item !== name.value));
 

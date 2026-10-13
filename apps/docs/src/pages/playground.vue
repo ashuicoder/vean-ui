@@ -5,11 +5,17 @@ import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { kebabCase, pascalCase } from '@vean/aria/shared';
 import type { SelectSingleOptionData, TabsOptionData } from '@vean/ui';
+import { usePageHead } from '~/composables/use-page-head';
 
 definePage({ layout: 'default' });
 
 const route = useRoute();
 const { t } = useI18n();
+
+usePageHead(() => ({
+  title: t('playground.title'),
+  description: t('playground.switcher.view')
+}));
 
 interface PlaygroundTab extends TabsOptionData<string> {
   library: string;

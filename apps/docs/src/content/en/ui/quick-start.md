@@ -348,7 +348,7 @@ function handleClick() {
 Now that you’ve installed Vean, you can:
 
 1. Browse the [Component docs](/components) to see all available components
-2. Read the [Theme configuration](../theming) docs to customize theming
+2. Read the [Theme configuration](/overview/theming) docs to customize theming
 3. Visit [GitHub](https://github.com/soybeanjs/vean-ui) for source code and examples
 
 Enjoy! If you run into any issues, feel free to open an issue on GitHub.

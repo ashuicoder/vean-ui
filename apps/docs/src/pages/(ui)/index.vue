@@ -1,12 +1,18 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { kebabCase, pascalCase } from '@vean/aria/shared';
+import { usePageHead } from '~/composables/use-page-head';
 import { menuData } from '~/constants/menus';
 import BackgroundDecoration from '~/motion/background-decoration.vue';
 
 definePage({ layout: 'home' });
 
 const { t } = useI18n();
+
+usePageHead(() => ({
+  title: t('components.home.title'),
+  description: t('components.home.description')
+}));
 
 const totalComponents = computed(() =>
   menuData.reduce((total, group) => total + (group.value === 'aria' ? 0 : group.items.length), 0)

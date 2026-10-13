@@ -2,6 +2,7 @@
 import { computed, onBeforeUnmount, watch } from 'vue';
 import { kebabCase, pascalCase } from '@vean/aria/shared';
 import { useDocOutline } from '~/composables/use-doc-outline';
+import { usePageHead } from '~/composables/use-page-head';
 import { menuData, newlyComponentKeys } from '~/constants/menus';
 
 // NOTE: ubean ignores `pages/**/components/**` (colocation convention), so this
@@ -9,6 +10,11 @@ import { menuData, newlyComponentKeys } from '~/constants/menus';
 definePage({ name: 'ComponentsIndex', path: '/components', layout: 'default' });
 
 const { t } = useI18n();
+
+usePageHead(() => ({
+  title: t('components.catalog.title'),
+  description: t('components.catalog.description')
+}));
 
 const docOutline = useDocOutline();
 

@@ -1,8 +1,14 @@
 <script setup lang="ts">
+import { defineAsyncComponent } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useScrollState } from '~/composables/use-scroll-state';
 import pkg from '../../package.json' with { type: 'json' };
 import ToolBar from './tool-bar.vue';
+
+// 显式异步组件：ubean 的全局自动注册会把 `SearchDocument` 打进 header chunk，
+// 而它的模板在首屏就渲染，于是搜索面板的依赖（api-search → release-search →
+// generated-changelog → releases.json）无法被摇掉。
+const SearchDocument = defineAsyncComponent(() => import('./search-document.vue'));
 
 const { t } = useI18n();
 
@@ -40,7 +46,7 @@ const { isScrolled, isAtTop } = useScrollState();
 
         <SPopover :modal="false" placement="bottom-end">
           <template #trigger>
-            <SButtonIcon icon="lucide:menu" class="xl:!hidden text-xl" />
+            <SButtonIcon icon="lucide:menu" class="xl:!hidden text-xl" :aria-label="t('layout.header.menu')" />
           </template>
           <div class="flex flex-col gap-4">
             <HeaderNav orientation="vertical" />

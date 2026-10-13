@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { computed, shallowRef } from 'vue';
 import { useRoute } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { extractLocaleFromPath } from 'ubean/client';
 import { provideDocOutline } from '~/composables/use-doc-outline';
+
+const { t } = useI18n();
 
 const visible = shallowRef(false);
 const docOutline = provideDocOutline();
@@ -43,6 +46,7 @@ const closeDrawer = () => {
             shadow="lg"
             :fit-content="false"
             class="text-lg"
+            :aria-label="t('layout.header.menu')"
           />
         </template>
         <SiderMenu @select="closeDrawer" />
@@ -53,9 +57,9 @@ const closeDrawer = () => {
         class="mx-auto min-w-0"
         :class="shouldReserveOutlineSpace ? 'xl:grid xl:grid-cols-[minmax(0,1fr)_18rem] xl:items-start xl:gap-8' : ''"
       >
-        <div class="min-w-0">
+        <main class="min-w-0">
           <PageView />
-        </div>
+        </main>
 
         <ClientOnly>
           <aside v-if="shouldReserveOutlineSpace" class="lt-xl:hidden xl:w-72 xl:min-w-0">

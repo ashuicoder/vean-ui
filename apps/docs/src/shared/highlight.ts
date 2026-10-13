@@ -37,17 +37,50 @@ const grammarLoaders = {
 let highlighterPromise: Promise<HighlighterCore> | undefined;
 
 function getHighlighter(): Promise<HighlighterCore> {
+  // Grammars are registered on demand by `highlightToHtml`: preloading all
+  // thirteen of them added ~60 KB to every page, and most pages use one or two.
+  //
+  // The Oniguruma WASM engine is the right trade here. The JavaScript regex
+  // engine avoided 183 KB of transfer, but tokenizes this content ~3x slower
+  // (773 ms vs 247 ms for the button examples alone), which lands as blocking
+  // main-thread time on exactly the pages that already ship the most markup.
   highlighterPromise ??= createHighlighterCore({
     themes: Object.values(themeLoaders).map(load => load()),
-    langs: Object.values(grammarLoaders).map(load => load()),
+    langs: [],
     engine: createOnigurumaEngine(import('shiki/wasm'))
   });
 
   return highlighterPromise;
 }
 
+const grammarLoads = new Map<string, Promise<unknown>>();
+
+async function loadGrammar(highlighter: HighlighterCore, lang: string): Promise<void> {
+  if (highlighter.getLoadedLanguages().includes(lang)) {
+    return;
+  }
+
+  const loader = grammarLoaders[lang as GrammarLang];
+
+  if (!loader) {
+    return;
+  }
+
+  let pending = grammarLoads.get(lang);
+
+  if (!pending) {
+    pending = loader().then(grammar => highlighter.loadLanguage(grammar));
+    grammarLoads.set(lang, pending);
+  }
+
+  await pending;
+}
+
 export async function highlightToHtml(code: string, lang: string): Promise<string> {
   const highlighter = await getHighlighter();
+
+  await loadGrammar(highlighter, lang);
+
   const isLoaded = highlighter.getLoadedLanguages().includes(lang);
 
   return highlighter.codeToHtml(code, {

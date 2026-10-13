@@ -24,6 +24,11 @@ export default defineConfig({
   favicon: 'https://img.soybeanjs.dev/logo-vean-ui.svg?v=202609141212',
   i18n: {
     defaultLocale: 'en',
+    // Absolute origin for the `canonical` / `hreflang` links built by
+    // `@ubean/i18n`'s `buildLocaleHead`. Without it those tags are emitted as
+    // relative hrefs, which Lighthouse flags as invalid (`canonical`,
+    // `hreflang`). Must match `DOCS_SITE_URL` used by `build/seo.ts`.
+    baseUrl: process.env.DOCS_SITE_URL || 'https://veanui.com',
     locales: [
       { code: 'en', language: 'en', name: 'English' },
       { code: 'zh', language: 'zh-CN', name: '中文', dir: 'ltr' }
@@ -63,7 +68,30 @@ export default defineConfig({
   },
   prerender: {
     include: prerenderRoutes,
-    crawlLinks: true
+    crawlLinks: true,
+    // Routes that would otherwise be prerendered as 404 shells, because
+    // `crawlLinks` follows every <a href>:
+    //   1. the content plugin auto-discovers a route per markdown file using its
+    //      raw slug (`/ui/installation`, `/ui/components/<name>`) — 208 pages;
+    //   2. placeholder links inside the playground examples that point at paths
+    //      which are not routes (`/about` from `button/11-link.vue`, `/docs/**`
+    //      and `/composables`/`/getting-started` from `nav-menu/03-nested.vue`).
+    // Neither set is a real app route (the routed paths come from
+    // `build/docs-routes.ts`) and neither is in the sitemap. Crawling still has
+    // to stay on, though: the dynamic `chart/[name]` pages are only reachable
+    // through links from `/chart`.
+    exclude: [
+      '/ui/**',
+      '/zh/ui/**',
+      '/about',
+      '/zh/about',
+      '/docs/**',
+      '/zh/docs/**',
+      '/composables',
+      '/zh/composables',
+      '/getting-started',
+      '/zh/getting-started'
+    ]
   },
   dev: {
     host: '0.0.0.0'

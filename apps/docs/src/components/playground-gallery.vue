@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { computed, onUnmounted, shallowRef, watch } from 'vue';
+import { computed, onServerPrefetch, onUnmounted, shallowRef, watch, watchEffect } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useBodyScrollLock, useEscapeKeyDown } from '@vean/aria/composables';
 import { isClient, pascalCase } from '@vean/aria/shared';
-import { getOrderedPlaygroundExamples } from '~/constants/globs';
+import { loadPlaygroundExamples } from '~/constants/globs';
+import type { PlaygroundExampleInfo } from '~/constants/globs';
 import { defaultPlaygroundDevice } from '~/constants/playground';
 import type { PlaygroundDevice, PlaygroundTab } from '~/constants/playground';
 import { acceptsPlaygroundRegion } from '~/shared/playground-region';
@@ -25,8 +26,21 @@ function resolveExampleTitle(file: string) {
   return te(key) ? t(key) : pascalCase(file);
 }
 
+const examples = shallowRef<PlaygroundExampleInfo[]>([]);
+
+async function loadExamples() {
+  examples.value = await loadPlaygroundExamples(props.component);
+}
+
+// SSG 需要示例正文/组件在预渲染时可用；客户端随后由 `watchEffect` 补齐。
+onServerPrefetch(() => loadExamples());
+
+watchEffect(() => {
+  loadExamples();
+});
+
 const components = computed(() =>
-  getOrderedPlaygroundExamples(props.component).map(item => ({
+  examples.value.map(item => ({
     title: resolveExampleTitle(item.name),
     file: item.name,
     rawFileName: item.rawFileName,

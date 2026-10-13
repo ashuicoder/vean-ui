@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { getComponentApiSections } from './tables/generated-api';
+import { onServerPrefetch, shallowRef, watchEffect } from 'vue';
+import { loadComponentApiSections } from './tables/generated-api';
+import type { GeneratedApiLayerSection } from './tables/generated-api';
 import { provideTypeRenderContext, typeToVNode } from './tables/type-anchor';
 
 interface Props {
@@ -11,7 +12,18 @@ const props = defineProps<Props>();
 
 const { t } = useI18n();
 
-const apiLayers = computed(() => getComponentApiSections(props.component));
+// `src/generated/api/**` is ~12 MB, so only this component's document is fetched.
+// `onServerPrefetch` keeps the prerendered API tables complete.
+const apiLayers = shallowRef<GeneratedApiLayerSection[]>([]);
+
+async function loadApiLayers() {
+  apiLayers.value = await loadComponentApiSections(props.component);
+}
+
+onServerPrefetch(loadApiLayers);
+watchEffect(() => {
+  void loadApiLayers();
+});
 
 provideTypeRenderContext(() => ({
   component: props.component,

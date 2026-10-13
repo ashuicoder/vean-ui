@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
+import { computed, onServerPrefetch, ref, shallowRef, watch, watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
-import { pascalCase } from '@vean/aria/shared';
+import { kebabCase, pascalCase } from '@vean/aria/shared';
 import { useGeneratedI18n } from '~/composables/use-generated-i18n';
+import { usePageHead } from '~/composables/use-page-head';
+import { menuData } from '~/constants/menus';
 import { resolveContentRoutePath } from '~/shared/content-route';
-import { getReleaseChangelogDocument } from '~/shared/generated-changelog';
+import { loadReleaseChangelogDocument } from '~/shared/generated-changelog';
 import type {
   GeneratedChangelogEntryType,
   GeneratedReleaseChangelogNote,
@@ -17,10 +19,33 @@ definePage({ layout: 'default' });
 const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
+
+usePageHead(() => ({
+  title: t('releases_page.title'),
+  description: t('releases_page.summary')
+}));
+
 const { resolveGeneratedText } = useGeneratedI18n();
 
-const releaseDocument = computed(() => getReleaseChangelogDocument());
-const releases = computed(() => releaseDocument.value.releases);
+const releases = shallowRef<GeneratedReleaseChangelogVersion[]>([]);
+const isLoading = shallowRef(true);
+
+// `releases.json` is 2.3 MB, so it is fetched on demand instead of being part of
+// the first-load graph. `onServerPrefetch` keeps the prerendered page complete.
+async function loadReleases() {
+  isLoading.value = true;
+
+  try {
+    releases.value = (await loadReleaseChangelogDocument()).releases;
+  } finally {
+    isLoading.value = false;
+  }
+}
+
+onServerPrefetch(loadReleases);
+watchEffect(() => {
+  void loadReleases();
+});
 const componentQuery = ref('');
 const onlyComponentRelated = ref(false);
 const isFilterInputFocused = ref(false);
@@ -29,9 +54,9 @@ const routeComponentQuery = computed(() => resolveRouteComponentQuery(route.quer
 const routeOnlyComponentRelated = computed(() => resolveRouteOnlyComponentRelated(route.query.related));
 const normalizedComponentQuery = computed(() => normalizeSearchValue(componentQuery.value));
 const componentOptions = computed(() => {
-  return Array.from(new Set(releases.value.flatMap(release => release.components))).sort((left, right) =>
-    left.localeCompare(right)
-  );
+  return Array.from(new Set(releases.value.flatMap(release => release.components)))
+    .filter(hasComponentPage)
+    .sort((left, right) => left.localeCompare(right));
 });
 const suggestedComponents = computed(() => {
   const query = normalizedComponentQuery.value;
@@ -61,8 +86,8 @@ const displayedReleases = computed<GeneratedReleaseChangelogVersion[]>(() => {
       continue;
     }
 
-    const components = release.components.filter(component =>
-      entries.some(entry => entry.components.includes(component))
+    const components = release.components.filter(
+      component => hasComponentPage(component) && entries.some(entry => entry.components.includes(component))
     );
     const typeCounts = entries.reduce<Record<GeneratedChangelogEntryType, number>>(
       (counts, entry) => {
@@ -296,7 +321,7 @@ function getDisplayedEntryTypeGroups(release: GeneratedReleaseChangelogVersion):
 }
 
 function getHighlightedComponents(release: GeneratedReleaseChangelogVersion) {
-  return release.components.slice(0, highlightedComponentCount);
+  return release.components.filter(hasComponentPage).slice(0, highlightedComponentCount);
 }
 
 function getRemainingEntryCount(release: GeneratedReleaseChangelogVersion) {
@@ -308,13 +333,22 @@ function hasHiddenEntries(release: GeneratedReleaseChangelogVersion) {
 }
 
 function getRemainingComponentCount(release: GeneratedReleaseChangelogVersion) {
-  return Math.max(release.components.length - highlightedComponentCount, 0);
+  return Math.max(release.components.filter(hasComponentPage).length - highlightedComponentCount, 0);
+}
+
+// Five internal primitives (`popper`, `listbox`, `arrow`, `portal`, `slot`) show up
+// in the changelog but have no catalog page — `menuData` is the catalog source of
+// truth. Linking them produced `/components/<name>` shells that the prerender
+// crawler followed and shipped as 404 pages.
+const catalogComponentKeys = new Set(menuData.flatMap(group => group.items).map(item => kebabCase(item)));
+
+function hasComponentPage(component: string) {
+  return catalogComponentKeys.has(component);
 }
 
 function toComponentLink(component: string) {
   return `/components/${component}`;
 }
-
 function normalizeSearchValue(value: string) {
   return value.trim().toLowerCase();
 }
@@ -575,7 +609,7 @@ watch([normalizedComponentQuery, onlyComponentRelated], ([component, related]) =
               </p>
             </div>
 
-            <div v-if="latestRelease?.components.length" class="space-y-3">
+            <div v-if="getHighlightedComponents(latestRelease).length" class="space-y-3">
               <div class="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
                 {{ t('releases_page.sections.impacted.title') }}
               </div>
@@ -816,7 +850,7 @@ watch([normalizedComponentQuery, onlyComponentRelated], ([component, related]) =
                     </span>
                   </div>
 
-                  <div v-if="release.components.length" class="space-y-3">
+                  <div v-if="getHighlightedComponents(release).length" class="space-y-3">
                     <div class="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
                       {{ t('releases_page.sections.impacted.title') }}
                     </div>
@@ -877,7 +911,7 @@ watch([normalizedComponentQuery, onlyComponentRelated], ([component, related]) =
                             class="rounded-xl border border-border/40 bg-background/80 px-3.5 py-3 xl:grid xl:grid-cols-[minmax(0,8rem)_minmax(0,1fr)] xl:gap-4 lt-xl:space-y-2.5"
                           >
                             <SButtonLink
-                              v-if="scopeGroup.component"
+                              v-if="scopeGroup.component && hasComponentPage(scopeGroup.component)"
                               :to="toComponentLink(scopeGroup.component)"
                               size="sm"
                               variant="pure"
@@ -887,7 +921,11 @@ watch([normalizedComponentQuery, onlyComponentRelated], ([component, related]) =
                             </SButtonLink>
 
                             <div v-else class="text-sm font-medium text-foreground">
-                              {{ formatScopeLabel(scopeGroup.scope) }}
+                              {{
+                                scopeGroup.component
+                                  ? formatComponentLabel(scopeGroup.component)
+                                  : formatScopeLabel(scopeGroup.scope)
+                              }}
                             </div>
 
                             <ul class="space-y-2.5 xl:min-w-0">

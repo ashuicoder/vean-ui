@@ -1,10 +1,24 @@
 <script setup lang="ts">
 import { nextTick, onBeforeUnmount, onServerPrefetch, shallowRef, watchEffect } from 'vue';
 import type { Component } from 'vue';
-import { ClientOnly } from 'ubean/client';
+import { useHead } from '@unhead/vue';
+import type { ResolvableLink, ResolvableMeta } from '@unhead/vue';
 import type { AnchorOptionData } from '@vean/aria/anchor';
 import { useDocOutline } from '~/composables/use-doc-outline';
 import { toHeadingId } from '~/shared/heading';
+
+/** The `head` export every generated markdown module carries (from its frontmatter). */
+interface MarkdownHead {
+  title?: string;
+  description?: string;
+  meta?: ResolvableMeta[];
+  link?: ResolvableLink[];
+}
+
+interface MarkdownModule {
+  default: Component;
+  head?: MarkdownHead;
+}
 
 interface Props {
   /**
@@ -31,11 +45,26 @@ const { locale } = useI18n();
 
 const docOutline = useDocOutline();
 
-const mdModules = import.meta.glob<{ default: Component }>('./**/*.md', { base: '/src/content' });
+const mdModules = import.meta.glob<MarkdownModule>('./**/*.md', { base: '/src/content' });
 
 const cp = shallowRef<Component | null>(null);
 const contentRef = shallowRef<HTMLElement | null>(null);
+const markdownHead = shallowRef<MarkdownHead>();
 let loadVersion = 0;
+
+// Registered during setup (where `useHead` is valid) and fed by `loadDoc` below.
+// Markdown routes are not entries in ubean's generated `_pages` table, so the
+// `head` export from frontmatter never reaches the document head on its own.
+// This is what gives every doc page a unique <title> and its
+// <meta name="description"> (Lighthouse `document-title` / `meta-description`).
+useHead(() => ({
+  title: markdownHead.value?.title ?? null,
+  meta: [
+    ...(markdownHead.value?.description ? [{ name: 'description', content: markdownHead.value.description }] : []),
+    ...(markdownHead.value?.meta ?? [])
+  ],
+  link: markdownHead.value?.link ?? []
+}));
 
 async function loadDoc() {
   loadVersion += 1;
@@ -64,12 +93,14 @@ async function loadDoc() {
     }
 
     cp.value = mod.default;
+    markdownHead.value = mod.head as MarkdownHead | undefined;
     isSuccess = true;
 
     await nextTick();
     updateDocOutline();
   } else {
     cp.value = null;
+    markdownHead.value = undefined;
   }
 
   emit('loaded', isSuccess);
@@ -169,23 +200,28 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div ref="contentRef" class="min-w-0">
-    <ClientOnly>
-      <article
-        v-if="cp"
-        :data-doc-path="path"
-        class="relative min-w-0 border border-border/50 dark:border-border rounded-xl overflow-hidden"
-      >
-        <div
-          aria-hidden="true"
-          class="pointer-events-none absolute inset-x-0 top-0 h-36 bg-linear-to-r from-primary/8 via-warning/6 to-info/8 opacity-80"
-        />
-        <div class="relative min-w-0 px-5 py-6 sm:px-8 sm:py-8 xl:px-10 xl:py-10">
-          <div class="min-w-0">
-            <component :is="cp" />
-          </div>
+  <div ref="contentRef" class="min-w-0" data-allow-mismatch="children">
+    <!--
+      The article is rendered by the SSG pass (see `onServerPrefetch` above) so the
+      markdown body ships in the prerendered HTML. On the client the async glob
+      resolves after the first frame, so `cp` is briefly null again; declaring
+      `data-allow-mismatch="children"` absorbs that without dropping the SSR output.
+      Wrapping this in `<ClientOnly>` instead would empty every prerendered page.
+    -->
+    <article
+      v-if="cp"
+      :data-doc-path="path"
+      class="relative min-w-0 border border-border/50 dark:border-border rounded-xl overflow-hidden"
+    >
+      <div
+        aria-hidden="true"
+        class="pointer-events-none absolute inset-x-0 top-0 h-36 bg-linear-to-r from-primary/8 via-warning/6 to-info/8 opacity-80"
+      />
+      <div class="relative min-w-0 px-5 py-6 sm:px-8 sm:py-8 xl:px-10 xl:py-10">
+        <div class="min-w-0">
+          <component :is="cp" />
         </div>
-      </article>
-    </ClientOnly>
+      </div>
+    </article>
   </div>
 </template>

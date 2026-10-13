@@ -157,16 +157,16 @@ function buildApiSectionsForLocale(
  * 返回后按 id 前缀（`/zh`）由渲染层过滤当前 locale。
  */
 export async function loadContentSearchSections(): Promise<SearchSection[]> {
-  const [remotePayload, apiEntries, localeEntries] = await Promise.all([
+  const [remotePayload, apiEntries, localeEntries, releaseSections] = await Promise.all([
     fetch('/__search.json')
       .then(res => (res.ok ? res.json() : {}))
       .catch(() => ({})),
     loadGlobEntries(apiModules),
-    loadGlobEntries(zhLocaleModules)
+    loadGlobEntries(zhLocaleModules),
+    buildReleaseSearchSections()
   ]);
 
   const contentSections = Object.values(remotePayload).flat() as SearchSection[];
-  const releaseSections = buildReleaseSearchSections();
   const zhLocale = localeEntries[0]?.data ?? null;
 
   // 按 `/zh` 前缀切分（与渲染层的 isCurrentLocaleHit 同一判据），
