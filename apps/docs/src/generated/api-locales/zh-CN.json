@@ -10823,6 +10823,7 @@
             "size": "组件的视觉大小。",
             "split": "如果属实，卡片会在标题、内容和页脚之间添加分隔",
             "title": "由组件渲染的标题文本。",
+            "titleas": "",
             "titleprops": "属性转发到标题元素。",
             "titlerootprops": "属性会被转发到标题根元素。",
             "ui": "每个槽位对该组件进行覆盖。",
@@ -13693,7 +13694,7 @@
         "spinnerprops": {
           "members": {
             "ariahidden": "图标是否被辅助技术隐藏。\n\n装饰性图标默认为“true”。设置为“false”或提供“ariaLabel”/“ariaLabelledby”以暴露图标。",
-            "arialabel": "图标的可访问标签。提供时，'aria-hidden' 未被设置，因此标签会被宣布。",
+            "arialabel": "",
             "arialabelledby": "标识图标的元素ID。提供时，'aria-hidden' 未被设置，因此标签会被宣布。",
             "class": "额外的类名应用到根元素上。",
             "color": "组件的主题颜色。",

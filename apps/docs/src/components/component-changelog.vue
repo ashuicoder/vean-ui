@@ -52,7 +52,9 @@ const typeClassMap: Record<GeneratedChangelogEntryType, string> = {
   refactor: 'border-warning/25 bg-warning/10 text-warning',
   docs: 'border-success/25 bg-success/10 text-success',
   chore: 'border-muted/40 bg-muted/60 text-foreground/80',
-  style: 'border-accent/25 bg-accent/10 text-accent'
+  // `accent` 是**表面**角色（亮色 zinc-100 / 暗色 zinc-800），不是文字色：
+  // `text-accent` 在 `bg-accent/10` 上只有 1.06:1，几乎不可见。用它的配对前景色。
+  style: 'border-accent/60 bg-accent/40 text-accent-foreground'
 };
 
 function resolveTypeLabel(type: GeneratedChangelogEntryType) {

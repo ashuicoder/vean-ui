@@ -12,6 +12,17 @@ export type SpinnerIcon = `svg-spinners:${string}`;
  */
 export interface SpinnerProps extends Omit<IconProps, 'icon' | 'color'> {
   /**
+   * Accessible name of the spinner.
+   *
+   * Inherited from `IconProps` but given a default here: `SIcon` hides itself from
+   * assistive tech (`ariaHidden: true`) and that default is wrong for a spinner, which
+   * is the only thing on screen while loading. `role="img"` without a name is an
+   * `svg-img-alt` failure.
+   *
+   * @default 'Loading'
+   */
+  ariaLabel?: string;
+  /**
    * Additional class names applied to the root element.
    */
   class?: ClassValue;

@@ -65,9 +65,14 @@ const accepted = ref<boolean | 'indeterminate'>(true);
     <p class="text-xs text-muted-foreground">SInput · SSelect · STextarea · SInputNumber</p>
     <div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
       <SInput v-model="name" placeholder="Project name" />
-      <SSelect v-model="plan" :items="fruits" placeholder="Select a fruit" />
+      <SSelect
+        v-model="plan"
+        :items="fruits"
+        placeholder="Select a fruit"
+        :trigger-props="{ 'aria-label': 'Fruit plan' }"
+      />
       <STextarea v-model="note" placeholder="Description" />
-      <SInputNumber v-model="quantity" placeholder="Quantity" />
+      <SInputNumber v-model="quantity" placeholder="Quantity" :control-props="{ 'aria-label': 'Quantity' }" />
     </div>
   </div>
 
@@ -75,7 +80,7 @@ const accepted = ref<boolean | 'indeterminate'>(true);
     <p class="text-xs text-muted-foreground">SCheckbox · SRadioGroup · SSwitch · SRating · SSlider</p>
     <div class="flex flex-wrap items-center gap-x-6 gap-y-3">
       <SCheckbox v-model="accepted" label="Accept terms" />
-      <SSwitch v-model="enabled" />
+      <SSwitch v-model="enabled" :control-props="{ 'aria-label': 'Enabled' }" />
       <SRating v-model="rating" />
       <SSlider v-model="volume" class="w-40" :thumb-props="{ 'aria-label': 'Volume' }" />
       <SRadioGroup v-model="plan" :items="plans" />

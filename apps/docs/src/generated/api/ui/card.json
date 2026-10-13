@@ -6,7 +6,7 @@
         "kind": "props",
         "name": "CardProps",
         "type": "Interface CardProps",
-        "resolvedType": "{ class?: string | false | Record<string, any> | ClassValue[] | null; size?: ThemeSize; ui?: Partial<CardUi>; scrollable?: boolean; split?: boolean; title?: string; description?: string; headerProps?: CardHeaderProps; contentProps?: CardContentProps; footerProps?: CardFooterProps; titleRootProps?: CardTitleRootProps; titleProps?: CardTitleProps; descriptionProps?: CardDescriptionProps; defaultOpen?: boolean; open?: boolean; disabled?: boolean; unmountOnHide?: boolean; asChild?: boolean; as?: AsTag | Component }",
+        "resolvedType": "{ class?: string | false | Record<string, any> | ClassValue[] | null; size?: ThemeSize; ui?: Partial<CardUi>; scrollable?: boolean; split?: boolean; title?: string; titleAs?: AsTag; description?: string; headerProps?: CardHeaderProps; contentProps?: CardContentProps; footerProps?: CardFooterProps; titleRootProps?: CardTitleRootProps; titleProps?: CardTitleProps; descriptionProps?: CardDescriptionProps; defaultOpen?: boolean; open?: boolean; disabled?: boolean; unmountOnHide?: boolean; asChild?: boolean; as?: AsTag | Component }",
         "description": "Properties for the Card component.",
         "descriptionKey": "api.generated.packages_ui_src_components_card_types.cardprops.props",
         "sourcePath": "packages/ui/src/components/card/types.ts",
@@ -119,6 +119,31 @@
             "inheritedFrom": null,
             "sourcePath": "packages/ui/src/components/card/types.ts",
             "referencedTypes": []
+          },
+          {
+            "name": "titleAs",
+            "type": "AsTag",
+            "required": false,
+            "description": "Heading element the title renders as.\n\nA card is embedded at many depths, so the heading level cannot be a\nconstant: the default `h3` lands right under the page `<h1>` on surfaces\nwhose card holds the first heading, which is an invalid heading order.\nPass the level that matches the surrounding outline.",
+            "descriptionKey": "api.generated.packages_ui_src_components_card_types.cardprops.members.titleas",
+            "default": "'h3'",
+            "inheritedFrom": null,
+            "sourcePath": "packages/ui/src/components/card/types.ts",
+            "referencedTypes": [
+              {
+                "name": "AsTag",
+                "kind": "typeAlias",
+                "type": "'a' | 'button' | 'div' | 'form' | 'h2' | 'h3' | 'img' | 'input' | 'label' | 'li' | 'nav' | 'ol' | 'p' | 'span' | 'svg' | 'ul' | 'template' | ({} & string)",
+                "resolvedType": "'a' | 'button' | 'div' | 'form' | 'h2' | 'h3' | 'img' | 'input' | 'label' | 'li' | 'nav' | 'ol' | 'p' | 'span' | 'svg' | 'ul' | 'template' | ({} & string)",
+                "description": "Type information for AsTag.",
+                "descriptionKey": "api.generated.packages_aria_src_components_primitive_types.astag",
+                "sourcePath": "packages/aria/src/components/primitive/types.ts",
+                "typeParameters": [],
+                "external": false,
+                "members": [],
+                "callables": []
+              }
+            ]
           },
           {
             "name": "description",

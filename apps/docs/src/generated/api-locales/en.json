@@ -10823,6 +10823,7 @@
             "size": "Visual size of the component.",
             "split": "If true, the card will add divider between title and content and footer",
             "title": "Title text rendered by the component.",
+            "titleas": "Heading element the title renders as.\n\nA card is embedded at many depths, so the heading level cannot be a\nconstant: the default `h3` lands right under the page `<h1>` on surfaces\nwhose card holds the first heading, which is an invalid heading order.\nPass the level that matches the surrounding outline.",
             "titleprops": "Properties forwarded to the title element.",
             "titlerootprops": "Properties forwarded to the title root element.",
             "ui": "Per-slot class overrides for the component.",
@@ -13693,7 +13694,7 @@
         "spinnerprops": {
           "members": {
             "ariahidden": "Whether the icon is hidden from assistive technology.\n\nDefaults to `true` for decorative icons. Set to `false` or provide `ariaLabel` / `ariaLabelledby` to expose the icon.",
-            "arialabel": "Accessible label for the icon. When provided, `aria-hidden` is not set so the label is announced.",
+            "arialabel": "Accessible name of the spinner.\n\nInherited from `IconProps` but given a default here: `SIcon` hides itself from\nassistive tech (`ariaHidden: true`) and that default is wrong for a spinner, which\nis the only thing on screen while loading. `role=\"img\"` without a name is an\n`svg-img-alt` failure.",
             "arialabelledby": "ID of an element that labels the icon. When provided, `aria-hidden` is not set so the label is announced.",
             "class": "Additional class names applied to the root element.",
             "color": "Theme color of the component.",

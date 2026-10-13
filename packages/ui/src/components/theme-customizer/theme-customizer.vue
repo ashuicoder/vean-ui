@@ -384,12 +384,22 @@ watch(
 
           <!-- size -->
           <SectionItem v-if="sectionVisible('size')" :title="resolveLabel('size')">
-            <SSelect v-model="sizeValue" :items="sizeOptions" class="w-50" />
+            <SSelect
+              v-model="sizeValue"
+              :items="sizeOptions"
+              :trigger-props="{ 'aria-label': resolveLabel('size') }"
+              class="w-50"
+            />
           </SectionItem>
 
           <!-- spacing -->
           <SectionItem v-if="sectionVisible('spacing')" :title="resolveLabel('spacing')">
-            <SSelect v-model="spacingValue" :items="spacingOptions" class="w-50" />
+            <SSelect
+              v-model="spacingValue"
+              :items="spacingOptions"
+              :trigger-props="{ 'aria-label': resolveLabel('spacing') }"
+              class="w-50"
+            />
           </SectionItem>
 
           <!-- font -->
@@ -398,6 +408,7 @@ watch(
               <SSelect
                 :model-value="item.value"
                 :items="item.options"
+                :trigger-props="{ 'aria-label': resolveLabel(item.labelKey) }"
                 class="w-50"
                 @update:model-value="selectFontArm(item.table, item.arm, $event)"
               />
@@ -412,6 +423,7 @@ watch(
                 :min="0"
                 :max="themeRadiusKeys.length - 1"
                 :step="1"
+                :thumb-props="{ 'aria-label': resolveLabel('radius') }"
                 class="w-full"
                 @update:model-value="setRadiusValue"
               />
@@ -427,6 +439,7 @@ watch(
                 :min="0"
                 :max="100"
                 :step="5"
+                :thumb-props="{ 'aria-label': resolveLabel('borderOpacity') }"
                 class="w-full"
                 @update:model-value="onBorderOpacityChange"
               />

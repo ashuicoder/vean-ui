@@ -10,7 +10,8 @@ defineOptions({
 });
 
 const props = withDefaults(defineProps<SpinnerProps>(), {
-  icon: 'svg-spinners:270-ring'
+  icon: 'svg-spinners:270-ring',
+  ariaLabel: 'Loading'
 });
 
 const forwardedProps = useOmitProps(props, ['class', 'color', 'size']);

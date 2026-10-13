@@ -55,6 +55,7 @@ Properties for the Card component.
 - `scrollable`: If true, the content will be scrollable when the root has height and content is taller than the root (type `boolean`; default `false`; optional)
 - `split`: If true, the card will add divider between title and content and footer (type `boolean`; default `false`; optional)
 - `title`: Title text rendered by the component. (type `string`; optional)
+- `titleAs`: Heading element the title renders as. A card is embedded at many depths, so the heading level cannot be a constant: the default `h3` lands right under the page `<h1>` on surfaces whose card holds the first heading, which is an invalid heading order. Pass the level that matches the surrounding outline. (type `AsTag`; default `'h3'`; optional)
 - `description`: Description text rendered by the component. (type `string`; optional)
 - `headerProps`: Properties forwarded to the header element. (type `CardHeaderProps`; optional)
 - `contentProps`: Properties forwarded to the content element. (type `CardContentProps`; optional)

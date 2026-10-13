@@ -298,7 +298,9 @@ const featuredGroups = computed(() =>
             </div>
           </div>
 
-          <SCard :title="t('components.home.stats_title')" class="docs-card overflow-hidden">
+          <!-- `Library overview` is the first heading after the hero <h1>, so this card's
+               title has to be the <h2>, not SCard's default <h3>. -->
+          <SCard :title="t('components.home.stats_title')" title-as="h2" class="docs-card overflow-hidden">
             <template #default>
               <div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
                 <div v-for="stat in heroStats" :key="stat.label" class="docs-subtle-card px-4 py-3">
@@ -351,7 +353,7 @@ const featuredGroups = computed(() =>
               <SButtonLink
                 :to="mode.to"
                 variant="solid"
-                :color="mode.key === 'npm' ? 'primary' : 'warning'"
+                :color="mode.key === 'npm' ? 'primary' : 'carbon'"
                 shape="rounded"
                 class="group mt-auto w-60"
               >

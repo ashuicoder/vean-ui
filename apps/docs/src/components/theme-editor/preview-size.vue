@@ -75,7 +75,15 @@ const textLadder = [
       <SInput v-for="size in sizes" :key="`input-${size}`" :size="size" :placeholder="size" class="flex-1 min-w-0" />
     </div>
     <div class="flex items-center gap-3">
-      <SSelect v-for="size in sizes" :key="`select-${size}`" :size="size" :items="options" class="flex-1 min-w-0" />
+      <SSelect
+        v-for="size in sizes"
+        :key="`select-${size}`"
+        :size="size"
+        :items="options"
+        placeholder="xs"
+        :trigger-props="{ 'aria-label': `Select ${size}` }"
+        class="flex-1 min-w-0"
+      />
     </div>
     <div class="flex items-center gap-3">
       <SInputNumber
@@ -83,6 +91,7 @@ const textLadder = [
         :key="`number-${size}`"
         :size="size"
         :placeholder="size"
+        :control-props="{ 'aria-label': `Number ${size}` }"
         class="flex-1 min-w-0"
       />
     </div>
@@ -103,7 +112,13 @@ const textLadder = [
       <SCheckbox v-for="size in sizes" :key="`checkbox-${size}`" :size="size" :default-value="true" :label="size" />
     </div>
     <div class="flex flex-wrap items-center gap-3">
-      <SSwitch v-for="size in sizes" :key="`switch-${size}`" :size="size" :default-value="true" />
+      <SSwitch
+        v-for="size in sizes"
+        :key="`switch-${size}`"
+        :size="size"
+        :default-value="true"
+        :control-props="{ 'aria-label': `Switch ${size}` }"
+      />
     </div>
     <div class="flex flex-wrap items-center gap-3">
       <SSlider
@@ -111,6 +126,7 @@ const textLadder = [
         :key="`slider-${size}`"
         :size="size"
         :default-value="[50]"
+        :thumb-props="{ 'aria-label': `Slider ${size}` }"
         class="flex-1 min-w-0"
       />
     </div>

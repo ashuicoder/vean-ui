@@ -38,12 +38,12 @@ Structured API summary generated from build-time component metadata.
 
 Properties for the Spinner component.
 
+- `ariaLabel`: Accessible name of the spinner. Inherited from `IconProps` but given a default here: `SIcon` hides itself from assistive tech (`ariaHidden: true`) and that default is wrong for a spinner, which is the only thing on screen while loading. `role="img"` without a name is an `svg-img-alt` failure. (type `string`; default `'Loading'`; optional)
 - `class`: Additional class names applied to the root element. (type `string | false | Record<string, any> | ClassValue[] | null`; optional)
 - `color`: Theme color of the component. (type `ThemeColor`; optional)
 - `icon`: The spinner icon name from the Iconify svg-spinners collection. (type `svg-spinners:${string}`; default `'svg-spinners:270-ring'`; optional)
 - `size`: Visual size of the component. (type `ThemeSize`; optional)
 - `ariaHidden`: Whether the icon is hidden from assistive technology. Defaults to `true` for decorative icons. Set to `false` or provide `ariaLabel` / `ariaLabelledby` to expose the icon. (type `boolean`; optional)
-- `ariaLabel`: Accessible label for the icon. When provided, `aria-hidden` is not set so the label is announced. (type `string`; optional)
 - `ariaLabelledby`: ID of an element that labels the icon. When provided, `aria-hidden` is not set so the label is announced. (type `string`; optional)
 
 ## Notes

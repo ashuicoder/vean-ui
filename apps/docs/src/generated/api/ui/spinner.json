@@ -6,12 +6,23 @@
         "kind": "props",
         "name": "SpinnerProps",
         "type": "Interface SpinnerProps",
-        "resolvedType": "{ class?: string | false | Record<string, any> | ClassValue[] | null; color?: ThemeColor; icon?: `svg-spinners:${string}`; size?: ThemeSize; ariaHidden?: boolean; ariaLabel?: string; ariaLabelledby?: string }",
+        "resolvedType": "{ ariaLabel?: string; class?: string | false | Record<string, any> | ClassValue[] | null; color?: ThemeColor; icon?: `svg-spinners:${string}`; size?: ThemeSize; ariaHidden?: boolean; ariaLabelledby?: string }",
         "description": "Properties for the Spinner component.",
         "descriptionKey": "api.generated.packages_ui_src_components_spinner_types.spinnerprops.props",
         "sourcePath": "packages/ui/src/components/spinner/types.ts",
         "typeParameters": [],
         "members": [
+          {
+            "name": "ariaLabel",
+            "type": "string",
+            "required": false,
+            "description": "Accessible name of the spinner.\n\nInherited from `IconProps` but given a default here: `SIcon` hides itself from\nassistive tech (`ariaHidden: true`) and that default is wrong for a spinner, which\nis the only thing on screen while loading. `role=\"img\"` without a name is an\n`svg-img-alt` failure.",
+            "descriptionKey": "api.generated.packages_ui_src_components_spinner_types.spinnerprops.members.arialabel",
+            "default": "'Loading'",
+            "inheritedFrom": null,
+            "sourcePath": "packages/ui/src/components/spinner/types.ts",
+            "referencedTypes": []
+          },
           {
             "name": "class",
             "type": "string | false | Record<string, any> | ClassValue[] | null",
@@ -106,17 +117,6 @@
             "descriptionKey": "api.generated.packages_ui_src_components_spinner_types.spinnerprops.members.ariahidden",
             "default": null,
             "inheritedFrom": "ariaHidden",
-            "sourcePath": "packages/ui/src/components/icon/types.ts",
-            "referencedTypes": []
-          },
-          {
-            "name": "ariaLabel",
-            "type": "string",
-            "required": false,
-            "description": "Accessible label for the icon. When provided, `aria-hidden` is not set so the label is announced.",
-            "descriptionKey": "api.generated.packages_ui_src_components_spinner_types.spinnerprops.members.arialabel",
-            "default": null,
-            "inheritedFrom": "ariaLabel",
             "sourcePath": "packages/ui/src/components/icon/types.ts",
             "referencedTypes": []
           },

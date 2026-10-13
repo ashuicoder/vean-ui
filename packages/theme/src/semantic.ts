@@ -284,11 +284,18 @@ export const CORE_RULES: Record<CoreToken, TokenRule> = {
   // `{p}.900` 叠在 `card` 上只有 1.55:1，两者都过不了 UI 边界需要的 3:1
   ring: { kind: 'level', source: 'primary', light: 500, dark: 500 },
   // —— brand ——
-  // 500 是 shadcn 谱系的习惯档位（旧引擎同为 500）。
+  // 亮色 600、暗色 500 —— 两模式独立定档，与 `secondary`（亮 200 / 暗 800）同理由。
+  //
+  // 亮色不能取 shadcn 习惯的 500：`indigo.500` 在 `background`（`{b}.50`）上只有 4.12:1、
+  // 在纯白 `card` 上 4.47:1，正文级文字（`text-primary` 链接、文档里的行内 `code`）
+  // 全部读不到 WCAG AA 的 4.5；600 是 6.02:1，同一条规则也把实心填充救回来
+  // （`primary-foreground` 是 `{b}.50`，压在 500 上只有 4.28:1，压在 600 上是 6.02:1）。
+  // 暗色保持 500：该模式下 primary 是**填充**而非正文色（正文走 `{b}.50`），
+  // 压在 `card`（`{b}.900`）上的填充用 500 已经足够，抬到 600 反而降对比。
   primary: {
     kind: 'level',
     source: 'primary',
-    light: 500,
+    light: 600,
     dark: 500,
     neutral: { light: 800, dark: 200 }
   },

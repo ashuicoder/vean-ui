@@ -22,7 +22,8 @@ withDefaults(defineProps<Props>(), {
   <section class="overflow-hidden border border-border rounded-xl bg-card">
     <header class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-b border-border px-4 py-3">
       <div class="min-w-0">
-        <h3 class="text-sm font-medium text-foreground">{{ title }}</h3>
+        <!-- `section-card` sits directly under the page <h1>, so its title is the <h2>. -->
+        <h2 class="text-sm font-medium text-foreground">{{ title }}</h2>
         <p v-if="description" class="mt-0.5 text-xs text-muted-foreground">{{ description }}</p>
       </div>
 

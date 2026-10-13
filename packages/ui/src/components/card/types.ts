@@ -5,6 +5,7 @@ import type {
   CollapsibleRootProps,
   CollapsibleTriggerProps
 } from '@vean/aria/collapsible';
+import type { AsTag } from '@vean/aria/primitive';
 import type { BaseProps, ClassValue, UiClass } from '@vean/aria/types';
 import type { ThemeSize } from '@/theme';
 
@@ -96,6 +97,17 @@ export interface CardProps extends CardRootProps {
    * Title text rendered by the component.
    */
   title?: string;
+  /**
+   * Heading element the title renders as.
+   *
+   * A card is embedded at many depths, so the heading level cannot be a
+   * constant: the default `h3` lands right under the page `<h1>` on surfaces
+   * whose card holds the first heading, which is an invalid heading order.
+   * Pass the level that matches the surrounding outline.
+   *
+   * @default 'h3'
+   */
+  titleAs?: AsTag;
   /**
    * Description text rendered by the component.
    */

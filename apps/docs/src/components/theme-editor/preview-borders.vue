@@ -59,7 +59,7 @@ const checked = ref<boolean | 'indeterminate'>('indeterminate');
       <p class="text-xs text-muted-foreground">Control outlines — SInput · SSelect · STextarea</p>
       <div class="flex flex-col gap-3">
         <SInput v-model="name" placeholder="Name" />
-        <SSelect v-model="selected" :items="options" />
+        <SSelect v-model="selected" :items="options" :trigger-props="{ 'aria-label': 'Control outline' }" />
         <STextarea v-model="note" placeholder="Notes" />
       </div>
     </div>
@@ -69,7 +69,7 @@ const checked = ref<boolean | 'indeterminate'>('indeterminate');
       <div class="flex flex-col gap-4">
         <SCheckbox v-model="checked" label="Indeterminate" />
         <SRadioGroup v-model="radio" :items="radios" />
-        <SSwitch v-model="enabled" />
+        <SSwitch v-model="enabled" :control-props="{ 'aria-label': 'Enabled' }" />
         <div class="flex flex-wrap gap-2">
           <STag variant="outline">outline</STag>
           <STag variant="outline" color="primary">primary</STag>

@@ -12,8 +12,7 @@ const elevationTiles = [
 
 const textStack = [
   { token: '--foreground', class: 'text-foreground' },
-  { token: '--muted-foreground', class: 'text-muted-foreground' },
-  { token: 'muted-foreground/70', class: 'text-muted-foreground/70' }
+  { token: '--muted-foreground', class: 'text-muted-foreground' }
 ];
 
 /**
@@ -78,6 +77,9 @@ const shadows = [
       <div class="space-y-1 rounded-lg border border-border bg-background p-3">
         <p v-for="item in textStack" :key="item.token" :class="item.class" class="text-sm">
           {{ item.token }} — the quick brown fox
+        </p>
+        <p class="text-xs text-muted-foreground">
+          次级文字再压一层不透明度就掉到 3.55:1，低于 AA 的 4.5:1 —— 这一档已经是下限。
         </p>
       </div>
     </div>

@@ -11,7 +11,7 @@ const palette = defineModel<FeedbackSchemeKey>({
   required: true
 });
 
-const { resolveOption } = useThemeCustomizerLocale();
+const { resolveLabel, resolveOption } = useThemeCustomizerLocale();
 
 const schemes = FEEDBACK_SCHEMES as Record<string, FeedbackScheme>;
 
@@ -47,7 +47,7 @@ const items = computed<SelectOptionData<FeedbackSchemeKey>[]>(() =>
 </script>
 
 <template>
-  <SSelect v-model="palette" :items="items">
+  <SSelect v-model="palette" :items="items" :trigger-props="{ 'aria-label': resolveLabel('feedback') }">
     <template #trigger-leading>
       <ColorDecorator :colors="currentColors" :levels="decorateLevels" />
     </template>

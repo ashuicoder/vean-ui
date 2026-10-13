@@ -76,7 +76,7 @@ const page = ref(2);
       SSwitch · SCheckbox · SSlider · SProgress · SRating · SPagination · SAvatar
     </p>
     <div class="flex flex-wrap items-center gap-x-5 gap-y-3">
-      <SSwitch :default-value="true" />
+      <SSwitch :default-value="true" :control-props="{ 'aria-label': 'Checked' }" />
       <SCheckbox :default-value="true" label="Checked" />
       <SSlider v-model="sliderValue" class="w-40" :thumb-props="{ 'aria-label': 'Progress' }" />
       <SProgress :model-value="64" class="w-40" />

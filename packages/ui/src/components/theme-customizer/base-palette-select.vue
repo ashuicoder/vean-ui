@@ -5,6 +5,7 @@ import type { PaletteLevel, PaletteKey } from '@vean/theme';
 import SSelect from '../select/select.vue';
 import type { SelectOptionData } from '../select/types';
 import ColorDecorator from './color-decorator.vue';
+import { useThemeCustomizerLocale } from './use-locale';
 
 interface Props {
   decorateLevels?: PaletteLevel[];
@@ -15,6 +16,8 @@ defineProps<Props>();
 const palette = defineModel<PaletteKey>({
   required: true
 });
+
+const { resolveLabel } = useThemeCustomizerLocale();
 
 /** the palette swatch colors, resolved from the engine's own palette data. */
 const swatchOf = (key: PaletteKey): Record<PaletteLevel, string> =>
@@ -34,7 +37,7 @@ const items = computed<SelectOptionData<PaletteKey>[]>(() =>
 </script>
 
 <template>
-  <SSelect v-model="palette" :items="items">
+  <SSelect v-model="palette" :items="items" :trigger-props="{ 'aria-label': resolveLabel('base') }">
     <template #trigger-leading>
       <ColorDecorator :colors="currentColors" :levels="decorateLevels" />
     </template>

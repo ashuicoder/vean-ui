@@ -21,12 +21,6 @@ const pairs = [
   { token: 'warning', class: 'bg-warning text-warning-foreground' },
   { token: 'info', class: 'bg-info text-info-foreground' }
 ];
-
-const textRoles = [
-  { token: 'text-foreground', class: 'text-foreground' },
-  { token: 'text-muted-foreground', class: 'text-muted-foreground' },
-  { token: 'text-muted-foreground/70', class: 'text-muted-foreground/70' }
-];
 </script>
 
 <template>
@@ -50,21 +44,9 @@ const textRoles = [
         :class="pair.class"
         class="flex h-16 flex-col justify-center gap-1 rounded-md px-3"
       >
-        <span class="font-mono text-2xs opacity-80">--{{ pair.token }}</span>
+        <span class="font-mono text-2xs">--{{ pair.token }}</span>
         <span class="text-sm font-medium">Readable text</span>
       </div>
-    </div>
-  </div>
-
-  <div class="space-y-2">
-    <p class="text-xs text-muted-foreground">Text roles on the page surface</p>
-    <div class="space-y-1 rounded-lg border border-border bg-background p-3">
-      <p v-for="role in textRoles" :key="role.token" :class="role.class" class="text-sm">
-        {{ role.token }} — body copy at 14px
-      </p>
-      <p class="text-xs text-muted-foreground">
-        In dark mode the guard re-picks a fill level or flips the foreground; the AAA policy widens the thresholds.
-      </p>
     </div>
   </div>
 </template>

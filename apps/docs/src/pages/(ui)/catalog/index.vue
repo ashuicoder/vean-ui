@@ -219,7 +219,8 @@ onBeforeUnmount(() => {
           </div>
         </div>
 
-        <SCard :title="t('components.catalog.stats_title')" split class="docs-card overflow-hidden">
+        <!-- First heading after the page <h1>, so it must be the <h2>. -->
+        <SCard :title="t('components.catalog.stats_title')" title-as="h2" split class="docs-card overflow-hidden">
           <template #default>
             <div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
               <div v-for="stat in summaryStats" :key="stat.label" class="docs-subtle-card px-4 py-3">

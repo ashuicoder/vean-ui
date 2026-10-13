@@ -12,7 +12,8 @@ defineOptions({
 const props = withDefaults(defineProps<CardProps>(), {
   defaultOpen: true,
   open: undefined,
-  scrollable: true
+  scrollable: true,
+  titleAs: 'h3'
 });
 
 const emit = defineEmits<CardEmits>();
@@ -26,6 +27,7 @@ const forwardedProps = useOmitProps(props, [
   'scrollable',
   'split',
   'title',
+  'titleAs',
   'description',
   'headerProps',
   'contentProps',
@@ -72,9 +74,9 @@ const showFooter = computed(() => Boolean(slots.footer));
       <slot name="header">
         <div v-bind="titleRootProps" data-vean-card-title-root :class="ui.titleRoot">
           <slot name="title-leading" />
-          <h3 v-bind="titleProps" data-vean-card-title :class="ui.title">
+          <component :is="titleAs" v-bind="titleProps" data-vean-card-title :class="ui.title">
             <slot name="title">{{ title }}</slot>
-          </h3>
+          </component>
           <slot name="title-trailing" />
         </div>
         <slot name="extra" />

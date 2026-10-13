@@ -572,10 +572,15 @@ watch([normalizedComponentQuery, onlyComponentRelated], ([component, related]) =
                   </p>
                 </div>
 
+                <!-- The label sits next to the control rather than inside it, so the switch
+                     itself has no accessible name (Lighthouse `button-name`). The name has
+                     to go through `controlProps` — `aria-label` on the root is not forwarded
+                     to the control button (same as 01-basic.vue:135). -->
                 <SSwitch
                   v-model="onlyComponentRelated"
                   color="primary"
                   size="lg"
+                  :control-props="{ 'aria-label': t('releases_page.filter.related_only') }"
                   :ui="{ control: 'shrink-0', thumb: 'shrink-0' }"
                 />
               </div>
@@ -663,7 +668,7 @@ watch([normalizedComponentQuery, onlyComponentRelated], ([component, related]) =
           </div>
         </div>
 
-        <SCard :title="t('releases_page.latest.title')" split class="docs-card overflow-hidden">
+        <SCard :title="t('releases_page.latest.title')" title-as="h2" split class="docs-card overflow-hidden">
           <template #default>
             <div class="space-y-4">
               <div class="docs-subtle-card px-4 py-3">
