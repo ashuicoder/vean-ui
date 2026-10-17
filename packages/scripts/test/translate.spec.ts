@@ -3,6 +3,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import type { JsonObject } from '../src/shared/json';
+import type { TranslationProviderConfig } from '../src/shared/translate';
 import {
   createCharacterBudgetGate,
   getPendingEntries,
@@ -58,6 +59,20 @@ function createMockResponse(
 function mockFetch(impl: (input: RequestInfo | URL, init?: RequestInit) => unknown): void {
   vi.stubGlobal('fetch', vi.fn(impl));
 }
+
+/**
+ * Provider used by the locale-file tests.
+ *
+ * They resolve the provider from the ambient environment, so a developer shell
+ * that exports real translation credentials (kpw, direnv, a keychain-sourced
+ * dotfile) would otherwise pick a different provider — and a different wire
+ * format — than CI does. Pinning it keeps the tests hermetic.
+ */
+const deeplProvider: TranslationProviderConfig = {
+  provider: 'deepl',
+  apiKey: 'test-key',
+  endpoint: 'https://api-free.deepl.com/v2'
+};
 
 function jsonBody(init: RequestInit | undefined): JsonObject {
   return JSON.parse(String(init?.body)) as JsonObject;
@@ -138,9 +153,9 @@ describe('shared/translate', () => {
     });
 
     it('falls back to DeepL when only DEEPL_API_KEY is set', () => {
-      vi.stubEnv('DEEPL_API_KEY', 'deepl-key');
-
-      expect(resolveTranslationProvider()).toEqual({
+      // Pass an explicit env map: process.env may carry a real
+      // AZURE_TRANSLATE_KEY on a developer machine, while CI has neither.
+      expect(resolveTranslationProvider({ env: { DEEPL_API_KEY: 'deepl-key' } })).toEqual({
         provider: 'deepl',
         apiKey: 'deepl-key',
         endpoint: 'https://api-free.deepl.com/v2'
@@ -603,11 +618,9 @@ describe('shared/translate', () => {
 
   describe('translateJsonLocaleFile', () => {
     it('translates pending entries and writes them into the target file', async () => {
-      // The network layer is mocked below; stub a dummy key so the test does
-      // not depend on a real DEEPL_API_KEY being present in the environment
-      // (it must stay hermetic on CI, where no such secret exists).
-      vi.stubEnv('DEEPL_API_KEY', 'test-key');
-
+      // The network layer is mocked below, so the provider is pinned rather
+      // than resolved: an ambient AZURE_TRANSLATE_KEY would otherwise switch
+      // the wire format and break the assertions.
       const sourcePath = await createTempFile('en.json', {
         root: { title: 'Hello', desc: 'World {x}' }
       });
@@ -635,7 +648,8 @@ describe('shared/translate', () => {
         limit: null,
         dryRun: false,
         createContext: () => '',
-        protectPlaceholders: true
+        protectPlaceholders: true,
+        provider: deeplProvider
       });
 
       const written = JSON.parse(await readFile(targetPath, 'utf8')) as JsonObject;
