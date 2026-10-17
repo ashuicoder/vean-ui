@@ -9,7 +9,7 @@ catalog:
   typescript: npm:typescript-native-bridge@latest
 overrides:
   vite: 'catalog:'
-  vitest: '5.0.0'
+  vitest: '5.0.5'
   typescript: 'catalog:'
 shamefullyHoist: true
 ignoreWorkspaceRootCheck: true

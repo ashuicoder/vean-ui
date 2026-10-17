@@ -24,9 +24,9 @@
     "@shikijs/langs": "^4.5.0",
     "@shikijs/themes": "^4.5.0",
     "@soybeanjs/colord": "^0.8.1",
-    "@tanstack/charts": "^1.0.0",
-    "@ubean/content": "^0.6.0",
-    "@unhead/vue": "^3.4.2",
+    "@tanstack/charts": "^1.1.0",
+    "@ubean/content": "^0.6.4",
+    "@unhead/vue": "^3.4.3",
     "@vean/aria": "workspace:^",
     "@vean/theme": "workspace:^",
     "@vean/ui": "workspace:^",
@@ -34,12 +34,12 @@
     "d3-shape": "^3.2.0",
     "minisearch": "^7.2.0",
     "shiki": "^4.5.0",
-    "ubean": "^0.6.0",
+    "ubean": "^0.6.4",
     "valibot": "^1.5.0",
-    "vue": "^3.5.43",
-    "vue-i18n": "^11.4.13",
+    "vue": "^3.5.44",
+    "vue-i18n": "^11.4.14",
     "vue-router": "^5.4.0",
-    "zod": "^4.6.5"
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@soybeanjs/unocss-preset": "^0.2.0",
@@ -47,7 +47,7 @@
     "@vean/unocss": "workspace:^",
     "@vitejs/plugin-vue-jsx": "^5.1.6",
     "typescript": "catalog:",
-    "unocss": "^66.10.5",
+    "unocss": "^66.11.0",
     "vite-plus": "catalog:"
   }
 }

@@ -39,13 +39,13 @@
     "typecheck": "tsc --noEmit --skipLibCheck"
   },
   "dependencies": {
-    "@unocss/preset-mini": "^66.10.5",
+    "@unocss/preset-mini": "^66.11.0",
     "@vean/theme": "workspace:^",
-    "unocss": "^66.10.5"
+    "unocss": "^66.11.0"
   },
   "devDependencies": {
     "typescript": "catalog:",
     "vite-plus": "catalog:",
-    "vitest": "5.0.3"
+    "vitest": "5.0.5"
   }
 }
