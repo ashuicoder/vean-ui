@@ -191,6 +191,11 @@ export function createMockElement(tagName: string = 'div', properties: Record<st
 /**
  * Create a mock ResizeObserver entry
  *
+ * `@tanstack/virtual-core` >= 3.19 measures the observed element with
+ * `clientWidth`/`clientHeight` instead of reading the entry's `borderBoxSize`,
+ * so the target has to report the requested size itself. happy-dom lays every
+ * element out at 0x0, hence the override.
+ *
  * @param target - target element
  * @param dimensions - size dimensions
  * @returns mock ResizeObserver entry
@@ -200,6 +205,11 @@ export function createMockResizeObserverEntry(
   dimensions: { width: number; height: number }
 ): ResizeObserverEntry {
   const { width, height } = dimensions;
+
+  Object.defineProperties(target, {
+    clientWidth: { value: width, configurable: true },
+    clientHeight: { value: height, configurable: true }
+  });
 
   return {
     target,
