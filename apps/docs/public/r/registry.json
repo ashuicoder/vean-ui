@@ -628,12 +628,7 @@
       "name": "ui/config-provider",
       "type": "registry:ui",
       "dependencies": ["@vean/aria", "@vean/theme"],
-      "registryDependencies": [
-        "ui/dialog",
-        "ui/icon",
-        "ui/progress",
-        "ui/toast"
-      ],
+      "registryDependencies": ["ui/dialog", "ui/icon", "ui/progress", "ui/toast"],
       "files": [
         {
           "path": "packages/ui/src/components/config-provider/context.ts",
@@ -1245,12 +1240,7 @@
       "name": "ui/palette-picker",
       "type": "registry:ui",
       "dependencies": ["@soybeanjs/colord", "@vean/theme"],
-      "registryDependencies": [
-        "ui/color-picker",
-        "ui/select",
-        "ui/switch",
-        "ui/tooltip"
-      ],
+      "registryDependencies": ["ui/color-picker", "ui/select", "ui/switch", "ui/tooltip"],
       "files": [
         {
           "path": "packages/ui/src/components/palette-picker/palette-picker.vue",
@@ -1661,13 +1651,7 @@
       "name": "ui/table",
       "type": "registry:ui",
       "dependencies": ["@vean/aria"],
-      "registryDependencies": [
-        "ui/button",
-        "ui/checkbox",
-        "ui/empty",
-        "ui/input",
-        "ui/popover"
-      ],
+      "registryDependencies": ["ui/button", "ui/checkbox", "ui/empty", "ui/input", "ui/popover"],
       "files": [
         {
           "path": "packages/ui/src/components/table/table-radio.vue",

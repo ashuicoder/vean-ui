@@ -2,12 +2,7 @@
   "name": "ui/palette-picker",
   "package": "ui",
   "dependencies": ["@soybeanjs/colord", "@vean/theme"],
-  "registryDependencies": [
-    "ui/color-picker",
-    "ui/select",
-    "ui/switch",
-    "ui/tooltip"
-  ],
+  "registryDependencies": ["ui/color-picker", "ui/select", "ui/switch", "ui/tooltip"],
   "files": [
     {
       "path": "packages/ui/src/components/palette-picker/palette-picker.vue",

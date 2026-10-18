@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import type { ThemeModePreference } from '@vean/theme';
+import { useThemeLocale } from '../_shared/locale';
 import { useTheme } from '../config-provider/use-theme';
 import SIcon from '../icon/icon.vue';
 import SSelect from '../select/select.vue';
 import type { SelectOptionData } from '../select/types';
-import { useThemeLocale } from '../_shared/locale';
 import type { ThemeModeSelectProps } from './types';
 
 defineOptions({

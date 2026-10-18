@@ -3,9 +3,9 @@ import { computed } from 'vue';
 import { FEEDBACK_SCHEMES, PALETTE_LEVELS, resolveColorRef } from '@vean/theme';
 import type { FeedbackScheme, FeedbackSchemeKey, PaletteLevel } from '@vean/theme';
 import ColorDecorator from '../_shared/color-decorator.vue';
+import { useThemeCustomizerLocale } from '../_shared/use-locale';
 import SSelect from '../select/select.vue';
 import type { SelectOptionData } from '../select/types';
-import { useThemeCustomizerLocale } from '../_shared/use-locale';
 
 const palette = defineModel<FeedbackSchemeKey>({
   required: true

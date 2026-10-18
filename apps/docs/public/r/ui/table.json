@@ -2,13 +2,7 @@
   "name": "ui/table",
   "package": "ui",
   "dependencies": ["@vean/aria"],
-  "registryDependencies": [
-    "ui/button",
-    "ui/checkbox",
-    "ui/empty",
-    "ui/input",
-    "ui/popover"
-  ],
+  "registryDependencies": ["ui/button", "ui/checkbox", "ui/empty", "ui/input", "ui/popover"],
   "files": [
     {
       "path": "packages/ui/src/components/table/table-radio.vue",

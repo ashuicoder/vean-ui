@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { NEUTRAL_PALETTES } from '@vean/theme';
 import ColorDecorator from '../_shared/color-decorator.vue';
+import { useThemeCustomizerLocale } from '../_shared/use-locale';
 import { usePaletteSwatches } from '../_shared/use-palette-swatches';
 import { useTheme } from '../config-provider/use-theme';
 import SSelect from '../select/select.vue';
-import { useThemeCustomizerLocale } from '../_shared/use-locale';
 import type { ThemeBaseSelectProps } from './types';
 
 defineOptions({

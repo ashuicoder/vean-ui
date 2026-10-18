@@ -26,6 +26,7 @@ import type {
 import { themeCustomizerVariants } from '@/styles/theme-customizer';
 import { useThemeSettings } from '@/theme/use-theme-settings';
 import { useThemeVariants } from '@/theme/use-theme-variants';
+import { useThemeCustomizerLocale } from '../_shared/use-locale';
 import SButton from '../button/button.vue';
 import { useTheme } from '../config-provider/use-theme';
 import SPalettePicker from '../palette-picker/palette-picker.vue';
@@ -42,7 +43,6 @@ import ThemePrimarySelect from '../theme-primary-select/theme-primary-select.vue
 import FeedbackSchemaSelect from './feedback-schema-select.vue';
 import SectionItem from './section-item.vue';
 import type { ThemeCustomizerProps, ThemeCustomizerSection } from './types';
-import { useThemeCustomizerLocale } from '../_shared/use-locale';
 
 defineOptions({
   name: 'SThemeCustomizer'
