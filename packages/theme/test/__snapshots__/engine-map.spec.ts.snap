@@ -290,7 +290,7 @@ exports[`theme map — structure and invariants > snapshots the default theme ma
     },
     "destructive": {
       "kind": "palette",
-      "level": 700,
+      "level": 500,
       "palette": "red",
     },
     "destructive-foreground": {
@@ -305,7 +305,7 @@ exports[`theme map — structure and invariants > snapshots the default theme ma
     },
     "info": {
       "kind": "palette",
-      "level": 700,
+      "level": 500,
       "palette": "blue",
     },
     "info-foreground": {
@@ -343,7 +343,7 @@ exports[`theme map — structure and invariants > snapshots the default theme ma
     },
     "primary": {
       "kind": "palette",
-      "level": 600,
+      "level": 500,
       "palette": "indigo",
     },
     "primary-foreground": {
@@ -393,7 +393,7 @@ exports[`theme map — structure and invariants > snapshots the default theme ma
     },
     "sidebar-primary": {
       "kind": "palette",
-      "level": 600,
+      "level": 500,
       "palette": "indigo",
     },
     "sidebar-primary-foreground": {
@@ -408,7 +408,7 @@ exports[`theme map — structure and invariants > snapshots the default theme ma
     },
     "success": {
       "kind": "palette",
-      "level": 800,
+      "level": 500,
       "palette": "green",
     },
     "success-foreground": {
@@ -418,7 +418,7 @@ exports[`theme map — structure and invariants > snapshots the default theme ma
     },
     "warning": {
       "kind": "palette",
-      "level": 800,
+      "level": 500,
       "palette": "amber",
     },
     "warning-foreground": {

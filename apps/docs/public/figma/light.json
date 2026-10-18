@@ -200,12 +200,12 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.309216,
-          0.273843,
-          0.898157
+          0.388941,
+          0.40098,
+          0.945059
         ],
         "alpha": 1,
-        "hex": "#4f46e5"
+        "hex": "#6366f1"
       }
     },
     "primary-foreground": {
@@ -239,12 +239,12 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.726078,
-          0.109922,
-          0.109922
+          0.937098,
+          0.266902,
+          0.266902
         ],
         "alpha": 1,
-        "hex": "#b91c1c"
+        "hex": "#ef4444"
       }
     },
     "destructive-foreground": {
@@ -265,12 +265,12 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.086275,
-          0.395725,
-          0.203882
+          0.133176,
+          0.772824,
+          0.368784
         ],
         "alpha": 1,
-        "hex": "#166534"
+        "hex": "#22c55e"
       }
     },
     "success-foreground": {
@@ -291,12 +291,12 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.573059,
-          0.25098,
-          0.054941
+          0.960667,
+          0.619725,
+          0.043333
         ],
         "alpha": 1,
-        "hex": "#92400e"
+        "hex": "#f59e0b"
       }
     },
     "warning-foreground": {
@@ -317,12 +317,12 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.113765,
-          0.305412,
-          0.846235
+          0.231373,
+          0.51,
+          0.964627
         ],
         "alpha": 1,
-        "hex": "#1d4ed8"
+        "hex": "#3b82f6"
       }
     },
     "info-foreground": {
@@ -499,12 +499,12 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.309216,
-          0.273843,
-          0.898157
+          0.388941,
+          0.40098,
+          0.945059
         ],
         "alpha": 1,
-        "hex": "#4f46e5"
+        "hex": "#6366f1"
       }
     },
     "sidebar-primary-foreground": {

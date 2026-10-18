@@ -51,11 +51,8 @@ describe('schemes drive the status and chart tokens', () => {
     const classic = resolveThemeMap({ base: 'zinc', primary: 'indigo', feedback: 'classic' });
     const vivid = resolveThemeMap({ base: 'zinc', primary: 'indigo', feedback: 'vivid' });
 
-    // 亮色 solid 取 700/800：状态 token 同时是填充与弱化处理的文字色，
-    // `.500` 当文字读不到 AA（`green.500` on white 仅 2.28:1）；
-    // 黄绿色相要再退一档才能在自己的 10% 底色上留住 4.5:1
-    expect(classic.light.success).toEqual({ kind: 'palette', palette: 'green', level: 800 });
-    expect(vivid.light.success).toEqual({ kind: 'palette', palette: 'emerald', level: 700 });
+    expect(classic.light.success).toEqual({ kind: 'palette', palette: 'green', level: 500 });
+    expect(vivid.light.success).toEqual({ kind: 'palette', palette: 'emerald', level: 500 });
     // 暗色的 solid 级别来自 scheme 自身（classic 暗色取 400）
     expect(classic.dark.success).toEqual({ kind: 'palette', palette: 'green', level: 400 });
   });
@@ -102,7 +99,7 @@ describe('schemes drive the status and chart tokens', () => {
 
   it('falls back to the default scheme for unknown keys', () => {
     expect(feedbackScheme('nope')).toBe(FEEDBACK_SCHEMES.classic);
-    expect(feedbackScheme(undefined).light.warning).toBe('amber.800');
+    expect(feedbackScheme(undefined).light.warning).toBe('amber.500');
   });
 
   it('exposes the scheme keys and level-ref helpers', () => {
@@ -211,8 +208,8 @@ describe('overrides win outright', () => {
       const options = { overrides: { light: { primary: value } } } as never;
       const css = emitThemeCss(resolveThemeMap(options));
 
-      expect(css, value).toContain('--primary: var(--indigo-600);');
-      expect(resolveTokenColor(options, 'primary', 'light'), value).toBe('hsl(243.4 75.4% 58.6%)');
+      expect(css, value).toContain('--primary: var(--indigo-500);');
+      expect(resolveTokenColor(options, 'primary', 'light'), value).toBe('hsl(238.7 83.5% 66.7%)');
     });
 
     // 形状校验本身也按 colord 的成员表：只有真实存在的色板与档位才算引用
@@ -282,9 +279,9 @@ describe('token reference overrides', () => {
     } as never;
     const css = emitThemeCss(resolveThemeMap(options));
 
-    expect(css).toContain('--primary: var(--indigo-600);');
+    expect(css).toContain('--primary: var(--indigo-500);');
     expect(css).toContain('--ring: var(--indigo-500);');
-    expect(resolveTokenColor(options, 'primary', 'light')).toBe('hsl(243.4 75.4% 58.6%)');
+    expect(resolveTokenColor(options, 'primary', 'light')).toBe('hsl(238.7 83.5% 66.7%)');
   });
 
   it('drops every token in a reference cycle', () => {
