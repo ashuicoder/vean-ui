@@ -572,10 +572,12 @@ watch([normalizedComponentQuery, onlyComponentRelated], ([component, related]) =
                   </p>
                 </div>
 
-                <!-- The label sits next to the control rather than inside it, so the switch
+                <!--
+ The label sits next to the control rather than inside it, so the switch
                      itself has no accessible name (Lighthouse `button-name`). The name has
                      to go through `controlProps` — `aria-label` on the root is not forwarded
-                     to the control button (same as 01-basic.vue:135). -->
+                     to the control button (same as 01-basic.vue:135). 
+-->
                 <SSwitch
                   v-model="onlyComponentRelated"
                   color="primary"

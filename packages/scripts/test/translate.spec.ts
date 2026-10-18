@@ -3,7 +3,6 @@ import os from 'node:os';
 import path from 'node:path';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import type { JsonObject } from '../src/shared/json';
-import type { TranslationProviderConfig } from '../src/shared/translate';
 import {
   createCharacterBudgetGate,
   getPendingEntries,
@@ -17,6 +16,7 @@ import {
   toDeepLLanguage,
   translateJsonLocaleFile
 } from '../src/shared/translate';
+import type { TranslationProviderConfig } from '../src/shared/translate';
 
 interface MockFetchOptions {
   ok?: boolean;

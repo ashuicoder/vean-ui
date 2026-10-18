@@ -29,9 +29,11 @@ const { isScrolled, isAtTop } = useScrollState();
       <div class="flex min-w-0 items-center gap-4 lg:gap-6 xl:gap-8">
         <SLink to="/" class="group flex items-center gap-3">
           <AppLogo class="size-8 transition-transform duration-300 group-hover:scale-110" />
-          <!-- The site name in a global header must not be an <h1>: it renders on every page
+          <!--
+ The site name in a global header must not be an <h1>: it renders on every page
                and competes with the page's own <h1> (the markdown title on a component page),
-               which Lighthouse reports as a duplicate-heading / `heading-order` failure. -->
+               which Lighthouse reports as a duplicate-heading / `heading-order` failure. 
+-->
           <div
             class="text-lg font-bold bg-clip-text text-transparent whitespace-nowrap bg-gradient-to-r from-primary-600 to-primary dark:from-primary dark:to-primary-300"
           >
