@@ -50,13 +50,14 @@ interface PreparedTranslationEntry extends TranslationEntry {
 }
 
 /**
- * Supported machine-translation backends. Azure is preferred whenever it is
- * configured; DeepL stays available as a fallback and for setups that predate
- * the Azure integration.
+ * Supported machine-translation backends. DeepL is preferred whenever it is
+ * configured, because it preserves inline code, component names, and
+ * `v-model`-style identifiers; Azure stays available as a fallback for setups
+ * that only carry an Azure subscription key.
  */
 export type TranslationProvider = 'azure' | 'deepl';
 
-export const translationProviders: TranslationProvider[] = ['azure', 'deepl'];
+export const translationProviders: TranslationProvider[] = ['deepl', 'azure'];
 
 export interface TranslationProviderConfig {
   provider: TranslationProvider;
@@ -305,12 +306,14 @@ function resolveDeepLProvider(errorMessage: string, env: NodeJS.ProcessEnv): Tra
 }
 
 const defaultProviderErrorMessage =
-  'Missing translation credentials: set AZURE_TRANSLATE_KEY (preferred) or DEEPL_API_KEY';
+  'Missing translation credentials: set DEEPL_API_KEY (preferred) or AZURE_TRANSLATE_KEY';
 
 /**
  * Resolve the active backend. Precedence: the explicit `TRANSLATE_PROVIDER` /
- * caller override, then Azure, then DeepL — so an environment that has both keys
- * translates through Azure without any extra configuration.
+ * caller override, then DeepL, then Azure — so an environment that has both
+ * keys translates through DeepL without any extra configuration. DeepL leads
+ * because it keeps inline code, component names, and identifier literals
+ * intact; Azure rewrites them (`trigger` → 扳机, `v-model:open` → `v-model：open`).
  *
  * `env` is a parameter so tests can state the credential set explicitly instead
  * of inheriting whatever the ambient shell exports.
@@ -340,12 +343,12 @@ export function resolveTranslationProvider(
     );
   }
 
-  if (readEnvValue('AZURE_TRANSLATE_KEY', env)) {
-    return resolveAzureProvider(errorMessage, env);
-  }
-
   if (readEnvValue('DEEPL_API_KEY', env) ?? readEnvValue('TRANSLATE_API_KEY', env)) {
     return resolveDeepLProvider(errorMessage, env);
+  }
+
+  if (readEnvValue('AZURE_TRANSLATE_KEY', env)) {
+    return resolveAzureProvider(errorMessage, env);
   }
 
   throw new Error(errorMessage);

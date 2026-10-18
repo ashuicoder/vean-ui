@@ -138,13 +138,28 @@ describe('shared/translate', () => {
   });
 
   describe('resolveTranslationProvider', () => {
-    it('prefers Azure when both credentials are present', () => {
+    it('prefers DeepL when both credentials are present', () => {
       vi.stubEnv('AZURE_TRANSLATE_KEY', 'azure-key');
       vi.stubEnv('AZURE_TRANSLATE_REGION', 'southeastasia');
-      vi.stubEnv('AZURE_TEXT_TRANSLATE_URL', 'https://api.cognitive.microsofttranslator.com/');
       vi.stubEnv('DEEPL_API_KEY', 'deepl-key');
 
       expect(resolveTranslationProvider()).toEqual({
+        provider: 'deepl',
+        apiKey: 'deepl-key',
+        endpoint: 'https://api-free.deepl.com/v2'
+      });
+    });
+
+    it('falls back to Azure when only AZURE_TRANSLATE_KEY is set', () => {
+      expect(
+        resolveTranslationProvider({
+          env: {
+            AZURE_TRANSLATE_KEY: 'azure-key',
+            AZURE_TRANSLATE_REGION: 'southeastasia',
+            AZURE_TEXT_TRANSLATE_URL: 'https://api.cognitive.microsofttranslator.com/'
+          }
+        })
+      ).toEqual({
         provider: 'azure',
         apiKey: 'azure-key',
         endpoint: 'https://api.cognitive.microsofttranslator.com',
@@ -152,9 +167,7 @@ describe('shared/translate', () => {
       });
     });
 
-    it('falls back to DeepL when only DEEPL_API_KEY is set', () => {
-      // Pass an explicit env map: process.env may carry a real
-      // AZURE_TRANSLATE_KEY on a developer machine, while CI has neither.
+    it('uses DeepL when only DEEPL_API_KEY is set', () => {
       expect(resolveTranslationProvider({ env: { DEEPL_API_KEY: 'deepl-key' } })).toEqual({
         provider: 'deepl',
         apiKey: 'deepl-key',
@@ -163,9 +176,7 @@ describe('shared/translate', () => {
     });
 
     it('defaults to the global Azure endpoint when only the key is set', () => {
-      vi.stubEnv('AZURE_TRANSLATE_KEY', 'azure-key');
-
-      expect(resolveTranslationProvider()).toMatchObject({
+      expect(resolveTranslationProvider({ env: { AZURE_TRANSLATE_KEY: 'azure-key' } })).toMatchObject({
         provider: 'azure',
         endpoint: 'https://api.cognitive.microsofttranslator.com'
       });
@@ -175,7 +186,7 @@ describe('shared/translate', () => {
       vi.stubEnv('AZURE_TRANSLATE_KEY', 'azure-key');
       vi.stubEnv('DEEPL_API_KEY', 'deepl-key');
 
-      expect(resolveTranslationProvider({ requestedProvider: 'deepl' }).provider).toBe('deepl');
+      expect(resolveTranslationProvider({ requestedProvider: 'azure' }).provider).toBe('azure');
     });
 
     it('rejects an unknown provider', () => {

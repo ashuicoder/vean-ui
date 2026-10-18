@@ -9,8 +9,8 @@ import type { CatalogTarget } from './commands/catalog';
  * `sui` — Vean repo service CLI (private, never published).
  *
  * Three command groups: `gen` (deterministic, offline), `translate`
- * (Azure-preferred, DeepL-compatible, needs `AZURE_TRANSLATE_KEY` or
- * `DEEPL_API_KEY`), and `check` (verification gates that
+ * (DeepL-preferred, Azure-compatible, needs `DEEPL_API_KEY` or
+ * `AZURE_TRANSLATE_KEY`), and `check` (verification gates that
  * exit 1 on drift), plus one-off workspace commands (`size`, `stub`,
  * `reorder-imports`, `sync-template-versions`). `size` measures published
  * artifact and consumer-import bytes; `check size` is the same measurement as a
@@ -64,7 +64,7 @@ export function createCli(): CAC {
     });
 
   cli
-    .command('translate <surface>', 'Fill pending locale entries through Azure Translate (falls back to DeepL)')
+    .command('translate <surface>', 'Fill pending locale entries through DeepL (falls back to Azure Translate)')
     .usage('translate <api|changelog|locale|all> [options]')
     .option('--locale <locale>', 'Single target locale, for example zh-CN. Default: every non-source locale')
     .option('--source-locale <locale>', 'Source locale file, default: en')
