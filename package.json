@@ -36,7 +36,7 @@
     "preview": "pnpm --filter @vean/docs preview",
     "publish-pkg": "pnpm publish -r --access public",
     "release": "soy release -e 'pnpm release-execute'",
-    "release-execute": "pnpm soy changelog && pnpm sui gen skills && pnpm sui translate all && pnpm sync-template-versions",
+    "release-execute": "pnpm soy changelog && pnpm sui gen skills && pnpm sui translate all && pnpm sync-template-versions && pnpm fmt && pnpm lint",
     "size": "pnpm sui size",
     "stub": "pnpm sui stub",
     "sui": "tsx packages/scripts/src/index.ts",
