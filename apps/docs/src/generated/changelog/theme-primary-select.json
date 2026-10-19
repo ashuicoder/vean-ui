@@ -15,9 +15,7 @@
           "summaryKey": "changelog.generated.v0.51.0.682db",
           "commitHash": "682db",
           "commitUrl": "https://github.com/soybeanjs/vean-ui/commit/682db0e68",
-          "authors": [
-            "soybeanjs"
-          ],
+          "authors": ["soybeanjs"],
           "source": "exact-scope"
         }
       ]

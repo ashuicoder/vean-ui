@@ -15,9 +15,7 @@
           "summaryKey": "changelog.generated.v0.51.0.eff89",
           "commitHash": "eff89",
           "commitUrl": "https://github.com/soybeanjs/vean-ui/commit/eff8988a8",
-          "authors": [
-            "soybeanjs"
-          ],
+          "authors": ["soybeanjs"],
           "source": "exact-scope"
         },
         {
@@ -27,9 +25,7 @@
           "summaryKey": "changelog.generated.v0.51.0.6ab25",
           "commitHash": "6ab25",
           "commitUrl": "https://github.com/soybeanjs/vean-ui/commit/6ab252577",
-          "authors": [
-            "soybeanjs"
-          ],
+          "authors": ["soybeanjs"],
           "source": "exact-scope"
         }
       ]
