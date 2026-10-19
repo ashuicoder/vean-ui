@@ -43,6 +43,7 @@
     "sync-template-versions": "pnpm sui sync-template-versions",
     "test": "pnpm -r run test",
     "test:e2e": "pnpm --filter @vean/ui test:e2e",
+    "test:e2e:browser": "pnpm test:e2e && pnpm --filter @vean/aria test:browser",
     "typecheck": "pnpm -r typecheck",
     "upkg": "soy ncu"
   },

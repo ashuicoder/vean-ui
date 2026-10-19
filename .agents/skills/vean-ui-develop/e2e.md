@@ -20,6 +20,33 @@ Vean runs two Vitest tiers. Both stay in Vitest so tooling stays unified.
 - a11y: `getA11yViolations()` from `test/browser/shared/a11y.ts` with `color-contrast` ENABLED
 - Run: `pnpm --filter @vean/ui test:e2e` (or `pnpm test:e2e` from repo root)
 
+### Tier 1b — Aria-layer browser tests
+
+A sibling tier, not a duplicate of Tier 1. It exists because the aria package owns
+contracts that no `S*` wrapper can reach:
+
+- Location: `packages/aria/test/browser/specs/{component}.browser.spec.ts`
+- Config: `packages/aria/vitest.browser.config.ts` (same `--config` rule; must NOT be named `vitest.config.ts` because `packages/aria/vite.config.ts` is also the `pack` build config)
+- Glob: `test/browser/**/*.browser.spec.ts` (disjoint from `test/specs/**/*.spec.ts` AND from the ui glob)
+- Stack: same as Tier 1, minus UnoCSS and minus `axe-core` (aria carries zero styles, so there is nothing to compute and no color to contrast)
+- Render: `renderAria(component, { props, slots })` from `packages/aria/test/browser/shared/render.ts`. It is `async` — `const { unmount } = await renderAria(...)`.
+- a11y: structural only, if at all. `getA11yViolations` is a ui-tier helper; aria must not import from `@vean/ui`.
+- Run: `pnpm --filter @vean/aria test:browser`
+
+Use Tier 1b rather than Tier 1 when the behaviour under test is not reachable
+from `packages/ui`:
+
+- controlled (`modelValue`) vs uncontrolled (`defaultValue`) arbitration, where the
+  parent is the only source of truth and the ui wrapper's own state would hide a drift,
+- `useId`-derived ids (`contentId`, `aria-controls`, generated label/text ids)
+  staying stable across open cycles, remounts, and hydration,
+- `aria-*` correctness in nested popups, where real `Teleport` ordering and real
+  focus management decide the outcome,
+- base-primitive composition rules that a `*Compact` wrapper adds structure over.
+
+Do NOT mirror a ui e2e assertion into an aria spec. Tier 1 already reaches the
+aria code through the wrapper; a second copy buys nothing and doubles runtime.
+
 ### Tier 2 — App-level smoke harness (documented, minimal)
 
 - Runs against the docs app (`apps/docs`, ubean SSG) as a real built/dev server — the playground was merged into docs in v0.40.0; examples live under `apps/docs/src/examples/`. There is no separate playground app.
@@ -56,7 +83,7 @@ pnpm install
 pnpm --filter @vean/ui exec playwright install chromium
 ```
 
-`pnpm install` does NOT install browser binaries; `playwright install chromium` is a separate, explicit step. CI does this automatically (see [Automation integration](#automation-integration)).
+`pnpm install` does NOT install browser binaries; `playwright install chromium` is a separate, explicit step. CI does this automatically (see [Automation integration](#automation-integration)). The same binary serves both browser tiers, so one install covers Tier 1 and Tier 1b.
 
 ### Config file rules
 
@@ -177,11 +204,13 @@ Tier 2 is out of scope for the initial e2e introduction. The Tier 1 suite curren
 ### Local
 
 ```bash
-pnpm test:e2e                                       # whole browser suite
+pnpm test:e2e                                       # whole browser suite (ui tier)
+pnpm test:e2e:browser                               # both browser tiers (ui e2e + aria browser)
 pnpm --filter @vean/ui test:e2e                # same, explicit
 pnpm --filter @vean/ui test:e2e:update         # refresh VRT baselines + snapshots
 pnpm --filter @vean/ui test:e2e:watch          # watch mode
 pnpm --filter @vean/ui test:e2e:ui             # Vitest UI
+pnpm --filter @vean/aria test:browser          # aria-tier browser specs
 # single file:
 pnpm --filter @vean/ui test:e2e \
   test/browser/specs/components/button.e2e.spec.ts
@@ -193,7 +222,7 @@ pnpm --filter @vean/ui test:e2e \
 
 1. Installs deps with `--frozen-lockfile`.
 2. Runs `pnpm --filter @vean/ui exec playwright install --with-deps chromium` to install the browser binary and OS dependencies.
-3. Runs `pnpm test:e2e`.
+3. Runs `pnpm test:e2e:browser` (ui e2e then aria browser).
 
 The browser-binary install is explicit because `pnpm install` does not fetch Playwright browsers. Any new job that runs browser tests must repeat this step.
 
@@ -214,7 +243,7 @@ The two tiers answer different questions. Keep both. Do not migrate unit specs i
 
 ## Guardrails summary
 
-- Browser config is a separate file loaded via `--config`; never merge it into `vite.config.ts`.
+- Browser config is a separate file loaded via `--config`; never merge it into `vite.config.ts`. Both packages follow this: `packages/ui/vitest.browser.config.ts` and `packages/aria/vitest.browser.config.ts`.
 - Glob is disjoint from the unit spec glob; the two suites never overlap.
 - `withTheme: true` for any color-dependent a11y check.
 - Role-based locators only; no CSS-class queries when a role exists.
