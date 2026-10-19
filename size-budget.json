@@ -3,6 +3,7 @@
     "bundler": "esbuild",
     "external": ["vue"]
   },
+  "matrix": ["@vean/aria"],
   "delta": {
     "warnRatio": 0.01,
     "warnBytes": 512,

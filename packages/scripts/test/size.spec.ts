@@ -60,6 +60,7 @@ describe('parseSizeBudget', () => {
     const budget = parseSizeBudget({ checks: [{ id: 'a', kind: 'file', path: 'dist/a.js' }] });
 
     expect(budget.engine).toEqual({ bundler: 'esbuild', external: [], version: '' });
+    expect(budget.matrix).toEqual([]);
     expect(budget.checks[0]).toEqual({ budget: {}, gate: true, id: 'a', kind: 'file', path: 'dist/a.js' });
     expect(budget.delta).toEqual({
       failBytes: Number.POSITIVE_INFINITY,
@@ -83,6 +84,15 @@ describe('parseSizeBudget', () => {
     expect(budget.checks[1]).toMatchObject({ budget: { raw: 100 }, kind: 'pack' });
     expect(budget.delta.warnRatio).toBe(0.02);
     expect(budget.engine.version).toBe('1.2.3');
+  });
+
+  it('reads the matrix package list, which defaults to disabled', () => {
+    expect(
+      parseSizeBudget({ checks: [{ id: 'a', kind: 'file', path: 'dist/a.js' }], matrix: ['@vean/aria'] }).matrix
+    ).toEqual(['@vean/aria']);
+    expect(() => parseSizeBudget({ checks: [{ id: 'a', kind: 'file', path: 'dist/a.js' }], matrix: [''] })).toThrow(
+      /matrix\[0\]/
+    );
   });
 
   it('rejects a budget file that would silently measure nothing', () => {

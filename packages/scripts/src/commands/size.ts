@@ -1,4 +1,4 @@
-import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { appendFileSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 import { readJsonObject } from '../shared/json';
@@ -21,11 +21,13 @@ import type {
   SizeReport,
   WorkspacePackageManifest
 } from '../shared/size';
+import { renderMatrixConsole, renderMatrixMarkdown } from '../shared/size-matrix';
 import {
   discoverWorkspacePackages,
   measureBundleMetrics,
   measureFileMetrics,
   measurePackMetrics,
+  measureSizeMatrix,
   readEsbuildVersion,
   readGitCommit
 } from '../shared/size-measure';
@@ -45,6 +47,12 @@ export interface SizeRunOptions {
   budgetPath?: string;
   /** Fail with a non-zero exit code when a gated check has a fail verdict. */
   check?: boolean;
+  /**
+   * Report the per-entry import cost of every published entry, in addition to
+   * the budget checks. Enumerated from each publishable package's
+   * `publishConfig.exports`, so it never drifts from the real surface.
+   */
+  matrix?: boolean;
   reportDir?: string;
   write?: boolean;
 }
@@ -57,6 +65,7 @@ const resolvedOptions = (options: SizeRunOptions): Required<SizeRunOptions> => (
   baselinePath: options.baselinePath ?? defaultBaselinePath,
   budgetPath: options.budgetPath ?? defaultBudgetPath,
   check: Boolean(options.check),
+  matrix: Boolean(options.matrix),
   reportDir: options.reportDir ?? defaultReportDir,
   write: options.write ?? true
 });
@@ -156,8 +165,10 @@ const readBudget = async (budgetPath: string, rootDir: string): Promise<SizeBudg
 const writeReportFiles = (options: {
   json: string;
   markdown: string;
+  matrixJson?: string;
+  matrixMarkdown?: string;
   reportDir: string;
-}): { jsonPath: string; markdownPath: string } => {
+}): { jsonPath: string; markdownPath: string; matrixJsonPath?: string } => {
   mkdirSync(options.reportDir, { recursive: true });
 
   const jsonPath = path.join(options.reportDir, 'size-report.json');
@@ -166,7 +177,24 @@ const writeReportFiles = (options: {
   writeFileSync(jsonPath, `${options.json}\n`, 'utf8');
   writeFileSync(markdownPath, options.markdown, 'utf8');
 
-  return { jsonPath, markdownPath };
+  // The matrix section is appended to `size-report.md` above, so the sticky PR
+  // comment and the job summary pick it up without extra CI wiring. The
+  // standalone files are for tooling; a run without `--matrix` removes them so
+  // a previous matrix cannot be mistaken for the current surface.
+  const matrixJsonPath = path.join(options.reportDir, 'size-matrix.json');
+  const matrixMarkdownPath = path.join(options.reportDir, 'size-matrix.md');
+
+  if (options.matrixJson === undefined) {
+    rmSync(matrixJsonPath, { force: true });
+    rmSync(matrixMarkdownPath, { force: true });
+
+    return { jsonPath, markdownPath };
+  }
+
+  writeFileSync(matrixJsonPath, `${options.matrixJson}\n`, 'utf8');
+  writeFileSync(matrixMarkdownPath, options.matrixMarkdown ?? '', 'utf8');
+
+  return { jsonPath, markdownPath, matrixJsonPath };
 };
 
 const appendStepSummary = (markdown: string): string | null => {
@@ -249,7 +277,18 @@ export async function runSize(options: SizeRunOptions = {}): Promise<void> {
     node: process.version,
     summary: summarizeVerdicts(verdicts)
   };
-  const markdown = renderMarkdownReport(report);
+  const reportMarkdown = renderMarkdownReport(report);
+
+  const matrix = settings.matrix
+    ? await measureSizeMatrix({
+        external: collectExternalSpecifiers({ engineExternal: engine.external, manifests, policy: 'bundled' }),
+        manifests,
+        packageNames: budget.matrix,
+        rootDir
+      })
+    : null;
+
+  const markdown = matrix ? `${reportMarkdown}\n${renderMatrixMarkdown(matrix)}` : reportMarkdown;
 
   console.log(`\n${renderConsoleReport(report)}\n`);
   console.log(
@@ -258,10 +297,24 @@ export async function runSize(options: SizeRunOptions = {}): Promise<void> {
       : `baseline: none at ${path.relative(rootDir, baselinePath)} — budgets only`
   );
 
+  if (matrix) {
+    console.log(`\n${renderMatrixConsole(matrix)}\n`);
+  }
+
   if (settings.write) {
-    const files = writeReportFiles({ json: JSON.stringify(report, null, 2), markdown, reportDir });
+    const files = writeReportFiles({
+      json: JSON.stringify(report, null, 2),
+      markdown,
+      matrixJson: matrix ? JSON.stringify(matrix, null, 2) : undefined,
+      matrixMarkdown: matrix ? renderMatrixMarkdown(matrix) : undefined,
+      reportDir
+    });
 
     console.log(`report: ${path.relative(rootDir, files.markdownPath)} · ${path.relative(rootDir, files.jsonPath)}`);
+
+    if (files.matrixJsonPath) {
+      console.log(`matrix: ${path.relative(reportDir, files.matrixJsonPath)} · size-matrix.md`);
+    }
   }
 
   const summaryPath = appendStepSummary(markdown);
@@ -280,5 +333,8 @@ export async function runSize(options: SizeRunOptions = {}): Promise<void> {
 }
 
 export async function runCheckSize(): Promise<void> {
-  await runSize({ check: true });
+  // The gate also renders the matrix: the report is what a reviewer reads on a
+  // pull request, and the per-entry numbers are the part that explains a barrel
+  // regression. On the committed surface that is ~9 s of extra esbuild passes.
+  await runSize({ check: true, matrix: true });
 }

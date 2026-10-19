@@ -75,6 +75,13 @@ export interface SizeBudgetFile {
   readonly checks: readonly SizeCheck[];
   readonly delta: SizeDeltaThresholds;
   readonly engine: SizeEngineFingerprint;
+  /**
+   * Packages whose published entries `sui size --matrix` enumerates.
+   *
+   * Declared in the budget rather than hard-coded so adding a publishable
+   * package is a data change, not a code change. Empty means "matrix disabled".
+   */
+  readonly matrix: readonly string[];
 }
 
 export interface SizeEngineFingerprint {
@@ -277,8 +284,11 @@ export function parseSizeBudget(value: unknown): SizeBudgetFile {
   const rawEngine = isRecord(value.engine) ? value.engine : {};
   const rawExternal = Array.isArray(rawEngine.external) ? rawEngine.external : [];
 
+  const rawMatrix = Array.isArray(value.matrix) ? value.matrix : [];
+
   return {
     checks,
+    matrix: rawMatrix.map((name, index) => readNonEmptyString(name, `matrix[${index}]`)),
     delta: {
       failBytes:
         rawDelta.failBytes === undefined

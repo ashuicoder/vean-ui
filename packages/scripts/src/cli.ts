@@ -92,17 +92,27 @@ export function createCli(): CAC {
     .option('--budget <file>', 'Budget file, default: size-budget.json')
     .option('--baseline <file>', 'Report to compare against, default: .size-cache/size-baseline.json')
     .option('--report-dir <dir>', 'Where size-report.{json,md} are written, default: .size-report')
+    .option('--matrix', 'Also report the import cost of every published entry')
     .option('--no-write', 'Measure and print without writing report files')
-    .action(async (options: { baseline?: string; budget?: string; reportDir?: string; write?: boolean }) => {
-      const { runSize } = await import('./commands/size');
+    .action(
+      async (options: {
+        baseline?: string;
+        budget?: string;
+        matrix?: boolean;
+        reportDir?: string;
+        write?: boolean;
+      }) => {
+        const { runSize } = await import('./commands/size');
 
-      await runSize({
-        baselinePath: options.baseline,
-        budgetPath: options.budget,
-        reportDir: options.reportDir,
-        write: options.write
-      });
-    });
+        await runSize({
+          baselinePath: options.baseline,
+          budgetPath: options.budget,
+          matrix: options.matrix,
+          reportDir: options.reportDir,
+          write: options.write
+        });
+      }
+    );
 
   cli
     .command('stub', 'Switch aria development exports between src and dist')

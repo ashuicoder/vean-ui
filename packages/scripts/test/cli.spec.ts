@@ -54,10 +54,11 @@ describe('cli declaration', () => {
     const size = createCli().commands.find(command => command.name === 'size');
 
     expect(size?.args).toEqual([]);
-    expect(size?.options.map(option => option.name)).toEqual(['budget', 'baseline', 'reportDir', 'write']);
+    expect(size?.options.map(option => option.name)).toEqual(['budget', 'baseline', 'reportDir', 'matrix', 'write']);
     // `--no-write` is normalized by cac to a boolean `write` that defaults to true.
     expect(size?.options.find(option => option.name === 'write')?.isBoolean).toBe(true);
     expect(size?.options.find(option => option.name === 'reportDir')?.isBoolean).toBeUndefined();
+    expect(size?.options.find(option => option.name === 'matrix')?.isBoolean).toBe(true);
   });
 
   it('exposes the version and help flags', () => {

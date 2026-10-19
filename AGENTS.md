@@ -99,6 +99,7 @@ Private packages and applications:
 | Browser e2e tests                  | `packages/ui/test/browser/`                                               | `vitest.browser.config.ts` + `vitest-browser-vue` + `axe-core` (color-contrast on)                        |
 | Workspace architecture             | `docs/architecture.md`                                                    | Package/app map, dependency graph, generation/build/test/release flows                                    |
 | Size budgets / PR size report      | `size-budget.json` + `packages/scripts/src/commands/size.ts`              | Artifact + consumer-import bytes; PR baseline is the main-branch CI report, not a second build            |
+| Per-entry import cost              | `packages/scripts/src/shared/size-matrix.ts`                              | `sui size --matrix` enumerates every `publishConfig.exports` entry; budget declares the packages in `matrix` |
 | Architecture assessment            | `docs/optimize.md`                                                        | Evidence-ranked maintainability, scalability, and quality recommendations                                 |
 | Component dev skill                | `.agents/skills/vean-ui-develop/`                                         | SKILL.md + layers.md (admission) + surfaces.md + e2e.md + process.md + audit.md                           |
 | Aria admission reference           | `.agents/skills/vean-ui-develop/layers.md`                                | Violation shapes, known-compliant families, and pre-classified roadmap items                              |
@@ -138,6 +139,7 @@ pnpm sui translate <api|changelog|locale|all> [--locale <locale>]  # Fill pendin
 pnpm sui check generated       # Regenerate every surface and diff it against git (also a CI gate)
 pnpm sui check deps            # Enforce the dependency gate: banned imports + runtime dependency whitelists + vue peer floors
 pnpm sui size                  # Measure shipped artifacts + consumer-import bytes against size-budget.json
+pnpm sui size --matrix         # ... plus the per-entry import cost of every published subpath
 pnpm check:deps                # CI alias of `pnpm sui check deps`
 pnpm check:generated           # CI alias of `pnpm sui check generated`
 pnpm check:size                # CI alias of `pnpm sui check size` (fails on a budget breach, reports deltas)

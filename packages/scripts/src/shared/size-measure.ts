@@ -6,8 +6,10 @@ import process from 'node:process';
 import { brotliCompressSync, constants, gzipSync } from 'node:zlib';
 import { build } from 'esbuild';
 import type { Plugin } from 'esbuild';
-import { buildFixtureSource, resolvePublishedSpecifier } from './size';
+import { buildFixtureSource, resolvePublishedSpecifier, sizeMetrics } from './size';
 import type { SizeMetrics, WorkspacePackageManifest } from './size';
+import type { SizeMatrixReport, SizeMatrixRow } from './size-matrix';
+import { publishedSpecifiers, sortMatrixRows } from './size-matrix';
 
 /**
  * Measurement I/O for `sui size`: reading build output, packing a publishable
@@ -232,4 +234,152 @@ export function readGitCommit(rootDir: string): Promise<string | null> {
     child.on('error', () => resolve(null));
     child.on('close', code => resolve(code === 0 ? stdout.trim() || null : null));
   });
+}
+
+/**
+ * Directory names under `parentDir`, sorted. Empty when the directory is absent.
+ *
+ * Used to expand a `./*` exports pattern into its real values; a partial build
+ * should shrink the matrix instead of failing it.
+ */
+export function listDirectories(parentDir: string): string[] {
+  if (!existsSync(parentDir)) {
+    return [];
+  }
+
+  return readdirSync(parentDir, { withFileTypes: true })
+    .filter(entry => entry.isDirectory())
+    .map(entry => entry.name)
+    .sort((left, right) => left.localeCompare(right));
+}
+
+/** File names under `parentDir`, sorted. Empty when the directory is absent. */
+export function listFiles(parentDir: string): string[] {
+  if (!existsSync(parentDir)) {
+    return [];
+  }
+
+  return readdirSync(parentDir, { withFileTypes: true })
+    .filter(entry => entry.isFile())
+    .map(entry => entry.name)
+    .sort((left, right) => left.localeCompare(right));
+}
+
+/**
+ * Expand every `*` exports key against the published target layout.
+ *
+ * The target is the *published* path (for example `./dist/components/[star]/index.js`),
+ * so the directory that gets listed is the built one, not `src`. Internal families
+ * (a leading underscore, such as `_common` / `_icon` and the styled package's
+ * `__tests__`) are not consumer entry points and are filtered out.
+ */
+export function expandWildcardExports(manifest: WorkspacePackageManifest): Record<string, string[]> {
+  return Object.fromEntries(
+    Object.entries(manifest.exports)
+      .filter(([key]) => key.includes('*'))
+      .map(([key, target]) => {
+        const resolved = typeof target === 'string' ? target : pickStringTarget(target);
+
+        if (!resolved) {
+          return [key, []];
+        }
+
+        const star = resolved.indexOf('*');
+        const suffix = resolved.slice(star + 1);
+        // `*` is either a path segment (`.../components/*/index.js`) or a file name
+        // (`.../langs/*.js`). A segment expands to directories, a file name expands
+        // to files with the same extension — listing directories for the file form
+        // silently yields nothing, which is how the locale entries went missing.
+        const isSegment = suffix.startsWith('/');
+        const directory = path.resolve(manifest.dir, path.dirname(resolved.slice(0, star + 1)));
+        const extension = isSegment ? '' : suffix;
+        const values = isSegment
+          ? listDirectories(directory)
+          : listFiles(directory).flatMap(name =>
+              name.endsWith(extension) ? [name.slice(0, name.length - extension.length)] : []
+            );
+
+        return [key, values.filter(name => !name.startsWith('_') && !name.startsWith('.'))];
+      })
+  );
+}
+
+const pickStringTarget = (value: unknown): string | null => {
+  const record = toRecord(value);
+
+  return (
+    (['import', 'module', 'default', 'require'] as const)
+      .map(field => record[field])
+      .find((target): target is string => typeof target === 'string') ?? null
+  );
+};
+
+/**
+ * Measure one published entry point as an isolated consumer import.
+ *
+ * Same engine, externals and fixture shape as `measureBundleMetrics`, so a
+ * matrix row and its equivalent budget check are directly comparable. `deps:
+ * 'bundled'` is deliberate: the row must answer "what does this entry pull into
+ * my app", which is the whole point of a per-entry matrix.
+ */
+export async function measureEntryMetrics(options: {
+  external: readonly string[];
+  manifest: WorkspacePackageManifest;
+  manifests: readonly WorkspacePackageManifest[];
+  rootDir: string;
+  specifier: string;
+}): Promise<SizeMetrics> {
+  const entryPath = resolvePublishedSpecifier(options.manifest, options.specifier);
+
+  if (!entryPath || !existsSync(entryPath)) {
+    // A wildcard value with no built output: report it as empty rather than
+    // failing the whole run, so `--matrix` works on a partial build.
+    return {};
+  }
+
+  return measureBundleMetrics({
+    entryPath,
+    external: [...options.external],
+    importClause: null,
+    manifests: options.manifests,
+    rootDir: options.rootDir
+  });
+}
+
+/**
+ * Build the per-entry matrix for every publishable workspace package.
+ *
+ * Sequential on purpose: each row is a full esbuild pass, and running them
+ * concurrently makes the numbers jitter on a loaded machine. Runtime is roughly
+ * one bundle per entry (~15 ms each at the current surface size).
+ */
+export async function measureSizeMatrix(options: {
+  external: readonly string[];
+  manifests: readonly WorkspacePackageManifest[];
+  /** Package names to enumerate, in order. Empty yields an empty matrix. */
+  packageNames: readonly string[];
+  rootDir: string;
+}): Promise<SizeMatrixReport> {
+  const rows: SizeMatrixRow[] = [];
+  const selected = options.packageNames.flatMap(name => {
+    const manifest = options.manifests.find(entry => entry.name === name);
+
+    return manifest ? [manifest] : [];
+  });
+
+  for (const manifest of selected) {
+    const wildcards = expandWildcardExports(manifest);
+
+    for (const specifier of publishedSpecifiers(manifest, wildcards)) {
+      rows.push({
+        id: specifier,
+        metrics: await measureEntryMetrics({ ...options, manifest, specifier })
+      });
+    }
+  }
+
+  return {
+    generatedAt: new Date().toISOString(),
+    rows: sortMatrixRows(rows.filter(row => sizeMetrics.some(metric => typeof row.metrics[metric] === 'number')))
+  };
 }
