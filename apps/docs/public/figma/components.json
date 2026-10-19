@@ -406,8 +406,7 @@
       "size": ["xs", "sm", "md", "lg", "xl", "2xl"]
     },
     "config-provider": {
-      "dir": ["ltr", "rtl"],
-      "size": ["xs", "sm", "md", "lg", "xl", "2xl"]
+      "dir": ["ltr", "rtl"]
     },
     "context-menu": {
       "dir": ["ltr", "rtl"],

@@ -18,7 +18,6 @@ defineOptions({
 
 const props = withDefaults(defineProps<ConfigProviderProps>(), {
   theme: () => ({}),
-  size: 'md',
   iconify: () => ({
     width: '1.25em',
     height: '1.25em'
@@ -30,7 +29,6 @@ const props = withDefaults(defineProps<ConfigProviderProps>(), {
 const forwardedProps = useOmitProps(props, [
   'iconRender',
   'theme',
-  'size',
   'iconify',
   'progress',
   'toast',

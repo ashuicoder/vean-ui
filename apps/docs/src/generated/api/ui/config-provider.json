@@ -6,7 +6,7 @@
         "kind": "props",
         "name": "ConfigProviderProps",
         "type": "Interface ConfigProviderProps",
-        "resolvedType": "{ theme?: ConfigProviderThemeOptions; size?: ThemeSize; iconify?: IconifyOptions; progress?: Partial<ProgressProviderProps>; toast?: Partial<ToastProviderProps>; customToast?: boolean; persistTheme?: boolean; themeConfig?: ThemeEnvelopeInput; presetProvider?: ((name: string) => ThemePresetColors | null); isServer?: boolean; dir?: Direction; locale?: string; nonce?: string; tooltip?: Partial<TooltipProviderProps>; iconRender?: ((icon: IconValue) => VNode); linkComponent?: Component; messages?: LocaleMessagesOverrides }",
+        "resolvedType": "{ theme?: ConfigProviderThemeOptions; iconify?: IconifyOptions; progress?: Partial<ProgressProviderProps>; toast?: Partial<ToastProviderProps>; customToast?: boolean; persistTheme?: boolean; themeConfig?: ThemeEnvelopeInput; presetProvider?: ((name: string) => ThemePresetColors | null); isServer?: boolean; dir?: Direction; locale?: string; nonce?: string; tooltip?: Partial<TooltipProviderProps>; iconRender?: ((icon: IconValue) => VNode); linkComponent?: Component; messages?: LocaleMessagesOverrides }",
         "description": "Properties for the ConfigProvider component.",
         "descriptionKey": "api.generated.packages_ui_src_components_config_provider_types.configproviderprops.props",
         "sourcePath": "packages/ui/src/components/config-provider/types.ts",
@@ -199,31 +199,6 @@
                     "referencedTypes": []
                   }
                 ],
-                "callables": []
-              }
-            ]
-          },
-          {
-            "name": "size",
-            "type": "ThemeSize",
-            "required": false,
-            "description": "The size options.",
-            "descriptionKey": "api.generated.packages_ui_src_components_config_provider_types.configproviderprops.members.size",
-            "default": null,
-            "inheritedFrom": null,
-            "sourcePath": "packages/ui/src/components/config-provider/types.ts",
-            "referencedTypes": [
-              {
-                "name": "ThemeSize",
-                "kind": "typeAlias",
-                "type": "'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'",
-                "resolvedType": "'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'",
-                "description": "the component size / density preset.",
-                "descriptionKey": "api.generated.packages_theme_src_types.themesize",
-                "sourcePath": "packages/theme/src/types.ts",
-                "typeParameters": [],
-                "external": false,
-                "members": [],
                 "callables": []
               }
             ]

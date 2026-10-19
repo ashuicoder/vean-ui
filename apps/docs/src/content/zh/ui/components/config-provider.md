@@ -31,11 +31,11 @@ import { SConfigProvider } from '@vean/ui';
 
 <template>
   <SConfigProvider
-    size="md"
     :theme="{
       base: 'gray',
       primary: 'violet',
-      radius: '0.625rem'
+      radius: '0.625rem',
+      size: 'md'
     }"
   >
     <App />

@@ -30,11 +30,11 @@ import { SConfigProvider } from '@vean/ui';
 
 <template>
   <SConfigProvider
-    size="md"
     :theme="{
       base: 'gray',
       primary: 'violet',
-      radius: '0.625rem'
+      radius: '0.625rem',
+      size: 'md'
     }"
     :iconify="{ width: '1.25em', height: '1.25em' }"
     dir="ltr"
@@ -213,7 +213,6 @@ Structured API summary generated from build-time component metadata.
 Properties for the ConfigProvider component.
 
 - `theme`: The theme options. (type `ConfigProviderThemeOptions`; optional)
-- `size`: The size options. (type `ThemeSize`; optional)
 - `iconify`: The iconify options. (type `IconifyOptions`; optional)
 - `progress`: The global top progress configuration of your application. (type `Partial<ProgressProviderProps>`; optional)
 - `toast`: The global toast configuration of your application. This will be inherited by the related components. (type `Partial<ToastProviderProps>`; optional)

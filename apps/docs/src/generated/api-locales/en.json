@@ -11523,7 +11523,6 @@
             "persisttheme": "Whether to enable persisted theme reading from localStorage.\n\nWhen disabled (default), the ConfigProvider only consumes the explicit\n`theme` prop and never reads or writes any storage, keeping the current\nbehavior. When enabled, the persisted theme envelope fills in keys not\nexplicitly provided by `theme`, and changes are written back through a\nsingle debounced writer.",
             "presetprovider": "The server-side custom theme preset registry resolver.\n\nMaps a stored preset name to its definition so SSR can render custom\npresets without localStorage access. Only used when `persistTheme` is\nenabled on the server; on the client the presets table (carried by the\ntheme envelope) is the source of truth.",
             "progress": "The global top progress configuration of your application.",
-            "size": "The size options.",
             "theme": "The theme options.",
             "themeconfig": "The persisted theme envelope injected from the server.\n\nUsed during SSR to render the same theme the client persisted; on the\nclient the localStorage envelope is the source of truth.",
             "toast": "The global toast configuration of your application. This will be inherited by the related components.",

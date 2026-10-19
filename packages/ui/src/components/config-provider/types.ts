@@ -2,7 +2,6 @@ import type { ConfigProviderProps as _ConfigProviderProps } from '@vean/aria/con
 import type { ProgressProviderProps } from '@vean/aria/progress';
 import type { ThemeOptions } from '@vean/theme';
 import type { ThemeEnvelopeInput } from '@vean/theme/storage';
-import type { ThemeSize } from '@/theme';
 import type { ThemePresetColors, ThemePresetInput } from '@/theme/types';
 import type { ToastProviderProps } from '../toast/types';
 
@@ -46,12 +45,6 @@ export interface IconifyOptions {
 export interface ConfigProviderProps extends _ConfigProviderProps {
   /** The theme options. */
   theme?: ConfigProviderThemeOptions;
-  /**
-   * The size options.
-   *
-   * @deprecated Use `theme.size` instead.
-   */
-  size?: ThemeSize;
   /** The iconify options. */
   iconify?: IconifyOptions;
   /** The global top progress configuration of your application. */
