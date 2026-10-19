@@ -164,9 +164,9 @@ const messages: LocaleMessages = {
     timeZoneSegment: 'fuseau horaire,',
     empty: 'Vide',
     placeholder: {
-      year: 'yyyy',
-      month: 'mm',
-      day: 'dd',
+      year: 'AAAA',
+      month: 'MM',
+      day: 'JJ',
       time: '––'
     }
   }

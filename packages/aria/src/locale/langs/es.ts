@@ -160,13 +160,13 @@ const messages: LocaleMessages = {
     hourSegment: 'hora,',
     minuteSegment: 'minuto,',
     secondSegment: 'segundo,',
-    dayPeriodSegment: 'AM/PM,',
+    dayPeriodSegment: 'a. m./p. m.,',
     timeZoneSegment: 'zona horaria,',
     empty: 'Vacío',
     placeholder: {
-      year: 'yyyy',
-      month: 'mm',
-      day: 'dd',
+      year: 'AAAA',
+      month: 'MM',
+      day: 'DD',
       time: '––'
     }
   }

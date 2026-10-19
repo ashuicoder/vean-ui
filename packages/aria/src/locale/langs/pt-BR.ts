@@ -164,9 +164,9 @@ const messages: LocaleMessages = {
     timeZoneSegment: 'fuso horário,',
     empty: 'Vazio',
     placeholder: {
-      year: 'yyyy',
-      month: 'mm',
-      day: 'dd',
+      year: 'AAAA',
+      month: 'MM',
+      day: 'DD',
       time: '––'
     }
   }

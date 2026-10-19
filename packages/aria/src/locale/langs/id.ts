@@ -164,9 +164,9 @@ const messages: LocaleMessages = {
     timeZoneSegment: 'zona waktu,',
     empty: 'Kosong',
     placeholder: {
-      year: 'yyyy',
-      month: 'mm',
-      day: 'dd',
+      year: 'tttt',
+      month: 'bb',
+      day: 'hh',
       time: '––'
     }
   }

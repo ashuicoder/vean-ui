@@ -164,9 +164,9 @@ const messages: LocaleMessages = {
     timeZoneSegment: 'saat dilimi,',
     empty: 'Boş',
     placeholder: {
-      year: 'yyyy',
-      month: 'mm',
-      day: 'dd',
+      year: 'YYYY',
+      month: 'AA',
+      day: 'GG',
       time: '––'
     }
   }

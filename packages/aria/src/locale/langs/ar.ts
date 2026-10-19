@@ -164,9 +164,9 @@ const messages: LocaleMessages = {
     timeZoneSegment: 'المنطقة الزمنية، ',
     empty: 'فارغ',
     placeholder: {
-      year: 'yyyy',
-      month: 'mm',
-      day: 'dd',
+      year: 'سنة',
+      month: 'شهر',
+      day: 'يوم',
       time: '––'
     }
   }

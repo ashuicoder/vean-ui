@@ -164,9 +164,9 @@ const messages: LocaleMessages = {
     timeZoneSegment: 'часовой пояс,',
     empty: 'Пусто',
     placeholder: {
-      year: 'yyyy',
-      month: 'mm',
-      day: 'dd',
+      year: 'ГГГГ',
+      month: 'ММ',
+      day: 'ДД',
       time: '––'
     }
   }
