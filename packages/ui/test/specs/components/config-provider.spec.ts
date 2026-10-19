@@ -273,7 +273,31 @@ describe('SConfigProvider', () => {
       wrapper.unmount();
     });
 
-    it('invalidates the cache on a storage event for the theme key', async () => {
+    it('re-derives when another tab writes the theme envelope', async () => {
+      const wrapper = mount(SConfigProvider, {
+        props: { persistTheme: true, theme: { base: 'gray' } },
+        slots: { default: '<div />' },
+        attachTo: document.body
+      });
+
+      expect(resolveThemeMapMock.mock.calls.at(-1)?.[0]?.format).toBeUndefined();
+
+      // 跨标签页写入：信封带来 prop 未固定的字段（format），刷新后整体重派生
+      window.localStorage.setItem(
+        THEME_STORAGE_KEY,
+        JSON.stringify({ v: THEME_ENVELOPE_VERSION, options: { format: 'oklch' } })
+      );
+      window.dispatchEvent(new StorageEvent('storage', { key: THEME_STORAGE_KEY }));
+
+      await nextTick();
+
+      // prop 的 base 仍然优先，信封补位的字段生效
+      expect(resolveThemeMapMock.mock.calls.at(-1)?.[0]).toMatchObject({ base: 'gray', format: 'oklch' });
+
+      wrapper.unmount();
+    });
+
+    it('leaves the theme untouched when a storage event carries nothing to apply', async () => {
       const wrapper = mount(SConfigProvider, {
         props: { persistTheme: true, theme: { base: 'gray' } },
         slots: { default: '<div />' },
@@ -282,12 +306,49 @@ describe('SConfigProvider', () => {
 
       expect(resolveThemeMapMock).toHaveBeenCalledTimes(1);
 
-      // 跨标签页写入：storage 事件置脏缓存，下一渲染重读存储并重新派生
+      // 空存储 / 无关 key：没有可应用的内容，不重新派生
+      window.dispatchEvent(new StorageEvent('storage', { key: THEME_STORAGE_KEY }));
+      window.dispatchEvent(new StorageEvent('storage', { key: 'unrelated' }));
+
+      await nextTick();
+
+      expect(resolveThemeMapMock).toHaveBeenCalledTimes(1);
+
+      wrapper.unmount();
+    });
+
+    it('drops a field the incoming envelope no longer carries (overrides reset propagates)', async () => {
+      // 另一个标签页「清除全部 override」时，JSON.stringify 把 `overrides: undefined`
+      // 直接丢掉，信封里没有这个键。同标签页的旧 overrides 必须跟着消失 ——
+      // 用 Object.assign 会残留，这就是整体替换存在的原因。
+      window.localStorage.setItem(
+        THEME_STORAGE_KEY,
+        JSON.stringify({
+          v: THEME_ENVELOPE_VERSION,
+          options: { overrides: { light: { primary: 'red.500' } } }
+        })
+      );
+
+      const wrapper = mount(SConfigProvider, {
+        props: { persistTheme: true, theme: { base: 'gray' } },
+        slots: { default: '<div />' },
+        attachTo: document.body
+      });
+
+      expect(resolveThemeMapMock.mock.calls.at(-1)?.[0]?.overrides).toEqual({ light: { primary: 'red.500' } });
+
+      // 另一标签页清除 override：新信封里没有 overrides 键
+      window.localStorage.setItem(
+        THEME_STORAGE_KEY,
+        JSON.stringify({ v: THEME_ENVELOPE_VERSION, options: { radius: 'lg' } })
+      );
       window.dispatchEvent(new StorageEvent('storage', { key: THEME_STORAGE_KEY }));
 
       await nextTick();
 
-      expect(resolveThemeMapMock).toHaveBeenCalledTimes(2);
+      // radius 跟着更新，overrides 被清掉而不是残留
+      expect(resolveThemeMapMock.mock.calls.at(-1)?.[0]?.radius).toBe('lg');
+      expect(resolveThemeMapMock.mock.calls.at(-1)?.[0]?.overrides).toBeUndefined();
 
       wrapper.unmount();
     });
@@ -365,6 +426,20 @@ describe('SConfigProvider', () => {
       expect(document.head.querySelector('#vean-theme')?.textContent).toContain('--');
 
       warnSpy.mockRestore();
+      wrapper.unmount();
+    });
+
+    it('forwards the `prefix` token namespace to the engine', () => {
+      // `ThemeOptions.prefix` 是宿主的命名空间逃生舱：解析与发射必须同值，
+      // 漏转发会让 `theme.prefix` 静默失效（变量名不带前缀，宿主的 CSS 全部落空）。
+      const wrapper = mount(SConfigProvider, {
+        props: { theme: { prefix: 'acme' } },
+        slots: { default: '<div />' },
+        attachTo: document.body
+      });
+
+      expect(resolveThemeMapMock.mock.calls.at(-1)?.[0]?.prefix).toBe('acme');
+
       wrapper.unmount();
     });
 
