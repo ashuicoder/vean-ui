@@ -1,6 +1,38 @@
 {
   "component": "theme-base-select",
-  "generatedAt": "2026-10-18T10:29:21.514Z",
+  "generatedAt": "2026-10-19T06:39:49.085Z",
   "schemaVersion": 1,
-  "versions": []
+  "versions": [
+    {
+      "version": "v0.51.0",
+      "compareUrl": "https://github.com/soybeanjs/vean-ui/compare/v0.50.2...v0.51.0",
+      "date": "2026-10-19",
+      "entries": [
+        {
+          "type": "feature",
+          "scope": "theme-base-select",
+          "summary": "add the ui-only neutral base palette select",
+          "summaryKey": "changelog.generated.v0.51.0.eff89",
+          "commitHash": "eff89",
+          "commitUrl": "https://github.com/soybeanjs/vean-ui/commit/eff8988a8",
+          "authors": [
+            "soybeanjs"
+          ],
+          "source": "exact-scope"
+        },
+        {
+          "type": "fix",
+          "scope": "theme-base-select",
+          "summary": "correct the palette list in docs and share the swatch logic",
+          "summaryKey": "changelog.generated.v0.51.0.6ab25",
+          "commitHash": "6ab25",
+          "commitUrl": "https://github.com/soybeanjs/vean-ui/commit/6ab252577",
+          "authors": [
+            "soybeanjs"
+          ],
+          "source": "exact-scope"
+        }
+      ]
+    }
+  ]
 }

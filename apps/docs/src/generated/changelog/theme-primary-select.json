@@ -1,6 +1,26 @@
 {
   "component": "theme-primary-select",
-  "generatedAt": "2026-10-18T06:35:23.981Z",
+  "generatedAt": "2026-10-19T06:39:49.085Z",
   "schemaVersion": 1,
-  "versions": []
+  "versions": [
+    {
+      "version": "v0.51.0",
+      "compareUrl": "https://github.com/soybeanjs/vean-ui/compare/v0.50.2...v0.51.0",
+      "date": "2026-10-19",
+      "entries": [
+        {
+          "type": "feature",
+          "scope": "theme-primary-select",
+          "summary": "add the ui-only primary palette select",
+          "summaryKey": "changelog.generated.v0.51.0.682db",
+          "commitHash": "682db",
+          "commitUrl": "https://github.com/soybeanjs/vean-ui/commit/682db0e68",
+          "authors": [
+            "soybeanjs"
+          ],
+          "source": "exact-scope"
+        }
+      ]
+    }
+  ]
 }

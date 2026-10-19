@@ -1,5 +1,80 @@
 # Changelog
 
+## [v0.51.0](https://github.com/soybeanjs/vean-ui/compare/v0.50.2...v0.51.0) (2026-10-19)
+
+### &nbsp;&nbsp;&nbsp;🚨 Breaking Changes
+
+- **config-provider**: remove the deprecated top-level size prop &nbsp;-&nbsp; by @soybeanjs [<samp>(74615)</samp>](https://github.com/soybeanjs/vean-ui/commit/7461556b6)
+
+### &nbsp;&nbsp;&nbsp;🚀 Features
+
+- **scripts**:
+  - generate compact upgrade guide index &nbsp;-&nbsp; by @soybeanjs [<samp>(1e6b4)</samp>](https://github.com/soybeanjs/vean-ui/commit/1e6b486c9)
+  - prefer DeepL for sui translate &nbsp;-&nbsp; by @soybeanjs [<samp>(2e36a)</samp>](https://github.com/soybeanjs/vean-ui/commit/2e36a1b1b)
+- **theme-base-select**:
+  - add the ui-only neutral base palette select &nbsp;-&nbsp; by @soybeanjs [<samp>(eff89)</samp>](https://github.com/soybeanjs/vean-ui/commit/eff8988a8)
+- **theme-primary-select**:
+  - add the ui-only primary palette select &nbsp;-&nbsp; by @soybeanjs [<samp>(682db)</samp>](https://github.com/soybeanjs/vean-ui/commit/682db0e68)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **cli**:
+  - restore legacy hostname fixtures in migrate tests &nbsp;-&nbsp; by @soybeanjs [<samp>(d0bb6)</samp>](https://github.com/soybeanjs/vean-ui/commit/d0bb6a96b)
+  - accept img.soybeanjs.dev as a legacy CDN host &nbsp;-&nbsp; by @soybeanjs [<samp>(9c998)</samp>](https://github.com/soybeanjs/vean-ui/commit/9c9988cef)
+- **docs**:
+  - update imports from @soybeanjs/headless to @vean/aria &nbsp;-&nbsp; by @soybeanjs [<samp>(bd757)</samp>](https://github.com/soybeanjs/vean-ui/commit/bd757c333)
+  - tolerate a missing release on the releases page &nbsp;-&nbsp; by @soybeanjs [<samp>(5ec65)</samp>](https://github.com/soybeanjs/vean-ui/commit/5ec658ddc)
+- **registry**:
+  - rebuild the served registry payloads &nbsp;-&nbsp; by @soybeanjs [<samp>(49e43)</samp>](https://github.com/soybeanjs/vean-ui/commit/49e434eb7)
+- **theme**:
+  - make the default palette pass WCAG AA contrast &nbsp;-&nbsp; by @soybeanjs [<samp>(03d8a)</samp>](https://github.com/soybeanjs/vean-ui/commit/03d8ada89)
+- **theme-base-select**:
+  - correct the palette list in docs and share the swatch logic &nbsp;-&nbsp; by @soybeanjs [<samp>(6ab25)</samp>](https://github.com/soybeanjs/vean-ui/commit/6ab252577)
+- **theme-customizer**:
+  - declare the palette select deps and share the locale &nbsp;-&nbsp; by @soybeanjs [<samp>(5d4b2)</samp>](https://github.com/soybeanjs/vean-ui/commit/5d4b2d304)
+- **ui**:
+  - measure mocked elements by client box in resize observer entries &nbsp;-&nbsp; by @soybeanjs [<samp>(c5be1)</samp>](https://github.com/soybeanjs/vean-ui/commit/c5be16d2b)
+
+### &nbsp;&nbsp;&nbsp;🔥 Performance
+
+- **docs**:
+  - cut docs first-load JS by ~73% &nbsp;-&nbsp; by @soybeanjs [<samp>(51b9c)</samp>](https://github.com/soybeanjs/vean-ui/commit/51b9c3d78)
+  - defer the customizer font stylesheet out of first load &nbsp;-&nbsp; by @soybeanjs [<samp>(4688b)</samp>](https://github.com/soybeanjs/vean-ui/commit/4688b0ff6)
+
+### &nbsp;&nbsp;&nbsp;💅 Refactors
+
+- **config-provider**: extract pure theme helpers and split the theme runtime hooks &nbsp;-&nbsp; by @soybeanjs [<samp>(1fbc1)</samp>](https://github.com/soybeanjs/vean-ui/commit/1fbc131fe)
+
+### &nbsp;&nbsp;&nbsp;📖 Documentation
+
+- **ui**: update logo and brand image urls &nbsp;-&nbsp; by @soybeanjs [<samp>(ecfcd)</samp>](https://github.com/soybeanjs/vean-ui/commit/ecfcdd0f0)
+
+### &nbsp;&nbsp;&nbsp;🏡 Chore
+
+- **deps**:
+  - update deps &nbsp;-&nbsp; by @soybeanjs [<samp>(fdf83)</samp>](https://github.com/soybeanjs/vean-ui/commit/fdf839c2b)
+- **docs**:
+  - regenerate api data for the upgraded vue and tanstack types &nbsp;-&nbsp; by @soybeanjs [<samp>(53b76)</samp>](https://github.com/soybeanjs/vean-ui/commit/53b76a347)
+  - re-translate api locale text with DeepL &nbsp;-&nbsp; by @soybeanjs [<samp>(39ed2)</samp>](https://github.com/soybeanjs/vean-ui/commit/39ed2771c)
+- **gitattributes**:
+  - set text=auto eol=lf &nbsp;-&nbsp; by @soybeanjs [<samp>(8cadc)</samp>](https://github.com/soybeanjs/vean-ui/commit/8cadc5592)
+- **registry**:
+  - regenerate the registry items after the size prop removal &nbsp;-&nbsp; by @soybeanjs [<samp>(134c6)</samp>](https://github.com/soybeanjs/vean-ui/commit/134c68434)
+
+### &nbsp;&nbsp;&nbsp;✅ Tests
+
+- **scripts**: pin the translation provider instead of reading the ambient env &nbsp;-&nbsp; by @soybeanjs [<samp>(8af77)</samp>](https://github.com/soybeanjs/vean-ui/commit/8af775c0b)
+
+### &nbsp;&nbsp;&nbsp;🎨 Styles
+
+- **projects**:
+  - format code &nbsp;-&nbsp; by @soybeanjs [<samp>(87d32)</samp>](https://github.com/soybeanjs/vean-ui/commit/87d32208e)
+  - format code &nbsp;-&nbsp; by @soybeanjs [<samp>(4d90c)</samp>](https://github.com/soybeanjs/vean-ui/commit/4d90c8281)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![soybeanjs](https://github.com/soybeanjs.png?size=48)](https://github.com/soybeanjs)&nbsp;&nbsp;
+
 ## [v0.50.2](https://github.com/soybeanjs/vean-ui/compare/v0.50.1...v0.50.2) (2026-10-09)
 
 ### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes

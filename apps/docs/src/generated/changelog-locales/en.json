@@ -3716,6 +3716,36 @@
             "4e35b": "add the missing theme-customizer reference",
             "53e7b": "guard skill docs against missing component coverage"
           }
+        },
+        "51": {
+          "0": {
+            "74615": "remove the deprecated top-level size prop",
+            "03d8a": "make the default palette pass WCAG AA contrast",
+            "134c6": "regenerate the registry items after the size prop removal",
+            "1e6b4": "generate compact upgrade guide index",
+            "1fbc1": "extract pure theme helpers and split the theme runtime hooks",
+            "2e36a": "prefer DeepL for sui translate",
+            "39ed2": "re-translate api locale text with DeepL",
+            "4688b": "defer the customizer font stylesheet out of first load",
+            "49e43": "rebuild the served registry payloads",
+            "4d90c": "format code",
+            "51b9c": "cut docs first-load JS by ~73%",
+            "53b76": "regenerate api data for the upgraded vue and tanstack types",
+            "5d4b2": "declare the palette select deps and share the locale",
+            "5ec65": "tolerate a missing release on the releases page",
+            "682db": "add the ui-only primary palette select",
+            "6ab25": "correct the palette list in docs and share the swatch logic",
+            "87d32": "format code",
+            "8af77": "pin the translation provider instead of reading the ambient env",
+            "8cadc": "set text=auto eol=lf",
+            "9c998": "accept img.soybeanjs.dev as a legacy CDN host",
+            "bd757": "update imports from @soybeanjs/headless to @vean/aria",
+            "c5be1": "measure mocked elements by client box in resize observer entries",
+            "d0bb6": "restore legacy hostname fixtures in migrate tests",
+            "ecfcd": "update logo and brand image urls",
+            "eff89": "add the ui-only neutral base palette select",
+            "fdf83": "update deps"
+          }
         }
       }
     }

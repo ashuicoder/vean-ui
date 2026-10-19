@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-18T10:29:21.514Z",
+  "generatedAt": "2026-10-19T06:39:49.085Z",
   "schemaVersion": 1,
   "components": {
     "accordion": {
@@ -208,9 +208,9 @@
     "config-provider": {
       "component": "config-provider",
       "file": "config-provider.json",
-      "latestVersion": "v0.30.0",
-      "versionCount": 10,
-      "entryCount": 30
+      "latestVersion": "v0.51.0",
+      "versionCount": 11,
+      "entryCount": 32
     },
     "context-menu": {
       "component": "context-menu",
@@ -600,16 +600,16 @@
     "theme-base-select": {
       "component": "theme-base-select",
       "file": "theme-base-select.json",
-      "latestVersion": null,
-      "versionCount": 0,
-      "entryCount": 0
+      "latestVersion": "v0.51.0",
+      "versionCount": 1,
+      "entryCount": 2
     },
     "theme-customizer": {
       "component": "theme-customizer",
       "file": "theme-customizer.json",
-      "latestVersion": "v0.50.0",
-      "versionCount": 3,
-      "entryCount": 9
+      "latestVersion": "v0.51.0",
+      "versionCount": 4,
+      "entryCount": 10
     },
     "theme-mode-segment": {
       "component": "theme-mode-segment",
@@ -635,9 +635,9 @@
     "theme-primary-select": {
       "component": "theme-primary-select",
       "file": "theme-primary-select.json",
-      "latestVersion": null,
-      "versionCount": 0,
-      "entryCount": 0
+      "latestVersion": "v0.51.0",
+      "versionCount": 1,
+      "entryCount": 1
     },
     "time-field": {
       "component": "time-field",
