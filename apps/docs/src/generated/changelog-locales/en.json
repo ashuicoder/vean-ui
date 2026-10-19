@@ -3745,6 +3745,16 @@
             "ecfcd": "update logo and brand image urls",
             "eff89": "add the ui-only neutral base palette select",
             "fdf83": "update deps"
+          },
+          "1": {
+            "26d54": "resolve locale tags through the BCP-47 parent chain",
+            "3b005": "update deps",
+            "42ad5": "format changelog",
+            "606b7": "localize date segment placeholders per locale",
+            "689ea": "update docs api",
+            "8abf6": "update release-execute script to include formatting and linting",
+            "8eca5": "report the import cost of every published entry",
+            "d5647": "add a browser tier for contracts no ui wrapper reaches"
           }
         }
       }

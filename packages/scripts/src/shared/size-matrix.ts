@@ -1,5 +1,5 @@
-import type { SizeMetrics, WorkspacePackageManifest } from './size';
 import { formatBytes } from './size';
+import type { SizeMetrics, WorkspacePackageManifest } from './size';
 
 /**
  * Per-entry size matrix for `sui size --matrix`.

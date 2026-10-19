@@ -81,9 +81,7 @@ function getCanonicalIndex(): Map<string, LocaleRegistry> {
  */
 function findByPrimaryLanguage(canonicalTag: string): LocaleRegistry | undefined {
   const [primary] = canonicalTag.split('-');
-  const candidates = Array.from(getCanonicalIndex().entries()).filter(
-    ([tag]) => tag.split('-')[0] === primary
-  );
+  const candidates = Array.from(getCanonicalIndex().entries()).filter(([tag]) => tag.split('-')[0] === primary);
   if (candidates.length === 0) {
     return undefined;
   }
@@ -131,9 +129,7 @@ function findRegisteredLocale(locale: string): LocaleRegistry | undefined {
   // `zh-TW` does not swallow `zh-CN`.
   const target = maximize(canonicalTag);
   if (target) {
-    const expanded = Array.from(index.entries()).find(
-      ([tag]) => maximize(tag)?.toString() === target.toString()
-    );
+    const expanded = Array.from(index.entries()).find(([tag]) => maximize(tag)?.toString() === target.toString());
     if (expanded) {
       return expanded[1];
     }

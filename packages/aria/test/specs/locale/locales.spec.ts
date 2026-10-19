@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import zhTW from '../../../src/locale/langs/zh-TW';
-import fr from '../../../src/locale/langs/fr';
-import ptBR from '../../../src/locale/langs/pt-BR';
-import ar from '../../../src/locale/langs/ar';
-import { registerLocale, resolveLocale, resolveLocaleRegistry } from '../../../src/locale';
 // `resolveLocaleDirection` is consumed by ConfigProvider but not part of the
 // public `/locale` entry, so the test reaches into the module directly.
 import { resolveLocaleDirection } from '../../../src/locale/locales';
+import { registerLocale, resolveLocale, resolveLocaleRegistry } from '../../../src/locale';
+import ar from '../../../src/locale/langs/ar';
+import fr from '../../../src/locale/langs/fr';
+import ptBR from '../../../src/locale/langs/pt-BR';
+import zhTW from '../../../src/locale/langs/zh-TW';
 
 describe('locale resolution — default registry', () => {
   it('resolves registered keys exactly', () => {

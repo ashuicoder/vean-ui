@@ -1,5 +1,36 @@
 # Changelog
 
+## [v0.51.1](https://github.com/soybeanjs/vean-ui/compare/v0.51.0...v0.51.1) (2026-10-19)
+
+### &nbsp;&nbsp;&nbsp;🚀 Features
+
+- **scripts**: report the import cost of every published entry &nbsp;-&nbsp; by @soybeanjs [<samp>(8eca5)</samp>](https://github.com/soybeanjs/vean-ui/commit/8eca54b4e)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **aria**:
+  - resolve locale tags through the BCP-47 parent chain &nbsp;-&nbsp; by @soybeanjs [<samp>(26d54)</samp>](https://github.com/soybeanjs/vean-ui/commit/26d54b518)
+  - localize date segment placeholders per locale &nbsp;-&nbsp; by @soybeanjs [<samp>(606b7)</samp>](https://github.com/soybeanjs/vean-ui/commit/606b773ca)
+
+### &nbsp;&nbsp;&nbsp;📖 Documentation
+
+- **projects**:
+  - format changelog &nbsp;-&nbsp; by @soybeanjs [<samp>(42ad5)</samp>](https://github.com/soybeanjs/vean-ui/commit/42ad5b927)
+  - update docs api &nbsp;-&nbsp; by @soybeanjs [<samp>(689ea)</samp>](https://github.com/soybeanjs/vean-ui/commit/689eaddb2)
+
+### &nbsp;&nbsp;&nbsp;🏡 Chore
+
+- **deps**: update deps &nbsp;-&nbsp; by @soybeanjs [<samp>(3b005)</samp>](https://github.com/soybeanjs/vean-ui/commit/3b005af57)
+- **release**: update release-execute script to include formatting and linting &nbsp;-&nbsp; by @soybeanjs [<samp>(8abf6)</samp>](https://github.com/soybeanjs/vean-ui/commit/8abf6d858)
+
+### &nbsp;&nbsp;&nbsp;✅ Tests
+
+- **aria**: add a browser tier for contracts no ui wrapper reaches &nbsp;-&nbsp; by @soybeanjs [<samp>(d5647)</samp>](https://github.com/soybeanjs/vean-ui/commit/d5647a0fb)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![soybeanjs](https://github.com/soybeanjs.png?size=48)](https://github.com/soybeanjs)&nbsp;&nbsp;
+
 ## [v0.51.0](https://github.com/soybeanjs/vean-ui/compare/v0.50.2...v0.51.0) (2026-10-19)
 
 ### &nbsp;&nbsp;&nbsp;🚨 Breaking Changes

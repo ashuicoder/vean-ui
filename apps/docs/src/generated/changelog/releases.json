@@ -1,7 +1,113 @@
 {
-  "generatedAt": "2026-10-19T06:39:49.085Z",
+  "generatedAt": "2026-10-19T10:38:12.929Z",
   "schemaVersion": 1,
   "releases": [
+    {
+      "version": "v0.51.1",
+      "compareUrl": "https://github.com/soybeanjs/vean-ui/compare/v0.51.0...v0.51.1",
+      "date": "2026-10-19",
+      "entryCount": 8,
+      "componentCount": 0,
+      "components": [],
+      "newComponents": [],
+      "typeCounts": {
+        "fix": 2,
+        "feature": 1,
+        "chore": 3,
+        "docs": 2
+      },
+      "notes": [],
+      "entries": [
+        {
+          "type": "fix",
+          "scope": "aria",
+          "summary": "resolve locale tags through the BCP-47 parent chain",
+          "summaryKey": "changelog.generated.v0.51.1.26d54",
+          "commitHash": "26d54",
+          "commitUrl": "https://github.com/soybeanjs/vean-ui/commit/26d54b518",
+          "authors": ["soybeanjs"],
+          "source": "exact-scope",
+          "components": []
+        },
+        {
+          "type": "fix",
+          "scope": "aria",
+          "summary": "localize date segment placeholders per locale",
+          "summaryKey": "changelog.generated.v0.51.1.606b7",
+          "commitHash": "606b7",
+          "commitUrl": "https://github.com/soybeanjs/vean-ui/commit/606b773ca",
+          "authors": ["soybeanjs"],
+          "source": "exact-scope",
+          "components": []
+        },
+        {
+          "type": "feature",
+          "scope": "scripts",
+          "summary": "report the import cost of every published entry",
+          "summaryKey": "changelog.generated.v0.51.1.8eca5",
+          "commitHash": "8eca5",
+          "commitUrl": "https://github.com/soybeanjs/vean-ui/commit/8eca54b4e",
+          "authors": ["soybeanjs"],
+          "source": "exact-scope",
+          "components": []
+        },
+        {
+          "type": "chore",
+          "scope": "aria",
+          "summary": "add a browser tier for contracts no ui wrapper reaches",
+          "summaryKey": "changelog.generated.v0.51.1.d5647",
+          "commitHash": "d5647",
+          "commitUrl": "https://github.com/soybeanjs/vean-ui/commit/d5647a0fb",
+          "authors": ["soybeanjs"],
+          "source": "exact-scope",
+          "components": []
+        },
+        {
+          "type": "chore",
+          "scope": "release",
+          "summary": "update release-execute script to include formatting and linting",
+          "summaryKey": "changelog.generated.v0.51.1.8abf6",
+          "commitHash": "8abf6",
+          "commitUrl": "https://github.com/soybeanjs/vean-ui/commit/8abf6d858",
+          "authors": ["soybeanjs"],
+          "source": "exact-scope",
+          "components": []
+        },
+        {
+          "type": "docs",
+          "scope": "projects",
+          "summary": "format changelog",
+          "summaryKey": "changelog.generated.v0.51.1.42ad5",
+          "commitHash": "42ad5",
+          "commitUrl": "https://github.com/soybeanjs/vean-ui/commit/42ad5b927",
+          "authors": ["soybeanjs"],
+          "source": "exact-scope",
+          "components": []
+        },
+        {
+          "type": "docs",
+          "scope": "projects",
+          "summary": "update docs api",
+          "summaryKey": "changelog.generated.v0.51.1.689ea",
+          "commitHash": "689ea",
+          "commitUrl": "https://github.com/soybeanjs/vean-ui/commit/689eaddb2",
+          "authors": ["soybeanjs"],
+          "source": "exact-scope",
+          "components": []
+        },
+        {
+          "type": "chore",
+          "scope": "deps",
+          "summary": "update deps",
+          "summaryKey": "changelog.generated.v0.51.1.3b005",
+          "commitHash": "3b005",
+          "commitUrl": "https://github.com/soybeanjs/vean-ui/commit/3b005af57",
+          "authors": ["soybeanjs"],
+          "source": "exact-scope",
+          "components": []
+        }
+      ]
+    },
     {
       "version": "v0.51.0",
       "compareUrl": "https://github.com/soybeanjs/vean-ui/compare/v0.50.2...v0.51.0",

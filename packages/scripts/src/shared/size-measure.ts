@@ -8,8 +8,8 @@ import { build } from 'esbuild';
 import type { Plugin } from 'esbuild';
 import { buildFixtureSource, resolvePublishedSpecifier, sizeMetrics } from './size';
 import type { SizeMetrics, WorkspacePackageManifest } from './size';
-import type { SizeMatrixReport, SizeMatrixRow } from './size-matrix';
 import { publishedSpecifiers, sortMatrixRows } from './size-matrix';
+import type { SizeMatrixReport, SizeMatrixRow } from './size-matrix';
 
 /**
  * Measurement I/O for `sui size`: reading build output, packing a publishable

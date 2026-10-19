@@ -1,15 +1,15 @@
 import { describe, expect, it } from 'vitest';
 import { getPlaceholder } from '../../../src/date/placeholders';
 import { registerLocale } from '../../../src/locale';
-import en from '../../../src/locale/langs/en';
-import de from '../../../src/locale/langs/de';
-import fr from '../../../src/locale/langs/fr';
-import es from '../../../src/locale/langs/es';
-import ru from '../../../src/locale/langs/ru';
 import ar from '../../../src/locale/langs/ar';
+import de from '../../../src/locale/langs/de';
+import en from '../../../src/locale/langs/en';
+import es from '../../../src/locale/langs/es';
+import fr from '../../../src/locale/langs/fr';
 import id from '../../../src/locale/langs/id';
-import tr from '../../../src/locale/langs/tr';
 import ptBR from '../../../src/locale/langs/pt-BR';
+import ru from '../../../src/locale/langs/ru';
+import tr from '../../../src/locale/langs/tr';
 import type { LocaleRegistry } from '../../../src/locale/types';
 
 const localized = [
