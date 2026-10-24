@@ -1,6 +1,6 @@
-import type { AppShellMenuItem } from '@vean/ui';
+import type { AppShellMenuOptionData } from '@vean/ui';
 
-export const appShellItems: AppShellMenuItem[] = [
+export const appShellItems: AppShellMenuOptionData[] = [
   {
     label: 'Overview',
     value: 'overview',

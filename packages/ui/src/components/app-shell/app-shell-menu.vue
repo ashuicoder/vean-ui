@@ -9,7 +9,7 @@ import STreeMenu from '../tree-menu/tree-menu.vue';
 import STreeNav from '../tree-nav/tree-nav.vue';
 import { splitNavCollapsedPaneWidth } from './shared';
 import type { AppShellMenuRenderer } from './shared';
-import type { AppShellMenuItem, AppShellMenuProps, AppShellMenuUi } from './types';
+import type { AppShellMenuOptionData, AppShellMenuProps, AppShellMenuUi } from './types';
 
 defineOptions({
   name: 'AppShellMenu'
@@ -23,7 +23,7 @@ interface Props {
   /** Visual size forwarded to the renderer. */
   size: ThemeSize;
   /** Menu tree rendered by the renderer. */
-  items: AppShellMenuItem[];
+  items: AppShellMenuOptionData[];
   /** Active leaf value. */
   modelValue: string | undefined;
   /** Side the sidebar is placed on. */
@@ -49,7 +49,7 @@ const props = defineProps<Props>();
 interface Emits {
   'update:modelValue': [value: string];
   select: [key: string, event?: Event];
-  open: [item: AppShellMenuItem, event?: Event];
+  open: [item: AppShellMenuOptionData, event?: Event];
 }
 
 const emit = defineEmits<Emits>();
@@ -105,7 +105,7 @@ function handleSplitSelect(key: string, event?: Event) {
   emit('select', key, event);
 }
 
-function handleSplitOpen(item: SplitNavOptionData<AppShellMenuItem>, event?: Event) {
+function handleSplitOpen(item: SplitNavOptionData<AppShellMenuOptionData>, event?: Event) {
   emit('open', item, event);
 }
 </script>

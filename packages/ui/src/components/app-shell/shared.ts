@@ -6,7 +6,12 @@ import type { DataOrientation } from '@vean/aria/types';
 import { splitNavPaneMetrics } from '@/styles/split-nav';
 import { themeSizeMap, themeSizeRatio } from '@/theme';
 import type { ThemeSize } from '@/theme';
-import type { AppShellLogoPlacement, AppShellLogoPlacementResolved, AppShellMenuItem, AppShellMode } from './types';
+import type {
+  AppShellLogoPlacement,
+  AppShellLogoPlacementResolved,
+  AppShellMenuOptionData,
+  AppShellMode
+} from './types';
 
 /** `md` is the 1x reference of the theme size scale. */
 const baseFontSize = themeSizeMap.md;
@@ -420,7 +425,7 @@ export function createPxToRem(size: ThemeSize): (px: number) => number {
  * shell derives on its own — today the crumb dropdown — where `hidden` has to mean
  * the same thing.
  */
-export function filterVisibleMenuItems(items: readonly AppShellMenuItem[]): AppShellMenuItem[] {
+export function filterVisibleMenuItems(items: readonly AppShellMenuOptionData[]): AppShellMenuOptionData[] {
   return items
     .filter(item => !item.hidden)
     .map(item => (item.children ? { ...item, children: filterVisibleMenuItems(item.children) } : item));
@@ -433,11 +438,11 @@ export function filterVisibleMenuItems(items: readonly AppShellMenuItem[]): AppS
  * (`MenuSubTrigger`) and only the leaves below it activate, mirroring how the
  * menu renderers treat the same tree.
  */
-export function toMenuOptions(items: readonly AppShellMenuItem[] = []): MenuOptionData<string>[] {
+export function toMenuOptions(items: readonly AppShellMenuOptionData[] = []): MenuOptionData<string>[] {
   return filterVisibleMenuItems(items).map(toMenuOption);
 }
 
-function toMenuOption(item: AppShellMenuItem): MenuOptionData<string> {
+function toMenuOption(item: AppShellMenuOptionData): MenuOptionData<string> {
   const { value, label, icon, disabled, children } = item;
 
   return {
@@ -455,7 +460,10 @@ function toMenuOption(item: AppShellMenuItem): MenuOptionData<string> {
  * Hidden nodes are kept: a hidden menu can still be the active route, and the
  * breadcrumb has to show where it sits.
  */
-export function findMenuTrail(items: readonly AppShellMenuItem[], value: string | undefined): AppShellMenuItem[] {
+export function findMenuTrail(
+  items: readonly AppShellMenuOptionData[],
+  value: string | undefined
+): AppShellMenuOptionData[] {
   if (!value) {
     return [];
   }
@@ -479,9 +487,9 @@ export function findMenuTrail(items: readonly AppShellMenuItem[], value: string 
  * Find a menu node by value.
  */
 export function findMenuItem(
-  items: readonly AppShellMenuItem[],
+  items: readonly AppShellMenuOptionData[],
   value: string | undefined
-): AppShellMenuItem | undefined {
+): AppShellMenuOptionData | undefined {
   return findMenuTrail(items, value).at(-1);
 }
 

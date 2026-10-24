@@ -57,10 +57,15 @@ export type AppShellLogoPlacement = 'auto' | AppShellLogoPlacementResolved;
  * A superset of the `TreeMenu` / `TreeNav` / `SplitNav` option data, so one tree
  * feeds the nested sidebar, the top bar, and the split panes alike.
  */
-export interface AppShellMenuItem extends SplitNavBaseOptionData {
+export interface AppShellMenuOptionData extends SplitNavBaseOptionData {
   /** Child options. */
-  children?: AppShellMenuItem[];
+  children?: AppShellMenuOptionData[];
 }
+
+/**
+ * @deprecated Use `AppShellMenuOptionData` instead. will be removed in 0.60.0
+ */
+export type AppShellMenuItem = AppShellMenuOptionData;
 
 /**
  * Per-renderer props forwarded by the shell to the menu it renders.
@@ -264,7 +269,7 @@ export interface AppShellProps {
   /**
    * Menu tree rendered by the shell.
    */
-  items: AppShellMenuItem[];
+  items: AppShellMenuOptionData[];
   /**
    * The controlled active menu value. Can be bound with `v-model`.
    *
@@ -356,7 +361,7 @@ export interface AppShellEmits {
   /**
    * Emitted when a menu parent opens its nested pane.
    */
-  open: [item: AppShellMenuItem, event?: Event];
+  open: [item: AppShellMenuOptionData, event?: Event];
   /**
    * Emitted when the active tab changes.
    */
