@@ -3755,6 +3755,12 @@
             "8abf6": "update release-execute script to include formatting and linting",
             "8eca5": "report the import cost of every published entry",
             "d5647": "add a browser tier for contracts no ui wrapper reaches"
+          },
+          "2": {
+            "2a19c": "update type for onSelectLocale parameter",
+            "a1fd4": "rename AppShellMenuItem to AppShellMenuOptionData",
+            "ac4e1": "format code",
+            "cced2": "update deps"
           }
         }
       }

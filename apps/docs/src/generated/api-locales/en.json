@@ -10253,7 +10253,7 @@
         },
         "appshelllogoplacement": "Logo slot placement.\n\n- `auto`: the mode's own default — the sidebar for the single-sidebar and\n  dual-vertical shapes, the header for the rest.\n- `sidebar`: the top of the sidebar.\n- `sidebar-bottom`: the bottom of the sidebar, under the menu and\n  `sidebar-end`. Only the modes whose sidebar is always a column of its own\n  support it (`sidebar`, `dual-vertical`); every other mode keeps its default\n  placement instead of pinning the brand where it can disappear.\n- `header`: the header.",
         "appshelllogoplacementresolved": "Where the logo slot is rendered when `logoPlacement` is `'auto'`.",
-        "appshellmenuitem": "Option data for the `SAppShell` menu.\n\nA superset of the `TreeMenu` / `TreeNav` / `SplitNav` option data, so one tree\nfeeds the nested sidebar, the top bar, and the split panes alike.",
+        "appshellmenuoptiondata": "Option data for the `SAppShell` menu.\n\nA superset of the `TreeMenu` / `TreeNav` / `SplitNav` option data, so one tree\nfeeds the nested sidebar, the top bar, and the split panes alike.",
         "appshellmenuprops": {
           "members": {
             "split": "Forwarded to `SSplitNav` (the four split modes).",

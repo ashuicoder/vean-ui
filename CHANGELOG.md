@@ -1,5 +1,27 @@
 # Changelog
 
+## [v0.51.2](https://github.com/soybeanjs/vean-ui/compare/v0.51.1...v0.51.2) (2026-10-24)
+
+### &nbsp;&nbsp;&nbsp;🚨 Breaking Changes
+
+- **app-shell**: rename AppShellMenuItem to AppShellMenuOptionData &nbsp;-&nbsp; by @soybeanjs [<samp>(a1fd4)</samp>](https://github.com/soybeanjs/vean-ui/commit/a1fd4857d)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **locale-toggler**: update type for onSelectLocale parameter &nbsp;-&nbsp; by @soybeanjs [<samp>(2a19c)</samp>](https://github.com/soybeanjs/vean-ui/commit/2a19cbf00)
+
+### &nbsp;&nbsp;&nbsp;🏡 Chore
+
+- **deps**: update deps &nbsp;-&nbsp; by @soybeanjs [<samp>(cced2)</samp>](https://github.com/soybeanjs/vean-ui/commit/cced20491)
+
+### &nbsp;&nbsp;&nbsp;🎨 Styles
+
+- **projects**: format code &nbsp;-&nbsp; by @soybeanjs [<samp>(ac4e1)</samp>](https://github.com/soybeanjs/vean-ui/commit/ac4e183df)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![soybeanjs](https://github.com/soybeanjs.png?size=48)](https://github.com/soybeanjs)&nbsp;&nbsp;
+
 ## [v0.51.1](https://github.com/soybeanjs/vean-ui/compare/v0.51.0...v0.51.1) (2026-10-19)
 
 ### &nbsp;&nbsp;&nbsp;🚀 Features

@@ -3755,6 +3755,12 @@
             "8abf6": "更新 release-execute 脚本，以包含格式化与代码检查功能",
             "8eca5": "报告每个已发布条目的导入开销",
             "d5647": "为“contracts no ui wrapper reaches”添加浏览器层级"
+          },
+          "2": {
+            "2a19c": "更新 onSelectLocale 参数的类型",
+            "a1fd4": "将 AppShellMenuItem 重命名为 AppShellMenuOptionData",
+            "ac4e1": "代码格式",
+            "cced2": "更新依赖项"
           }
         }
       }

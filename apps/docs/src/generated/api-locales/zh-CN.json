@@ -10253,7 +10253,7 @@
         },
         "appshelllogoplacement": "徽标插槽位置。\n\n- `auto`：该模式自身的默认值——对于单侧边栏和\n  双垂直布局，位于侧边栏；对于其余布局，位于页眉。\n- `sidebar`：侧边栏顶部。\n- `sidebar-bottom`：侧边栏底部，位于菜单和\n  `sidebar-end` 下方。仅当侧边栏始终作为独立一列显示的模式\n  才支持此选项（`sidebar`、`dual-vertical`）；其他所有模式均保留默认\n  位置，而非将品牌标识固定在可能被遮挡的位置。\n- `header`：页眉。",
         "appshelllogoplacementresolved": "当 `logoPlacement` 设置为 `'auto'` 时，徽标插槽的渲染位置。",
-        "appshellmenuitem": "`SAppShell` 菜单的选项数据。\n\n这是 `TreeMenu` / `TreeNav` / `SplitNav` 选项数据的超集，因此一个树结构\n可同时驱动嵌套侧边栏、顶部栏和拆分窗格。",
+        "appshellmenuoptiondata": "`SAppShell` 菜单的选项数据。\n\n这是 `TreeMenu` / `TreeNav` / `SplitNav` 选项数据的超集，因此一个树结构\n可同时驱动嵌套侧边栏、顶部栏和拆分窗格。",
         "appshellmenuprops": {
           "members": {
             "split": "转发至 `SSplitNav`（四种拆分模式）。",
