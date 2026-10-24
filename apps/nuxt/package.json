@@ -9,7 +9,7 @@
     "preview": "nuxt preview"
   },
   "dependencies": {
-    "@nuxt/icon": "2.5.1",
+    "@nuxt/icon": "2.6.0",
     "@nuxtjs/i18n": "10.6.0",
     "@vean/theme": "workspace:^",
     "nuxt": "^4.6.2",
