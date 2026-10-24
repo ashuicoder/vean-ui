@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
+import type { Locale } from 'vue-i18n';
 import { setLocale, switchLocalePath } from 'ubean/client';
 import type { MenuOptionData } from '@vean/ui';
 import { snakeCase } from '@vean/aria/shared';
@@ -35,7 +36,7 @@ const items = computed<MenuOptionData<string>[]>(() => {
  * first with the full location: `setLocale` then sees the localized path already in place and
  * skips its navigation instead of overwriting ours.
  */
-const onSelectLocale = async (item: MenuOptionData<string>) => {
+const onSelectLocale = async (item: MenuOptionData<Locale>) => {
   const code = item.value;
 
   // Same order `setLocale` uses internally (composer locale before the navigation), so the
