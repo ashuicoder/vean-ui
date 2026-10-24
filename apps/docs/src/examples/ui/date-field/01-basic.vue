@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, shallowRef } from 'vue';
-import { createDate } from '@vean/aria/date';
-import type { DateValue, Granularity, HourCycle } from '@vean/aria/date';
 import { SButtonIcon, SDateField, SSelect, SSwitch } from '@vean/ui';
 import type { SelectOptionData, ThemeSize } from '@vean/ui';
+import { createDate } from '@vean/aria/date';
+import type { DateValue, Granularity, HourCycle } from '@vean/aria/date';
 import { themeSizeOptions } from '~/constants/theme';
 
 interface Props {

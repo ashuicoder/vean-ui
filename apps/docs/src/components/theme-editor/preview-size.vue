@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { themeSizeKeys } from '@vean/theme';
 import {
   SAvatar,
   SBadge,
@@ -17,6 +16,7 @@ import {
   STextarea
 } from '@vean/ui';
 import type { RadioGroupOptionData, SegmentOptionData, SelectOptionData } from '@vean/ui';
+import { themeSizeKeys } from '@vean/theme';
 
 defineOptions({
   name: 'ThemeEditorPreviewSize'

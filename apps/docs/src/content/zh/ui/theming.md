@@ -153,8 +153,8 @@ preset 是一套可被用户重新应用的具名颜色集——主题定制面�
 常规路径是 provider——它独占那个 `<style>` 元素，负责信封持久化与跨标签页同步。当你需要自己拿到 CSS（SSR 渲染、静态构建、截图服务）时，底下这条流水线是公开的：
 
 ```ts
-import { emitThemeCss, generatePaletteCss, resolveThemeMap, resolveTokenColor } from '@vean/theme';
 import { buildThemeCss } from '@vean/ui';
+import { emitThemeCss, generatePaletteCss, resolveThemeMap, resolveTokenColor } from '@vean/theme';
 
 // 一次调用完成「解析 + 发射」（SConfigProvider 内联的就是它）
 const css = buildThemeCss({ base: 'gray', primary: 'violet' });

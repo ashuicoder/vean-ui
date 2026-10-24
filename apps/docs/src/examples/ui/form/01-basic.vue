@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, shallowRef } from 'vue';
-import * as v from 'valibot';
 import {
   SButton,
   SButtonIcon,
@@ -20,6 +19,7 @@ import type {
   SelectOptionData,
   ThemeSize
 } from '@vean/ui';
+import * as v from 'valibot';
 import { themeSizeOptions } from '~/constants/theme';
 
 interface Props {

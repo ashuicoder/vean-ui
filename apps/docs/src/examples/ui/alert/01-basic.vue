@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, shallowRef } from 'vue';
-import { resolveThemeColors } from '@vean/theme';
 import { SAlert, SButtonIcon, SInput, SSelect, SSwitch, useTheme } from '@vean/ui';
 import type { AlertVariant, SelectOptionData, ThemeColor, ThemeSize } from '@vean/ui';
+import { resolveThemeColors } from '@vean/theme';
 import { themeSizeOptions } from '~/constants/theme';
 
 interface Props {

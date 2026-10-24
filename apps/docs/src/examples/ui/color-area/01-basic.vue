@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { shallowRef } from 'vue';
-import type { ColorAreaAxisChannel } from '@vean/aria/color-area';
-import type { ColorFormat, ColorSpace } from '@vean/aria/types';
 import { SButtonIcon, SColorArea, SColorSwatch, SSelect, SSwitch } from '@vean/ui';
 import type { ThemeSize } from '@vean/ui';
+import type { ColorAreaAxisChannel } from '@vean/aria/color-area';
+import type { ColorFormat, ColorSpace } from '@vean/aria/types';
 import { themeSizeOptions } from '~/constants/theme';
 
 interface Props {

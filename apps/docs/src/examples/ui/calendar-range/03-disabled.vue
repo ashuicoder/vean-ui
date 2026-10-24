@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { createDate } from '@vean/aria/date';
 import { SCalendarRange } from '@vean/ui';
+import { createDate } from '@vean/aria/date';
 
 const value = {
   start: createDate(2026, 4, 18),

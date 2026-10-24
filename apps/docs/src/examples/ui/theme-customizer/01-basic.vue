@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { shallowRef } from 'vue';
 import { useMediaQuery } from '@vueuse/core';
-import { mobileViewportQuery } from '@vean/aria/shared';
 import { SButtonIcon, SPopover, SSelect, SSwitch, SThemeCustomizer } from '@vean/ui';
 import type { ThemeSize } from '@vean/ui';
+import { mobileViewportQuery } from '@vean/aria/shared';
 import { themeSizeOptions } from '~/constants/theme';
 
 interface Props {

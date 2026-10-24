@@ -1,6 +1,6 @@
 import path from 'path';
-import * as v from 'valibot';
 import { THEME_RADIUS } from '@vean/theme';
+import * as v from 'valibot';
 import { Command } from 'commander';
 import { PRESET_BASE_COLORS, PRESET_PRIMARY_COLORS, PRESET_RADII, PRESET_ICON_LIBRARIES } from '../registry/config';
 import { getConfig } from '../utils/get-config';

@@ -3,8 +3,8 @@ import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { setLocale, switchLocalePath } from 'ubean/client';
-import { snakeCase } from '@vean/aria/shared';
 import type { MenuOptionData } from '@vean/ui';
+import { snakeCase } from '@vean/aria/shared';
 
 const { t, locale } = useI18n();
 const route = useRoute();

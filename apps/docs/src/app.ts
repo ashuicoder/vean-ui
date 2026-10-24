@@ -1,6 +1,6 @@
 import { defineApp } from 'ubean/client';
-import { createThemeInitScript } from '@vean/theme/ssr';
 import { progress } from '@vean/ui';
+import { createThemeInitScript } from '@vean/theme/ssr';
 // import '@vean/ui/styles.css';
 import 'uno.css';
 import { docsFontPreconnectLinks } from './shared/fonts';

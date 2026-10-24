@@ -1,7 +1,7 @@
 import { computed, ref } from 'vue';
 import { useStorage } from '@vueuse/core';
-import { useContext } from '@vean/aria/composables';
 import type { ConfigProviderProps, ConfigProviderThemeOptions, Direction } from '@vean/ui';
+import { useContext } from '@vean/aria/composables';
 
 /**
  * 页面级配置上下文：dir / locale + 主题生成器覆盖。

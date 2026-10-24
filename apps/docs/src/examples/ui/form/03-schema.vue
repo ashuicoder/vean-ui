@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { z } from 'zod';
 import {
   SButton,
   SButtonIcon,
@@ -13,6 +12,7 @@ import {
   useForm
 } from '@vean/ui';
 import type { CheckboxGroupOptionData, RadioGroupOptionData, SelectOptionData } from '@vean/ui';
+import { z } from 'zod';
 
 const user = z.object({
   username: z.string('Username is required').nonempty('Username is required'),

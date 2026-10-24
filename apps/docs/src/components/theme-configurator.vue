@@ -2,8 +2,8 @@
 import { ref, watch } from 'vue';
 import { useMediaQuery } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
-import { mobileViewportQuery } from '@vean/aria/shared';
 import { SButtonIcon, SPopover, SThemeCustomizer } from '@vean/ui';
+import { mobileViewportQuery } from '@vean/aria/shared';
 import { loadDocsFontStylesheet } from '../shared/fonts';
 
 const { t } = useI18n();

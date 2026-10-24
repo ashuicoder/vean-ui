@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { ComboboxValue } from '@vean/aria/combobox';
 import { SCombobox } from '@vean/ui';
+import { ComboboxValue } from '@vean/aria/combobox';
 
 interface OptionItem {
   label: string;

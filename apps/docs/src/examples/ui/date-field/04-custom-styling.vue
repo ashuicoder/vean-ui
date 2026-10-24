@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { shallowRef } from 'vue';
-import { createDate } from '@vean/aria/date';
 import { SDateField } from '@vean/ui';
+import { createDate } from '@vean/aria/date';
 
 const value = shallowRef(createDate(2026, 4, 19));
 </script>

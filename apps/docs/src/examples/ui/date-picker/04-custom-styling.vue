@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { createDate } from '@vean/aria/date';
 import { SDatePicker } from '@vean/ui';
+import { createDate } from '@vean/aria/date';
 
 const selectedDate = ref<any>();
 </script>

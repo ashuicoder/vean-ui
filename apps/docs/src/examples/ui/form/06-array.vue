@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { z } from 'zod';
 import { SButton, SButtonIcon, SForm, SInput, useForm } from '@vean/ui';
+import { z } from 'zod';
 
 const user = z.object({
   name: z.string().nonempty('Name is required'),

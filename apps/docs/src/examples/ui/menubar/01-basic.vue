@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { shallowRef } from 'vue';
-import type { AlignSide } from '@vean/aria/types';
 import { SButtonIcon, SMenubar, SSelect, SSwitch } from '@vean/ui';
 import type { Direction, MenubarTriggerType, MenuOptionData, SelectOptionData, ThemeSize } from '@vean/ui';
+import type { AlignSide } from '@vean/aria/types';
 import { themeSizeOptions } from '~/constants/theme';
 
 interface Props {
