@@ -46,7 +46,7 @@ const iconRender = props.iconRender ?? ((icon: IconValue) => h(IconComponent, { 
 // 主题相关逻辑（存储缓存 / 有效主题合并 / preset 解析 / CSS 派生 / 运行时样式元素）
 // 统一收敛到 hooks.ts；样式元素挂在 <head>（#vean-theme），不渲染进组件树，
 // 因此不存在服务端/客户端样式内容不一致的问题。
-const { commitThemeConfig } = useConfigProviderTheme(props, (extra) => {
+const { commitThemeConfig } = useConfigProviderTheme(props, extra => {
   props.onExtraThemeChange?.(extra);
 });
 
