@@ -3761,6 +3761,14 @@
             "a1fd4": "rename AppShellMenuItem to AppShellMenuOptionData",
             "ac4e1": "format code",
             "cced2": "update deps"
+          },
+          "3": {
+            "2995d": "add 404 and index pages with internationalization support",
+            "58a9d": "update ui registry",
+            "5a4ba": "update deps",
+            "6e8a8": "update docs api",
+            "c8b72": "format code",
+            "e1a7d": "persist app config in the theme envelope"
           }
         }
       }

@@ -1,5 +1,31 @@
 # Changelog
 
+## [v0.51.3](https://github.com/soybeanjs/vean-ui/compare/v0.51.2...v0.51.3) (2026-10-27)
+
+### &nbsp;&nbsp;&nbsp;🚀 Features
+
+- **config-provider**: persist app config in the theme envelope &nbsp;-&nbsp; by @soybeanjs [<samp>(e1a7d)</samp>](https://github.com/soybeanjs/vean-ui/commit/e1a7d00f9)
+
+### &nbsp;&nbsp;&nbsp;📖 Documentation
+
+- **pages**:
+  - add 404 and index pages with internationalization support &nbsp;-&nbsp; by @soybeanjs [<samp>(2995d)</samp>](https://github.com/soybeanjs/vean-ui/commit/2995d14a0)
+- **projects**:
+  - update ui registry &nbsp;-&nbsp; by @soybeanjs [<samp>(58a9d)</samp>](https://github.com/soybeanjs/vean-ui/commit/58a9d8e15)
+  - update docs api &nbsp;-&nbsp; by @soybeanjs [<samp>(6e8a8)</samp>](https://github.com/soybeanjs/vean-ui/commit/6e8a8b5c0)
+
+### &nbsp;&nbsp;&nbsp;🏡 Chore
+
+- **deps**: update deps &nbsp;-&nbsp; by @soybeanjs [<samp>(5a4ba)</samp>](https://github.com/soybeanjs/vean-ui/commit/5a4ba27dd)
+
+### &nbsp;&nbsp;&nbsp;🎨 Styles
+
+- **projects**: format code &nbsp;-&nbsp; by @soybeanjs [<samp>(c8b72)</samp>](https://github.com/soybeanjs/vean-ui/commit/c8b72aefb)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![soybeanjs](https://github.com/soybeanjs.png?size=48)](https://github.com/soybeanjs)&nbsp;&nbsp;
+
 ## [v0.51.2](https://github.com/soybeanjs/vean-ui/compare/v0.51.1...v0.51.2) (2026-10-24)
 
 ### &nbsp;&nbsp;&nbsp;🚨 Breaking Changes
