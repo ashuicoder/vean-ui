@@ -116,7 +116,7 @@
     "@tanstack/table-core": "^9.3.1",
     "@tanstack/vue-form": "^1.33.5",
     "@tanstack/vue-table": "^9.3.1",
-    "@tanstack/vue-virtual": "^3.13.48",
+    "@tanstack/vue-virtual": "^3.13.49",
     "@vueuse/core": "^15.0.0",
     "date-fns": "^4.4.0",
     "embla-carousel": "^8.6.0"
