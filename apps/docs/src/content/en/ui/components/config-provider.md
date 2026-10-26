@@ -240,6 +240,32 @@ The theme is persisted in `localStorage` only (no cookie). A client-only style i
 - **`createThemeInitScript()`** — returns a small IIFE to inline in `<head>`. Before first paint it reads the theme envelope from `localStorage`, toggles the dark class on `<html>` (resolving `mode: 'auto'` against `prefers-color-scheme`), sets `color-scheme`, and patches the snapshot into the `<style id="vean-theme">` element. The server renders the default theme; the script corrects it before the browser paints, so there is no flash. A payload written by an older vocabulary is migrated on read, and its snapshot (engine output of that older vocabulary) is dropped — the provider re-emits it on mount.
 - **`readThemeEnvelope()` / `writeThemeEnvelope()` / `clearThemeEnvelope()`** — explicit persistence helpers, plus `parseThemeEnvelope()` (validate/migrate a raw string), `parseThemeOptions()` (validate just the options) and `createThemeWriter()` (the debounced single writer) — all under the `@vean/theme/storage` subpath.
 
+### Keeping your own config in the same envelope
+
+Pass `getExtraTheme` to store app settings next to the theme, and `onExtraThemeChange` to apply them back — same `__VEAN_THEME` entry, one key, one debounced writer, one cross-tab sync:
+
+```vue
+<script setup lang="ts">
+import { SConfigProvider } from '@vean/ui';
+
+const layout = reactive({ sidebarCollapsed: false });
+</script>
+
+<template>
+  <SConfigProvider
+    persist-theme
+    :get-extra-theme="() => ({ sidebarCollapsed: layout.sidebarCollapsed })"
+    :on-extra-theme-change="extra => (layout.sidebarCollapsed = Boolean(extra.sidebarCollapsed))"
+  >
+    <slot />
+  </SConfigProvider>
+</template>
+```
+
+`getExtraTheme` runs inside the writer's reactive sources, so reading a reactive store inside it is enough — a change re-persists with no extra wiring. `onExtraThemeChange` fires once on mount with the stored payload and again when another tab rewrites the envelope; it does not fire when `persistTheme` is off. The payload must be JSON-serializable; the theme layer only checks that it is an object, never its content. `useTheme().extra` exposes the last applied snapshot read-only.
+
+Do not add a second storage key for app config: the provider's single-writer guarantee only holds while it owns the one key.
+
 In Nuxt the wiring is minimal:
 
 ```ts

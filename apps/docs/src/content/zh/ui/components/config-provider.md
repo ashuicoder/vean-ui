@@ -238,6 +238,32 @@ VeanUI 将 `ConfigProvider` 拆分为 Aria 层（`@vean/aria/config-provider`，
 - **`createThemeInitScript()`** — 返回一段可内联到 `<head>` 的小型 IIFE。在首帧绘制前从 `localStorage` 读取主题信封，在 `<html>` 上切换暗色类（`mode: 'auto'` 按 `prefers-color-scheme` 解析）、设置 `color-scheme`，并把快照写入 `<style id="vean-theme">` 元素。服务端渲染默认主题，脚本在浏览器绘制前将其纠正——无闪烁。旧词汇写下的载荷会在读取时被迁移，而其快照（属于旧词汇的引擎产物）会被丢弃、由 provider 在挂载后重发。
 - **`readThemeEnvelope()` / `writeThemeEnvelope()` / `clearThemeEnvelope()`** — 持久化辅助函数；另有 `parseThemeEnvelope()`（校验并迁移原始字符串）、`parseThemeOptions()`（只校验选项）与 `createThemeWriter()`（防抖单写入者）——都在 `@vean/theme/storage` 子路径下。
 
+### 把自有配置存进同一个信封
+
+给 `SConfigProvider` 传 `getExtraTheme` 把业务配置写进去，传 `onExtraThemeChange` 把它读回来 —— 同一条 `__VEAN_THEME`，一个键、一个防抖写入者、一次跨标签同步：
+
+```vue
+<script setup lang="ts">
+import { SConfigProvider } from '@vean/ui';
+
+const layout = reactive({ sidebarCollapsed: false });
+</script>
+
+<template>
+  <SConfigProvider
+    persist-theme
+    :get-extra-theme="() => ({ sidebarCollapsed: layout.sidebarCollapsed })"
+    :on-extra-theme-change="extra => (layout.sidebarCollapsed = Boolean(extra.sidebarCollapsed))"
+  >
+    <slot />
+  </SConfigProvider>
+</template>
+```
+
+`getExtraTheme` 处在写入者的响应式源里，所以只要在它内部读响应式 store，store 变化就会自动重新持久化，无需额外接线。`onExtraThemeChange` 在挂载时以已存内容触发一次，其他标签页改写信封时再触发一次；`persistTheme` 关闭时不触发。载荷必须可 JSON 序列化；主题层只校验「是对象」，不解释内容。`useTheme().extra` 以只读形式暴露最近一次应用的快照。
+
+不要为业务配置另起一个 storage key：provider 的「单一写入者」保证只在对这一个键独占时成立。
+
 Nuxt 中的接线方式非常精简：
 
 ```ts

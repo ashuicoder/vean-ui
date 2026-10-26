@@ -6,7 +6,7 @@
         "kind": "props",
         "name": "ConfigProviderProps",
         "type": "Interface ConfigProviderProps",
-        "resolvedType": "{ theme?: ConfigProviderThemeOptions; iconify?: IconifyOptions; progress?: Partial<ProgressProviderProps>; toast?: Partial<ToastProviderProps>; customToast?: boolean; persistTheme?: boolean; themeConfig?: ThemeEnvelopeInput; presetProvider?: ((name: string) => ThemePresetColors | null); isServer?: boolean; dir?: Direction; locale?: string; nonce?: string; tooltip?: Partial<TooltipProviderProps>; iconRender?: ((icon: IconValue) => VNode); linkComponent?: Component; messages?: LocaleMessagesOverrides }",
+        "resolvedType": "{ theme?: ConfigProviderThemeOptions; iconify?: IconifyOptions; progress?: Partial<ProgressProviderProps>; toast?: Partial<ToastProviderProps>; customToast?: boolean; persistTheme?: boolean; themeConfig?: ThemeEnvelopeInput; presetProvider?: ((name: string) => ThemePresetColors | null); isServer?: boolean; getExtraTheme?: (() => Record<string, unknown>); onExtraThemeChange?: ((extra: Record<string, unknown>) => void); dir?: Direction; locale?: string; nonce?: string; tooltip?: Partial<TooltipProviderProps>; iconRender?: ((icon: IconValue) => VNode); linkComponent?: Component; messages?: LocaleMessagesOverrides }",
         "description": "Properties for the ConfigProvider component.",
         "descriptionKey": "api.generated.packages_ui_src_components_config_provider_types.configproviderprops.props",
         "sourcePath": "packages/ui/src/components/config-provider/types.ts",
@@ -336,8 +336,8 @@
               {
                 "name": "ThemeEnvelopeInput",
                 "kind": "typeAlias",
-                "type": "{ style?: string | undefined; mode?: import(\"@vean/theme\").ThemeModePreference | undefined; options: ThemeOptions; presets?: Record<string, unknown> | undefined; appliedPreset?: string | undefined; }",
-                "resolvedType": "{ style?: string; mode?: ThemeModePreference; options: ThemeOptions; presets?: Record<string, unknown>; appliedPreset?: string }",
+                "type": "{ style?: string | undefined; mode?: import(\"@vean/theme\").ThemeModePreference | undefined; options: ThemeOptions; presets?: Record<string, unknown> | undefined; appliedPreset?: string | undefined; extra?: Record<string, unknown> | undefined; }",
+                "resolvedType": "{ style?: string; mode?: ThemeModePreference; options: ThemeOptions; presets?: Record<string, unknown>; appliedPreset?: string; extra?: Record<string, unknown> }",
                 "description": "what a caller hands to the writer; the version is added for them.",
                 "descriptionKey": "api.generated.packages_theme_src_storage.themeenvelopeinput",
                 "sourcePath": "packages/theme/src/storage.ts",
@@ -398,6 +398,17 @@
                     "inheritedFrom": null,
                     "sourcePath": "packages/theme/src/storage.ts",
                     "referencedTypes": []
+                  },
+                  {
+                    "name": "extra",
+                    "type": "Record<string, unknown>",
+                    "required": false,
+                    "description": "the application's own persisted config, carried verbatim next to the theme.\n\nOpaque on purpose: the theme layer neither validates nor interprets it, so an\napp can keep its settings in the same envelope (one key, one writer) instead\nof adding a second key with a second writer. It must be JSON-serializable.",
+                    "descriptionKey": "api.generated.packages_theme_src_storage.themeenvelopeinput.members.extra",
+                    "default": null,
+                    "inheritedFrom": null,
+                    "sourcePath": "packages/theme/src/storage.ts",
+                    "referencedTypes": []
                   }
                 ],
                 "callables": []
@@ -436,6 +447,28 @@
             "description": "Whether the component is running in a server environment.\n\nThe UI library is pre-built, so `import.meta.env.SSR` is baked at build\ntime and cannot detect the consumer's runtime. This defaults to runtime\ndetection (`typeof window === 'undefined'`), and can be overridden with\nthe app's own flag (e.g. Nuxt's `import.meta.server`) when the app is\nbundled for both server and client.",
             "descriptionKey": "api.generated.packages_ui_src_components_config_provider_types.configproviderprops.members.isserver",
             "default": "isServerRuntime()",
+            "inheritedFrom": null,
+            "sourcePath": "packages/ui/src/components/config-provider/types.ts",
+            "referencedTypes": []
+          },
+          {
+            "name": "getExtraTheme",
+            "type": "(() => Record<string, unknown>)",
+            "required": false,
+            "description": "Read the application's own config into the persisted theme envelope.\n\nLets an app keep its settings in the same storage entry as the theme — one\nkey, one debounced writer, one cross-tab sync — instead of adding a second\nkey with a second writer. Reactive state read inside the getter is tracked,\nso a change re-persists without any extra wiring. The payload must be\nJSON-serializable. Only used when `persistTheme` is enabled.",
+            "descriptionKey": "api.generated.packages_ui_src_components_config_provider_types.configproviderprops.members.getextratheme",
+            "default": null,
+            "inheritedFrom": null,
+            "sourcePath": "packages/ui/src/components/config-provider/types.ts",
+            "referencedTypes": []
+          },
+          {
+            "name": "onExtraThemeChange",
+            "type": "((extra: Record<string, unknown>) => void)",
+            "required": false,
+            "description": "Called with the extra config carried by the persisted theme envelope.\n\nFires once on mount with the stored payload and again whenever another tab\nrewrites the envelope. Only fires when `persistTheme` is enabled; never on\nthe server.",
+            "descriptionKey": "api.generated.packages_ui_src_components_config_provider_types.configproviderprops.members.onextrathemechange",
+            "default": null,
             "inheritedFrom": null,
             "sourcePath": "packages/ui/src/components/config-provider/types.ts",
             "referencedTypes": []

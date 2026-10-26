@@ -101,6 +101,26 @@ export interface ConfigProviderProps extends _ConfigProviderProps {
    * @defaultValue isServerRuntime()
    */
   isServer?: boolean;
+  /**
+   * Read the application's own config into the persisted theme envelope.
+   *
+   * Lets an app keep its settings in the same storage entry as the theme — one
+   * key, one debounced writer, one cross-tab sync — instead of adding a second
+   * key with a second writer. Reactive state read inside the getter is tracked,
+   * so a change re-persists without any extra wiring. The payload must be
+   * JSON-serializable. Only used when `persistTheme` is enabled.
+   */
+  getExtraTheme?: () => Record<string, unknown> | undefined;
+  /**
+   * Called with the extra config carried by the persisted theme envelope.
+   *
+   * Fires once on mount with the stored payload and again whenever another tab
+   * rewrites the envelope. Only fires when `persistTheme` is enabled; never on
+   * the server.
+   *
+   * @param extra The extra config read back from the envelope.
+   */
+  onExtraThemeChange?: (extra: Record<string, unknown>) => void;
 }
 
 /**

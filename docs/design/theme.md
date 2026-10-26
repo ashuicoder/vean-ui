@@ -225,7 +225,7 @@ cd packages/theme && pnpm exec vitest run -u   # 有意识地更新映射快照
 ### 2.8 持久化与首帧：4 键 3 写入者 → 单信封 + 版本门
 
 - **旧版**：4 个键（`__SOYBEAN_THEME` / `_CSS` / `_PRESETS` / `_APPLIED_PRESET`）、3 个写入者、主题状态写入**无防抖**、跨标签监听只覆盖其中 2 个键；payload 全有或全无；CSS 快照与 options 分开存，可以互相错位。
-- **新版**：**一个**键 `__VEAN_THEME`、**一个**防抖写入者（250 ms）、带 `v` 的信封（`options` + `mode` + `style` 快照 + `presets` + `appliedPreset`）、逐字段校验、**未来版本拒读**、**旧词汇自动迁移**（`surface` → `card` 等，已删除的 token 丢弃，旧快照丢弃由 provider 重发）。
+- **新版**：**一个**键 `__VEAN_THEME`、**一个**防抖写入者（250 ms）、带 `v` 的信封（`options` + `mode` + `style` 快照 + `presets` + `appliedPreset` + 应用自有的 `extra`）、逐字段校验、**未来版本拒读**、**旧词汇自动迁移**（`surface` → `card` 等，已删除的 token 丢弃，旧快照丢弃由 provider 重发）。
 - **首帧**：弱化静态块（`:where()` 零特异性）+ 持久化快照注入是两代共有的思路；新版把"注入再移除"去掉——脚本创建/改写**同一个** `<style id="vean-theme">`，provider 接管它，因此没有 `!important`、没有二次注入、也没有 SSR/客户端样式内容不一致。
 - **优势**：一个键、一个写入者、一个版本号说清"这份主题是哪一代的形状"；升级路径明确（迁移或回落），不是"全丢"或"半读"。
 
@@ -499,11 +499,12 @@ token 名与 shadcn 完全同名且**不带前缀**，因此 shadcn 的片段、
 
 ### 6.2 持久化信封
 
-- 一个键 `__VEAN_THEME`，一个信封：`{ v, options, mode, style, presets, appliedPreset }`。
+- 一个键 `__VEAN_THEME`，一个信封：`{ v, options, mode, style, presets, appliedPreset, extra }`。
 - **一个防抖写入者**（250 ms）独占写入；跨标签同步通过 `storage` 事件重读整份信封。
 - **版本门**：`v` 高于当前 → 拒读（回落默认）；**低于当前 → 迁移**（词汇翻译：`surface` → `card` 等；已删除的 token 与未知键丢弃；`presets` 同规则；旧词汇的 `style` 快照丢弃，由 provider 挂载后重发并写回）。
 - 逐字段校验：坏字段只丢自己、其余保留（不再"一个未知枚举丢掉整份配置"）。
 - 信封里的 `presets` 是用户保存的自定义颜色集；`appliedPreset` 指向当前应用的那一条。
+- `extra` 是**应用自有配置**（不透明：主题层只校验「是对象」，不解释内容）。应用通过 `SConfigProvider` 的 `getExtraTheme` 写入、通过 `onExtraThemeChange` 属性读回，从而让业务配置与主题共用**同一个键、同一个写入者、同一次跨标签同步**，而不必另起一个键配第二个写入者。`getExtraTheme` 必须放在 `watch` 的**源**里（而不是回调体）才能建立响应式依赖；`onExtraThemeChange` 在挂载时与跨标签刷新时各调用一次，`persistTheme` 关闭时不触发。
 
 ### 6.3 首帧（无 FOUC）
 

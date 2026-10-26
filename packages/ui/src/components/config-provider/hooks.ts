@@ -15,14 +15,17 @@ import type { ConfigProviderThemeContext } from './use-theme';
  * the context opaque here is the point: nothing in the DOM layer needs to reach
  * into the theme state, they only exchange the derived CSS.
  */
-export function useConfigProviderTheme(props: ConfigProviderProps) {
+export function useConfigProviderTheme(
+  props: ConfigProviderProps,
+  onExtraThemeChange: (extra: Record<string, unknown>) => void
+) {
   const themeContext = createThemeContext(props);
 
   provideThemeContext(themeContext);
 
   const themeCss = useThemeStyle(props, themeContext);
 
-  useThemeEnvelope(props, themeContext, themeCss);
+  useThemeEnvelope(props, themeContext, themeCss, onExtraThemeChange);
 
   // `commitThemeConfig` 是 `setThemeState` 的对外名字：写回持久化主题配置并同步内存状态，
   // 使下游主题派生无需重读存储。通过 `defineExpose` 暴露给应用层。
@@ -74,42 +77,51 @@ function useThemeStyle(props: ConfigProviderProps, themeContext: ConfigProviderT
 function useThemeEnvelope(
   props: ConfigProviderProps,
   themeContext: ConfigProviderThemeContext,
-  themeCss: ComputedRef<string>
+  themeCss: ComputedRef<string>,
+  onExtraThemeChange: (extra: Record<string, unknown>) => void
 ): void {
-  const { theme, mode, customPresets, appliedPresetName, refreshThemeConfig } = themeContext;
+  const { theme, mode, customPresets, appliedPresetName, extra, refreshThemeConfig } = themeContext;
 
   const writer = createThemeWriter();
 
   watch(
-    [themeCss, mode, customPresets, appliedPresetName],
-    () => {
+    // `getExtraTheme` 必须作为**源**而不是在回调里调用：源才会被追踪，应用 store 的变化
+    // 才能触发重写。放进回调体不会建立依赖，写入永远不会发生。
+    [themeCss, mode, customPresets, appliedPresetName, () => props.getExtraTheme?.()],
+    ([css, currentMode, presets, appliedPreset, extraPayload]) => {
       if (!props.persistTheme || typeof document === 'undefined') {
         return;
       }
 
       writer.write({
         options: theme.value,
-        mode: mode.value,
-        style: themeCss.value,
-        presets: customPresets.value,
-        ...(appliedPresetName.value ? { appliedPreset: appliedPresetName.value } : {})
+        mode: currentMode,
+        style: css,
+        presets,
+        ...(appliedPreset ? { appliedPreset } : {}),
+        ...(extraPayload ? { extra: extraPayload } : {})
       });
     },
     { immediate: true }
   );
 
   // 跨标签页同步：storage 事件（其他标签页写入主题信封）触发整体重读 ——
-  // options / mode / presets / applied preset 一起刷新并重派生。
+  // options / mode / presets / applied preset / extra 一起刷新并重派生。
   const handleStorage = (event: StorageEvent): void => {
     if (event.key === THEME_STORAGE_KEY) {
       refreshThemeConfig();
+      onExtraThemeChange(extra.value);
     }
   };
 
   onMounted(() => {
-    if (props.persistTheme) {
-      window.addEventListener('storage', handleStorage);
+    if (!props.persistTheme) {
+      return;
     }
+
+    // 初始信封里的应用配置在挂载时下发一次（服务端不调）
+    onExtraThemeChange(extra.value);
+    window.addEventListener('storage', handleStorage);
   });
 
   onUnmounted(() => {

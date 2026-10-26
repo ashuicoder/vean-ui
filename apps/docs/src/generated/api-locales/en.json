@@ -10072,6 +10072,7 @@
         "themeenvelopeinput": {
           "members": {
             "appliedpreset": "the name of the currently applied custom preset, if any.",
+            "extra": "the application's own persisted config, carried verbatim next to the theme.\n\nOpaque on purpose: the theme layer neither validates nor interprets it, so an\napp can keep its settings in the same envelope (one key, one writer) instead\nof adding a second key with a second writer. It must be JSON-serializable.",
             "mode": "the light / dark / auto preference.",
             "options": "the engine options.",
             "presets": "custom theme presets (the theme customizer's saved color schemes).",
@@ -11513,6 +11514,7 @@
           "members": {
             "customtoast": "Whether to use custom toast rendering. If set to `true`, the `ToastProvider` will not render the default toast UI, and you can import `ToastProvider` component to render custom toast UI.",
             "dir": "The global reading direction of your application. This will be inherited by all components.\n\nWhen omitted, the direction follows the current locale and falls back to `'ltr'`.",
+            "getextratheme": "Read the application's own config into the persisted theme envelope.\n\nLets an app keep its settings in the same storage entry as the theme — one\nkey, one debounced writer, one cross-tab sync — instead of adding a second\nkey with a second writer. Reactive state read inside the getter is tracked,\nso a change re-persists without any extra wiring. The payload must be\nJSON-serializable. Only used when `persistTheme` is enabled.",
             "iconify": "The iconify options.",
             "iconrender": "A function to render the icon. This is useful when you want to use a custom icon library or want to wrap the icon with a custom component.",
             "isserver": "Whether the component is running in a server environment.\n\nThe UI library is pre-built, so `import.meta.env.SSR` is baked at build\ntime and cannot detect the consumer's runtime. This defaults to runtime\ndetection (`typeof window === 'undefined'`), and can be overridden with\nthe app's own flag (e.g. Nuxt's `import.meta.server`) when the app is\nbundled for both server and client.",
@@ -11520,6 +11522,7 @@
             "locale": "The global locale of your application. This will be inherited by all components.",
             "messages": "Overrides for built-in component locale messages. Merged on top of the locale selected by the\n`locale` prop, so you only need to supply the keys you want to change.",
             "nonce": "The global `nonce` value of your application. This will be inherited by the related components.",
+            "onextrathemechange": "Called with the extra config carried by the persisted theme envelope.\n\nFires once on mount with the stored payload and again whenever another tab\nrewrites the envelope. Only fires when `persistTheme` is enabled; never on\nthe server.",
             "persisttheme": "Whether to enable persisted theme reading from localStorage.\n\nWhen disabled (default), the ConfigProvider only consumes the explicit\n`theme` prop and never reads or writes any storage, keeping the current\nbehavior. When enabled, the persisted theme envelope fills in keys not\nexplicitly provided by `theme`, and changes are written back through a\nsingle debounced writer.",
             "presetprovider": "The server-side custom theme preset registry resolver.\n\nMaps a stored preset name to its definition so SSR can render custom\npresets without localStorage access. Only used when `persistTheme` is\nenabled on the server; on the client the presets table (carried by the\ntheme envelope) is the source of truth.",
             "progress": "The global top progress configuration of your application.",
