@@ -103,13 +103,13 @@ function handleMaskClick() {
         >
           <slot name="content" v-bind="slotProps">
             <header :class="ui.header">
-              <h2 v-if="slotProps.step?.title || slots.title" :class="ui.title" :id="`${popupId}-title`">
+              <h2 v-if="slotProps.step?.title || slots.title" :id="`${popupId}-title`" :class="ui.title">
                 <slot name="title" v-bind="slotProps">{{ slotProps.step?.title }}</slot>
               </h2>
               <div v-if="activeStep?.content && !slots.description" :id="`${popupId}-description`">
                 <component :is="activeStep.content" />
               </div>
-              <p v-else-if="hasDescription" :class="ui.description" :id="`${popupId}-description`">
+              <p v-else-if="hasDescription" :id="`${popupId}-description`" :class="ui.description">
                 <slot name="description" v-bind="slotProps">{{ slotProps.step?.description }}</slot>
               </p>
             </header>
