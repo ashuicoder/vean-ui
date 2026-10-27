@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, shallowRef } from 'vue';
-import { resolveThemeColors } from '@vean/theme';
 import { SButtonIcon, SClipboard, SInput, SSelect, SSwitch, useTheme } from '@vean/ui';
 import type { ClipboardShape, ClipboardVariant, SelectOptionData, ThemeColor, ThemeSize } from '@vean/ui';
+import { resolveThemeColors } from '@vean/theme';
 
 interface Props {
   playgroundRegion?: string;

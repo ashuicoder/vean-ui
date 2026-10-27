@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { nextTick, onBeforeUnmount, onServerPrefetch, shallowRef, watchEffect } from 'vue';
 import type { Component } from 'vue';
+import type { AnchorOptionData } from '@vean/aria/anchor';
 import { useHead } from '@unhead/vue';
 import type { ResolvableLink, ResolvableMeta } from '@unhead/vue';
-import type { AnchorOptionData } from '@vean/aria/anchor';
 import { useDocOutline } from '~/composables/use-doc-outline';
 import { toHeadingId } from '~/shared/heading';
 

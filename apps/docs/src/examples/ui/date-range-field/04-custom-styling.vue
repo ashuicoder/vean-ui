@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { shallowRef } from 'vue';
-import { createDate } from '@vean/aria/date';
 import { SDateRangeField } from '@vean/ui';
+import { createDate } from '@vean/aria/date';
 
 const value = shallowRef({
   start: createDate(2026, 4, 19),

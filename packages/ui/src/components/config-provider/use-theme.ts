@@ -59,6 +59,14 @@ export interface ThemeContext {
   customPresets: Ref<Record<string, ThemePresetColors>>;
   /** The currently applied custom preset name, if any. */
   appliedPresetName: ShallowRef<string | null>;
+  /**
+   * The application's own config carried by the persisted envelope.
+   *
+   * Read-only view: the provider owns the write (see `getExtraTheme` / the
+   * `onExtraThemeChange` prop on `SConfigProvider`), so nothing here can race the
+   * single writer.
+   */
+  extra: Ref<Record<string, unknown>>;
   /** Save the current primary color as a custom preset. */
   savePreset: (name: string) => boolean;
   /** Remove a custom preset. */
@@ -188,6 +196,7 @@ export function createThemeContext(props: ConfigProviderProps): ConfigProviderTh
     (persisted?.presets as Record<string, ThemePresetColors> | undefined) ?? {}
   );
   const appliedPresetName = ref<string | null>(persisted?.appliedPreset ?? null);
+  const extra = ref<Record<string, unknown>>(persisted?.extra ?? {});
 
   // —— 有效主题：显式 theme prop 覆盖内部状态 ——
   const theme = computed<ThemeOptions>(() =>
@@ -237,7 +246,7 @@ export function createThemeContext(props: ConfigProviderProps): ConfigProviderTh
 
   /**
    * 跨标签页同步：另开标签页写入主题信封后重读并应用到内存状态 ——
-   * options / mode / presets / applied preset 一起刷新，`theme` 随之重派生。
+   * options / mode / presets / applied preset / extra 一起刷新，`theme` 随之重派生。
    * 读不到信封（被清空 / 无权访问）时不改动任何状态。`themeConfig` 注入（SSR）时不重读。
    *
    * `Object.assign` 不够：`JSON.stringify` 丢掉 `undefined` 字段，所以「清除
@@ -258,6 +267,8 @@ export function createThemeContext(props: ConfigProviderProps): ConfigProviderTh
     replaceState(themeState, mergePersistedState(envelope));
     customPresets.value = (envelope.presets as Record<string, ThemePresetColors> | undefined) ?? {};
     appliedPresetName.value = envelope.appliedPreset ?? null;
+    // 整体替换：信封里缺席的 extra 等于「应用已清空」
+    extra.value = envelope.extra ?? {};
   };
 
   // —— 暗色模式 class + color-scheme 同步（首帧前由 createThemeInitScript 应用，
@@ -289,6 +300,7 @@ export function createThemeContext(props: ConfigProviderProps): ConfigProviderTh
     },
     customPresets,
     appliedPresetName,
+    extra,
     savePreset,
     removePreset,
     applyPreset: name => {

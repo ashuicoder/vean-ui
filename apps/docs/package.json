@@ -1,6 +1,6 @@
 {
   "name": "@vean/docs",
-  "version": "0.51.1",
+  "version": "0.51.3",
   "private": true,
   "description": "Vean Docs is a documentation for Vean. It is designed to be easy to use and understand.",
   "author": {
@@ -20,12 +20,12 @@
     "typecheck": "vue-tsc --noEmit --skipLibCheck"
   },
   "dependencies": {
-    "@iconify/vue": "^5.0.3",
+    "@iconify/vue": "^5.0.4",
     "@shikijs/langs": "^4.5.0",
     "@shikijs/themes": "^4.5.0",
     "@soybeanjs/colord": "^0.8.1",
     "@tanstack/charts": "^1.1.0",
-    "@ubean/content": "^0.6.5",
+    "@ubean/content": "^0.7.9",
     "@unhead/vue": "^3.4.3",
     "@vean/aria": "workspace:^",
     "@vean/theme": "workspace:^",
@@ -34,7 +34,7 @@
     "d3-shape": "^3.2.0",
     "minisearch": "^7.2.0",
     "shiki": "^4.5.0",
-    "ubean": "^0.6.5",
+    "ubean": "^0.7.9",
     "valibot": "^1.5.0",
     "vue": "^3.5.44",
     "vue-i18n": "^11.4.16",
@@ -47,7 +47,7 @@
     "@vean/unocss": "workspace:^",
     "@vitejs/plugin-vue-jsx": "^5.1.6",
     "typescript": "catalog:",
-    "unocss": "^66.11.0",
+    "unocss": "^66.12.0",
     "vite-plus": "catalog:"
   }
 }

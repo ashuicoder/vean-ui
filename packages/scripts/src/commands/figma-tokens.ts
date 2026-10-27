@@ -1,4 +1,3 @@
-import { colord } from '@soybeanjs/colord';
 import {
   LITERAL_DEFAULTS,
   PALETTE_KEYS,
@@ -11,6 +10,7 @@ import {
   simpleColor
 } from '@vean/theme';
 import type { LiteralToken, PaletteKey, SimpleColorName, ThemeMode } from '@vean/theme';
+import { colord } from '@soybeanjs/colord';
 
 /**
  * Design-token export for Figma (docs/design/figma.md).

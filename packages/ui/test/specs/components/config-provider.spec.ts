@@ -485,6 +485,64 @@ describe('SConfigProvider', () => {
       wrapper.unmount();
     });
 
+    it('persists the extra config from getExtraTheme into the same envelope', async () => {
+      window.localStorage.removeItem(THEME_STORAGE_KEY);
+
+      const wrapper = mount(SConfigProvider, {
+        props: {
+          persistTheme: true,
+          theme: { base: 'gray' },
+          getExtraTheme: () => ({ sidebarCollapsed: true })
+        },
+        slots: { default: '<div />' },
+        attachTo: document.body
+      });
+
+      await new Promise(resolve => setTimeout(resolve, 300));
+
+      expect(readThemeEnvelope()?.extra).toEqual({ sidebarCollapsed: true });
+
+      wrapper.unmount();
+    });
+
+    it('calls onExtraThemeChange with the persisted extra config on mount', () => {
+      window.localStorage.setItem(
+        THEME_STORAGE_KEY,
+        JSON.stringify({ v: THEME_ENVELOPE_VERSION, options: {}, extra: { density: 'compact' } })
+      );
+
+      const onExtraThemeChange = vi.fn();
+
+      const wrapper = mount(SConfigProvider, {
+        props: { persistTheme: true, onExtraThemeChange },
+        slots: { default: '<div />' },
+        attachTo: document.body
+      });
+
+      expect(onExtraThemeChange).toHaveBeenCalledWith({ density: 'compact' });
+
+      wrapper.unmount();
+    });
+
+    it('does not call onExtraThemeChange when persistence is off', () => {
+      window.localStorage.setItem(
+        THEME_STORAGE_KEY,
+        JSON.stringify({ v: THEME_ENVELOPE_VERSION, options: {}, extra: { density: 'compact' } })
+      );
+
+      const onExtraThemeChange = vi.fn();
+
+      const wrapper = mount(SConfigProvider, {
+        props: { onExtraThemeChange },
+        slots: { default: '<div />' },
+        attachTo: document.body
+      });
+
+      expect(onExtraThemeChange).not.toHaveBeenCalled();
+
+      wrapper.unmount();
+    });
+
     it('never creates a second runtime style element', () => {
       document.head.querySelectorAll('#vean-theme').forEach(node => node.remove());
 

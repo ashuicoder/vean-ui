@@ -71,6 +71,14 @@ export interface ThemeEnvelope {
   presets?: Record<string, unknown>;
   /** the name of the currently applied custom preset, if any. */
   appliedPreset?: string;
+  /**
+   * the application's own persisted config, carried verbatim next to the theme.
+   *
+   * Opaque on purpose: the theme layer neither validates nor interprets it, so an
+   * app can keep its settings in the same envelope (one key, one writer) instead
+   * of adding a second key with a second writer. It must be JSON-serializable.
+   */
+  extra?: Record<string, unknown>;
 }
 
 /** what a caller hands to the writer; the version is added for them. */
@@ -341,6 +349,11 @@ export function parseThemeEnvelope(raw: string | null | undefined): ThemeEnvelop
     (presets === undefined || data.appliedPreset in presets)
   ) {
     envelope.appliedPreset = data.appliedPreset;
+  }
+
+  // 应用自有配置：只做形状校验，内容不归主题层解释
+  if (isRecord(data.extra)) {
+    envelope.extra = data.extra;
   }
 
   return envelope;

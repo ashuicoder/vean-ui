@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, shallowRef } from 'vue';
-import { resolveThemeColors } from '@vean/theme';
 import { SBadge, SButton, SButtonIcon, SInput, SSelect, SSwitch, useTheme } from '@vean/ui';
 import type { BadgePosition, SelectOptionData, ThemeColor, ThemeSize } from '@vean/ui';
+import { resolveThemeColors } from '@vean/theme';
 
 interface Props {
   playgroundRegion?: string;

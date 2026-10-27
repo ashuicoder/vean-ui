@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { createDate } from '@vean/aria/date';
 import { SCalendar } from '@vean/ui';
+import { createDate } from '@vean/aria/date';
 </script>
 
 <template>

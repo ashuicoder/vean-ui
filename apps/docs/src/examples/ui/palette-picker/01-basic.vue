@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { shallowRef } from 'vue';
-import type { ColorFormat, ColorValue } from '@vean/theme';
 import { SPalettePicker } from '@vean/ui';
 import type { PaletteChangePayload, SelectOptionData, ThemeSize } from '@vean/ui';
+import type { ColorFormat, ColorValue } from '@vean/theme';
 
 interface Props {
   playgroundRegion?: string;

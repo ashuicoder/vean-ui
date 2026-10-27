@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, ref, watch } from 'vue';
+import type { ColorValue } from '@vean/theme';
 import {
   generateNearestPalette,
   generatePalette,
@@ -7,7 +8,6 @@ import {
   tailwindPalette
 } from '@soybeanjs/colord/palette';
 import type { PaletteColorLevel, SimplePaletteKey, TailwindPaletteKey } from '@soybeanjs/colord/palette';
-import type { ColorValue } from '@vean/theme';
 import { useThemeLocale } from '../_shared/locale';
 import SColorPicker from '../color-picker/color-picker.vue';
 import SSelect from '../select/select.vue';

@@ -221,6 +221,8 @@ Properties for the ConfigProvider component.
 - `themeConfig`: The persisted theme envelope injected from the server. Used during SSR to render the same theme the client persisted; on the client the localStorage envelope is the source of truth. (type `ThemeEnvelopeInput`; optional)
 - `presetProvider`: The server-side custom theme preset registry resolver. Maps a stored preset name to its definition so SSR can render custom presets without localStorage access. Only used when `persistTheme` is enabled on the server; on the client the presets table (carried by the theme envelope) is the source of truth. (type `((name: string) => ThemePresetColors | null)`; optional)
 - `isServer`: Whether the component is running in a server environment. The UI library is pre-built, so `import.meta.env.SSR` is baked at build time and cannot detect the consumer's runtime. This defaults to runtime detection (`typeof window === 'undefined'`), and can be overridden with the app's own flag (e.g. Nuxt's `import.meta.server`) when the app is bundled for both server and client. (type `boolean`; default `isServerRuntime()`; optional)
+- `getExtraTheme`: Read the application's own config into the persisted theme envelope. Lets an app keep its settings in the same storage entry as the theme — one key, one debounced writer, one cross-tab sync — instead of adding a second key with a second writer. Reactive state read inside the getter is tracked, so a change re-persists without any extra wiring. The payload must be JSON-serializable. Only used when `persistTheme` is enabled. (type `(() => Record<string, unknown>)`; optional)
+- `onExtraThemeChange`: Called with the extra config carried by the persisted theme envelope. Fires once on mount with the stored payload and again whenever another tab rewrites the envelope. Only fires when `persistTheme` is enabled; never on the server. (type `((extra: Record<string, unknown>) => void)`; optional)
 - `dir`: The global reading direction of your application. This will be inherited by all components. When omitted, the direction follows the current locale and falls back to `'ltr'`. (type `Direction`; optional)
 - `locale`: The global locale of your application. This will be inherited by all components. (type `string`; default `'en'`; optional)
 - `nonce`: The global `nonce` value of your application. This will be inherited by the related components. (type `string`; optional)
@@ -257,6 +259,32 @@ The theme is persisted in `localStorage` only (no cookie). A client-only style i
 
 - **`createThemeInitScript()`** — returns a small IIFE to inline in `<head>`. Before first paint it reads the theme envelope from `localStorage`, toggles the dark class on `<html>` (resolving `mode: 'auto'` against `prefers-color-scheme`), sets `color-scheme`, and patches the snapshot into the `<style id="vean-theme">` element. The server renders the default theme; the script corrects it before the browser paints, so there is no flash. A payload written by an older vocabulary is migrated on read, and its snapshot (engine output of that older vocabulary) is dropped — the provider re-emits it on mount.
 - **`readThemeEnvelope()` / `writeThemeEnvelope()` / `clearThemeEnvelope()`** — explicit persistence helpers, plus `parseThemeEnvelope()` (validate/migrate a raw string), `parseThemeOptions()` (validate just the options) and `createThemeWriter()` (the debounced single writer) — all under the `@vean/theme/storage` subpath.
+
+### Keeping your own config in the same envelope
+
+Pass `getExtraTheme` to store app settings next to the theme, and `onExtraThemeChange` to apply them back — same `__VEAN_THEME` entry, one key, one debounced writer, one cross-tab sync:
+
+```vue
+<script setup lang="ts">
+import { SConfigProvider } from '@vean/ui';
+
+const layout = reactive({ sidebarCollapsed: false });
+</script>
+
+<template>
+  <SConfigProvider
+    persist-theme
+    :get-extra-theme="() => ({ sidebarCollapsed: layout.sidebarCollapsed })"
+    :on-extra-theme-change="extra => (layout.sidebarCollapsed = Boolean(extra.sidebarCollapsed))"
+  >
+    <slot />
+  </SConfigProvider>
+</template>
+```
+
+`getExtraTheme` runs inside the writer's reactive sources, so reading a reactive store inside it is enough — a change re-persists with no extra wiring. `onExtraThemeChange` fires once on mount with the stored payload and again when another tab rewrites the envelope; it does not fire when `persistTheme` is off. The payload must be JSON-serializable; the theme layer only checks that it is an object, never its content. `useTheme().extra` exposes the last applied snapshot read-only.
+
+Do not add a second storage key for app config: the provider's single-writer guarantee only holds while it owns the one key.
 
 In Nuxt the wiring is minimal:
 

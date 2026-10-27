@@ -9,7 +9,7 @@
     "preview": "nuxt preview"
   },
   "dependencies": {
-    "@nuxt/icon": "2.5.1",
+    "@nuxt/icon": "2.6.1",
     "@nuxtjs/i18n": "10.6.0",
     "@vean/theme": "workspace:^",
     "nuxt": "^4.6.2",
@@ -18,8 +18,8 @@
   },
   "devDependencies": {
     "@soybeanjs/unocss-preset": "^0.2.0",
-    "@unocss/nuxt": "^66.11.0",
+    "@unocss/nuxt": "^66.12.0",
     "@vean/unocss": "workspace:^",
-    "unocss": "^66.11.0"
+    "unocss": "^66.12.0"
   }
 }

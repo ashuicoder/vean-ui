@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { shallowRef } from 'vue';
-import { createTime } from '@vean/aria/date';
-import type { TimeGranularity } from '@vean/aria/date';
 import { SButtonIcon, SInput, SSelect, SSwitch, STimeRangeField } from '@vean/ui';
 import type { SelectOptionData, ThemeSize } from '@vean/ui';
+import { createTime } from '@vean/aria/date';
+import type { TimeGranularity } from '@vean/aria/date';
 import { themeSizeOptions } from '~/constants/theme';
 
 interface Props {

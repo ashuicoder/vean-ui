@@ -153,8 +153,8 @@ An inline preset is just an `overrides` object split by mode (`preset: { light: 
 The provider is the normal path — it owns the `<style>` element, the persisted envelope and the cross-tab sync. When you need the CSS yourself (an SSR pass, a static build, a screenshot service), the pipeline underneath is public:
 
 ```ts
-import { emitThemeCss, generatePaletteCss, resolveThemeMap, resolveTokenColor } from '@vean/theme';
 import { buildThemeCss } from '@vean/ui';
+import { emitThemeCss, generatePaletteCss, resolveThemeMap, resolveTokenColor } from '@vean/theme';
 
 // resolve + emit in one call (what SConfigProvider inlines)
 const css = buildThemeCss({ base: 'gray', primary: 'violet' });

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { shallowRef } from 'vue';
-import { createTime } from '@vean/aria/date';
 import { STimeField } from '@vean/ui';
+import { createTime } from '@vean/aria/date';
 
 const value = shallowRef(createTime(18, 15, 0));
 </script>

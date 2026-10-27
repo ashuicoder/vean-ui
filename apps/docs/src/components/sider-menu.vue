@@ -3,8 +3,8 @@ import { computed, ref, watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { extractLocaleFromPath } from 'ubean/client';
-import { kebabCase, pascalCase } from '@vean/aria/shared';
 import type { TreeMenuOptionData } from '@vean/ui';
+import { kebabCase, pascalCase } from '@vean/aria/shared';
 import { menuData, newlyComponentKeys, chartMenuData, chartNewlyComponentKeys } from '~/constants/menus';
 import { getUpgradeGuides } from '~/shared/upgrade-guides';
 

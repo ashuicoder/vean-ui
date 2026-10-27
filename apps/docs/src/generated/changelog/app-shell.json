@@ -1,8 +1,25 @@
 {
   "component": "app-shell",
-  "generatedAt": "2026-10-02T11:25:44.370Z",
+  "generatedAt": "2026-10-24T14:15:59.889Z",
   "schemaVersion": 1,
   "versions": [
+    {
+      "version": "v0.51.2",
+      "compareUrl": "https://github.com/soybeanjs/vean-ui/compare/v0.51.1...v0.51.2",
+      "date": "2026-10-24",
+      "entries": [
+        {
+          "type": "breaking",
+          "scope": "app-shell",
+          "summary": "rename AppShellMenuItem to AppShellMenuOptionData",
+          "summaryKey": "changelog.generated.v0.51.2.a1fd4",
+          "commitHash": "a1fd4",
+          "commitUrl": "https://github.com/soybeanjs/vean-ui/commit/a1fd4857d",
+          "authors": ["soybeanjs"],
+          "source": "exact-scope"
+        }
+      ]
+    },
     {
       "version": "v0.50.0",
       "compareUrl": "https://github.com/soybeanjs/soybean-ui/compare/v0.40.1...v0.50.0",

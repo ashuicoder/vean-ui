@@ -31,7 +31,7 @@ import {
 } from './shared';
 import AppShellBrand from './app-shell-brand.vue';
 import AppShellMenu from './app-shell-menu.vue';
-import type { AppShellProps, AppShellEmits, AppShellMenuItem, AppShellSlots } from './types';
+import type { AppShellProps, AppShellEmits, AppShellMenuOptionData, AppShellSlots } from './types';
 
 defineOptions({
   name: 'SAppShell'
@@ -336,7 +336,7 @@ function handleMenuSelect(key: string, event?: Event) {
   emit('select', key, event);
 }
 
-function handleMenuOpen(item: AppShellMenuItem, event?: Event) {
+function handleMenuOpen(item: AppShellMenuOptionData, event?: Event) {
   openPath.value = findMenuTrail(props.items, item.value).map(node => node.value);
 
   emit('open', item, event);

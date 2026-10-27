@@ -1,5 +1,5 @@
-import * as v from 'valibot';
 import { NEUTRAL_PALETTES, PALETTE_KEYS, themeSizeKeys, themeRadiusKeys, themeFontKeys } from '@vean/theme';
+import * as v from 'valibot';
 
 // ---------------------------------------------------------------------------
 // Vean config (vean.json) — the user-facing project config

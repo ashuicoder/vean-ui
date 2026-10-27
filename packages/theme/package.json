@@ -1,6 +1,6 @@
 {
   "name": "@vean/theme",
-  "version": "0.51.1",
+  "version": "0.51.3",
   "description": "The Vean theme engine: a static palette layer plus a declarative semantic alias layer (no measurement or correction).",
   "homepage": "https://github.com/soybeanjs/vean-ui",
   "bugs": {
@@ -54,7 +54,7 @@
     "@soybeanjs/colord": "^0.8.1"
   },
   "devDependencies": {
-    "happy-dom": "^21.0.3",
+    "happy-dom": "^21.0.4",
     "tsx": "^4.23.15",
     "typescript": "catalog:",
     "vite-plus": "catalog:",

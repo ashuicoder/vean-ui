@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { createDate } from '@vean/aria/date';
 import { SCalendar } from '@vean/ui';
+import { createDate } from '@vean/aria/date';
 
 const today = createDate(2026, 4, 18);
 const isDateDisabled = (date: Date) => date.getDate() % 2 === 0;

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-19T06:39:49.085Z",
+  "generatedAt": "2026-10-26T16:21:17.818Z",
   "schemaVersion": 1,
   "components": {
     "accordion": {
@@ -33,9 +33,9 @@
     "app-shell": {
       "component": "app-shell",
       "file": "app-shell.json",
-      "latestVersion": "v0.50.0",
-      "versionCount": 1,
-      "entryCount": 16
+      "latestVersion": "v0.51.2",
+      "versionCount": 2,
+      "entryCount": 17
     },
     "arrow": {
       "component": "arrow",
@@ -208,9 +208,9 @@
     "config-provider": {
       "component": "config-provider",
       "file": "config-provider.json",
-      "latestVersion": "v0.51.0",
-      "versionCount": 11,
-      "entryCount": 32
+      "latestVersion": "v0.51.3",
+      "versionCount": 12,
+      "entryCount": 33
     },
     "context-menu": {
       "component": "context-menu",

@@ -1,6 +1,6 @@
 {
   "name": "@vean/cli",
-  "version": "0.51.1",
+  "version": "0.51.3",
   "description": "CLI tool for adding Vean components to your Vue apps — copy-paste, like shadcn/ui.",
   "homepage": "https://github.com/soybeanjs/vean-ui/tree/main/packages/cli",
   "bugs": {
@@ -81,7 +81,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.32.1",
+    "@modelcontextprotocol/sdk": "^1.32.2",
     "@vean/theme": "workspace:^",
     "commander": "^15.0.0",
     "dedent": "^1.7.2",

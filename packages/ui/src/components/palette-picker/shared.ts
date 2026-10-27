@@ -1,3 +1,4 @@
+import type { ColorFormat, ColorValue } from '@vean/theme';
 import { colord } from '@soybeanjs/colord';
 import {
   generateNearestPalette,
@@ -7,7 +8,6 @@ import {
   tailwindPaletteKeys
 } from '@soybeanjs/colord/palette';
 import type { PaletteColorLevel, SimplePaletteKey, TailwindPaletteKey } from '@soybeanjs/colord/palette';
-import type { ColorFormat, ColorValue } from '@vean/theme';
 import type { PaletteSelectValue } from './types';
 
 /**

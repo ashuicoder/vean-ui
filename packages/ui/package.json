@@ -1,6 +1,6 @@
 {
   "name": "@vean/ui",
-  "version": "0.51.1",
+  "version": "0.51.3",
   "description": "Vean is built on top of Vean Aria, providing a collection of styled components for Vue 3.",
   "homepage": "https://github.com/soybeanjs/vean-ui",
   "bugs": {
@@ -71,26 +71,26 @@
     "typecheck": "vue-tsc --noEmit --skipLibCheck"
   },
   "dependencies": {
-    "@iconify/vue": "^5.0.3",
+    "@iconify/vue": "^5.0.4",
     "@soybeanjs/colord": "^0.8.1",
     "@soybeanjs/cva": "^0.1.1",
-    "@tanstack/vue-virtual": "^3.13.47",
+    "@tanstack/vue-virtual": "^3.13.49",
     "@vean/aria": "workspace:^",
     "@vean/theme": "workspace:^"
   },
   "devDependencies": {
     "@types/node": "^26.6.5",
-    "@unocss/cli": "^66.11.0",
+    "@unocss/cli": "^66.12.0",
     "@vean/unocss": "workspace:^",
     "@vitest/browser": "^5.0.5",
     "@vitest/browser-playwright": "^5.0.5",
     "@vue/test-utils": "^2.5.1",
     "axe-core": "^4.14.0",
-    "happy-dom": "^21.0.3",
+    "happy-dom": "^21.0.4",
     "nuxt": "^4.6.2",
     "playwright": "^1.64.1",
     "typescript": "catalog:",
-    "unocss": "^66.11.0",
+    "unocss": "^66.12.0",
     "unplugin-vue": "^8.0.0",
     "unplugin-vue-components": "^32.1.0",
     "vite-plus": "catalog:",
